@@ -73,7 +73,7 @@ module Scutil
   
   # By default, buffer 10M of data before writing.
   DEFAULT_BUFFER_SIZE = 0xA00000
-  SCUTIL_VERSION = '0.1'
+  SCUTIL_VERSION = '0.1.2'
   @connection_cache = ConnectionCache.new
   @buffer_size = DEFAULT_BUFFER_SIZE
 
@@ -157,7 +157,7 @@ module Scutil
   #                     { :scutil_force_pty => true, 
   #                       :scutil_verbose => true 
   #                     })
-
+  #
   class Exec
     include Scutil
     attr_reader :hostname,:username
@@ -220,14 +220,14 @@ module Scutil
     #
     #   retval = Scutil.exec_command('hostname', 'username', '/bin/true')
     #   puts "True is false!" if retval != 0
-    
+    #
     def exec_command(hostname, username, cmd, output=nil, options={})      
       # Do we need a PTY?
       # TODO: Add a callback to specify custom pty determinate function.
-      if (options[:scutil_force_pty])
-        pty_needed = true
-      else
+      if (options[:scutil_force_pty].nil?)
         pty_needed = (cmd =~ /^\s*sudo/) ? true : false
+      else
+        pty_needed = options[:scutil_force_pty] ? true : false
       end
 
       # Check for an existing connection in the cache based on the hostname.  If the 

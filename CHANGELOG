@@ -1,0 +1,11 @@
+
+===Changelog
+
+===0.1.2 | 2011-09-18
+
+* Option :scutil_force_pty will now force _not_ requesting a PTY as
+  well.
+
+===0.1.1 | 2011-09-17
+
+* Initial public release.

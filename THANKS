@@ -1,0 +1,8 @@
+
+===Thanks
+
+* Kevin McAllister <kevin@mcallister.com> for the name and much
+  feedback and discussion.
+  
+* Jamis Buck <jamis@37signals.com> for writing Net::SSH, on which
+  scutil is built.
