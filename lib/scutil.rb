@@ -23,12 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 =end
 
-#begin
-#  require 'rubygems'
-#  gem 'net-ssh', ">= 2.1.0"
-#rescue LoadError, NameError
-#end
-
 require 'net/ssh'
 
 module Scutil
@@ -71,11 +65,13 @@ module Scutil
     end
   end
   
+  SCUTIL_VERSION = '0.2.0'
   # By default, buffer 10M of data before writing.
-  DEFAULT_BUFFER_SIZE = 0xA00000
-  SCUTIL_VERSION = '0.1.2'
+  DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
+  # Checks for a command starting with _sudo_ by default.
+  DEFAULT_PTY_REGEX = /^\s*sudo/
   @connection_cache = ConnectionCache.new
-  @buffer_size = DEFAULT_BUFFER_SIZE
+  @output_buffer_size = DEFAULT_OUTPUT_BUFFER_SIZE
 
   class << self
     # All successfully established connections end up here for reuse
@@ -83,7 +79,7 @@ module Scutil
     attr_accessor :connection_cache
     # Set to 10M by default, this can be adjusted to tell scutil when
     # to write command output to _output_.
-    attr_accessor :buffer_size
+    attr_accessor :output_buffer_size
   end
   
   # Wrapper for each connection to a system.  Capabile of holding a
@@ -107,7 +103,7 @@ module Scutil
       @options.merge!(options)
       
       scrub_options @options
-
+      
       if (pty_needed)
         if !@pty_connection.nil?
           # Existing PTY connection
@@ -139,6 +135,7 @@ module Scutil
     def scrub_options(options)
       options.delete(:scutil_verbose) if (options.has_key?(:scutil_verbose))
       options.delete(:scutil_force_pty) if (options.has_key?(:scutil_force_pty))
+      options.delete(:scutil_pty_regex) if (options.has_key?(:scutil_pty_regex))
     end
     
     def to_s
@@ -182,6 +179,27 @@ module Scutil
   end
   
   class << self
+
+    # Should we request a PTY?  Uses custom regex if defined in
+    # +:scutil_pty_regex+.
+    #
+    def check_pty_needed?(cmd, options, hostname)
+      regex = DEFAULT_PTY_REGEX
+      if (options[:scutil_force_pty].nil?)
+        # If a custom regex has been defined, use it.
+        if (!options[:scutil_regex].nil?)
+          if options[:scutil_regex].kind_of? Regexp
+            regex = options[:scutil_regex]
+          else
+            raise Scutil::Error.new("Error: :scutil_regex must be a kind of Regexp", hostname)
+          end
+        else
+          return (cmd =~ regex) ? true : false
+        end
+      else
+        return options[:scutil_force_pty] ? true : false
+      end
+    end
     
     # Scutil.exec_command is used to execute a command, specified in
     # _cmd_, on a remote system.  The return value and any ouput of
@@ -195,10 +213,10 @@ module Scutil
     #
     # <em>**NB:* This isn't actually true.  The only check made is to
     # see if _output_ responds to +:write+.  The idea being that not
-    # only will a file handle have a +write+ method but also something
-    # like +StringIO+.  Using +StringIO+ here makes it easy to capture
-    # the command's output in a string.  Suggestions on a better way
-    # to do this are definitely welcome.</em>
+    # only will a file handle have a +write+ method, but also
+    # something like +StringIO+.  Using +StringIO+ here makes it easy
+    # to capture the command's output in a string.  Suggestions on a
+    # better way to do this are definitely welcome.</em>
     #
     # Scutil will automatically request a PTY if _sudo_ is at the
     # start of _cmd_.  Right now the regex that drives this isn't
@@ -209,7 +227,9 @@ module Scutil
     # Scutil.exec_command takes the following options:
     #
     # * :scutil_verbose   => Extra output.
-    # * :scutil_force_pty => If true, force a PTY request for every channel.
+    # * :scutil_force_pty => Force a PTY request (or not) for every channel.
+    # * :scutil_pty_regex => Specific a custom regex here for use when
+    #                        scutil decides whether or not to request a PTY.
     #
     # In addition, any other options passed Scutil.exec_command will
     # be passed on to Net::SSH, _except_ those prefixed with
@@ -223,13 +243,8 @@ module Scutil
     #
     def exec_command(hostname, username, cmd, output=nil, options={})      
       # Do we need a PTY?
-      # TODO: Add a callback to specify custom pty determinate function.
-      if (options[:scutil_force_pty].nil?)
-        pty_needed = (cmd =~ /^\s*sudo/) ? true : false
-      else
-        pty_needed = options[:scutil_force_pty] ? true : false
-      end
-
+      pty_needed = check_pty_needed? cmd, options, hostname
+      
       # Check for an existing connection in the cache based on the hostname.  If the 
       # hostname exists find a suitable connection.
       conn = nil
@@ -251,7 +266,7 @@ module Scutil
       fh = $stdout
       if (output.nil?)
         fh = $stdout
-      elsif (output.respond_to?(:write))
+      elsif (output.respond_to? :write)
         # XXX: This may not be a safe assumuption...
         fh = output
       elsif (output.class == String)
@@ -264,22 +279,22 @@ module Scutil
       odata = ""
       edata = ""
       exit_status = 0
-      channel = conn.open_channel do |channel|
+      chan = conn.open_channel do |channel|
         $stderr.print "[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n" if options[:scutil_verbose]
         if (pty_needed)
           $stderr.print "[#{conn.host}:#{channel.local_id}] Requesting PTY...\n" if options[:scutil_verbose]
-          # OPOST seems necessary, CS8 makes sense.  Revisit after broader testing.
+          # OPOST is necessary, CS8 makes sense.  Revisit after broader testing.
           channel.request_pty(:modes => { Net::SSH::Connection::Term::CS8 => 1, Net::SSH::Connection::Term::OPOST => 0 } ) do |ch, success|
             raise Scutil::Error.new("Failed to get a PTY", hostname) if !success
           end
         end
-
+        
         channel.on_data do |ch, data|
 #          $stderr.print "on_data: #{data.size}\n" if options[:scutil_verbose]
           odata += data
 
-          # Only buffer some of the output before writing to disk.
-          if (odata.size >= 0xA00000) # 10M
+          # Only buffer some of the output before writing to disk (10M by default).
+          if (odata.size >= Scutil.output_buffer_size)
             fh.write odata
             odata = ""
           end
@@ -318,9 +333,9 @@ module Scutil
     end
   end
   
-#  def xfer_file(hostname, username, src, dst, direction=:to, command=nil, options={})
-    
-#  end
+  #  def xfer_file(hostname, username, src, dst, direction=:to, command=nil, options={})
+  
+  #  end
 end
 
 # Exception class for scutil.  The system, error message, and return

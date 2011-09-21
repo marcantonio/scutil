@@ -1,6 +1,11 @@
 
 ===Changelog
 
+===0.2.0 | 2011-09-20
+
+* Added option :scutil_pty_regex.
+* output_buffer_size is no longer ignored.
+
 ===0.1.2 | 2011-09-18
 
 * Option :scutil_force_pty will now force _not_ requesting a PTY as
