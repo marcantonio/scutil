@@ -318,6 +318,7 @@ module Scutil
         end
 
         channel.exec(cmd)
+#        channel.wait
       end
       
       conn.loop
