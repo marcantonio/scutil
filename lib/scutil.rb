@@ -65,7 +65,7 @@ module Scutil
     end
   end
   
-  SCUTIL_VERSION = '0.2.0'
+  SCUTIL_VERSION = '0.2.1'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
   # Checks for a command starting with _sudo_ by default.
@@ -187,11 +187,11 @@ module Scutil
       regex = DEFAULT_PTY_REGEX
       if (options[:scutil_force_pty].nil?)
         # If a custom regex has been defined, use it.
-        if (!options[:scutil_regex].nil?)
-          if options[:scutil_regex].kind_of? Regexp
-            regex = options[:scutil_regex]
+        if (!options[:scutil_pty_regex].nil?)
+          if options[:scutil_pty_regex].kind_of? Regexp
+            regex = options[:scutil_pty_regex]
           else
-            raise Scutil::Error.new("Error: :scutil_regex must be a kind of Regexp", hostname)
+            raise Scutil::Error.new("Error: :scutil_pty_regex must be a kind of Regexp", hostname)
           end
         else
           return (cmd =~ regex) ? true : false
