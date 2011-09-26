@@ -209,7 +209,7 @@ module Scutil
     # Drops all instances of +hostname+ from connection_cache.
     def clear!(hostname)
       if (Scutil.connection_cache.exists?(hostname))
-        Scutil.connection_cache.clear(hostname)
+        Scutil.connection_cache.remove(hostname)
       else
         raise Scutil::Error.new("Error: :scutil_pty_regex must be a kind of Regexp", hostname)
       end
