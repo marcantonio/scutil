@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Module: Scutil</title>
+
+  <link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+  <script src="./js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="module">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="./lib/scutil_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil.rb">lib/scutil.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+
+      
+
+      
+      <!-- Namespace Contents -->
+      <div id="namespace-list-section" class="section">
+        <h3 class="section-header">Namespace</h3>
+        <ul class="link-list">
+          
+          <li><span class="type">CLASS</span> <a href="Scutil/ConnectionCache.html">Scutil::ConnectionCache</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="Scutil/Error.html">Scutil::Error</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="Scutil/Exec.html">Scutil::Exec</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-check_pty_needed-3F">::check_pty_needed?</a></li>
+          
+          <li><a href="#method-c-clear-21">::clear!</a></li>
+          
+          <li><a href="#method-c-exec_command">::exec_command</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
+        
+          <li class="file"><a href="./CHANGELOG.html">CHANGELOG</a></li>
+        
+          <li class="file"><a href="./README.html">README</a></li>
+        
+          <li class="file"><a href="./THANKS.html">THANKS</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="./images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="./Scutil.html">Scutil</a></li>
+        
+          <li><a href="./Scutil/ConnectionCache.html">Scutil::ConnectionCache</a></li>
+        
+          <li><a href="./Scutil/Error.html">Scutil::Error</a></li>
+        
+          <li><a href="./Scutil/Exec.html">Scutil::Exec</a></li>
+        
+          <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="module">Scutil</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+      <!-- Constants -->
+      <div id="constants-list" class="section">
+        <h3 class="section-header">Constants</h3>
+        <dl>
+        
+          <dt><a name="DEFAULT_OUTPUT_BUFFER_SIZE">DEFAULT_OUTPUT_BUFFER_SIZE</a></dt>
+          
+          <dd class="description"><p>By default, buffer 10M of data before writing.</p></dd>
+          
+        
+          <dt><a name="DEFAULT_PTY_REGEX">DEFAULT_PTY_REGEX</a></dt>
+          
+          <dd class="description"><p>Checks for a command starting with <em>sudo</em> by default.</p></dd>
+          
+        
+          <dt><a name="SCUTIL_VERSION">SCUTIL_VERSION</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+        </dl>
+      </div>
+      
+
+      
+      <!-- Attributes -->
+      <div id="attribute-method-details" class="method-section section">
+        <h3 class="section-header">Attributes</h3>
+
+        
+        <div id="connection_cache-attribute-method" class="method-detail">
+          <a name="connection_cache"></a>
+          
+          <a name="connection_cache="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">connection_cache</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
+
+          <div class="method-description">
+          
+          <p>All successfully established connections end up here for reuse later.</p>
+          
+          </div>
+        </div>
+        
+        <div id="output_buffer_size-attribute-method" class="method-detail">
+          <a name="output_buffer_size"></a>
+          
+          <a name="output_buffer_size="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">output_buffer_size</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
+
+          <div class="method-description">
+          
+          <p>Set to 10M by default, this can be adjusted to tell scutil when to write
+command output to <em>output</em>.</p>
+          
+          </div>
+        </div>
+        
+      </div><!-- attribute-method-details -->
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="check_pty_needed-3F-method" class="method-detail ">
+          <a name="method-c-check_pty_needed-3F"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">check_pty_needed?</span><span
+              class="method-args">(cmd, options, hostname)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Should we request a PTY?  Uses custom regex if defined in
+<tt>:scutil_pty_regex</tt>.</p>
+            
+
+            
+            <div class="method-source-code" id="check_pty_needed-3F-source">
+<pre>
+<span class="ruby-comment"># File lib/scutil.rb, line 191</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_pty_needed?</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>)
+  <span class="ruby-identifier">regex</span> = <span class="ruby-constant">DEFAULT_PTY_REGEX</span>
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_force_pty</span>].<span class="ruby-identifier">nil?</span>)
+    <span class="ruby-comment"># If a custom regex has been defined, use it.</span>
+    <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>].<span class="ruby-identifier">nil?</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>
+        <span class="ruby-identifier">regex</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>]
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Error: :scutil_pty_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">return</span> (<span class="ruby-identifier">cmd</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">regex</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_force_pty</span>] <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- check_pty_needed-3F-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- check_pty_needed-3F-method -->
+
+      
+        <div id="clear-21-method" class="method-detail ">
+          <a name="method-c-clear-21"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">clear!</span><span
+              class="method-args">(hostname)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Drops all instances of <tt>hostname</tt> from connection_cache.</p>
+            
+
+            
+            <div class="method-source-code" id="clear-21-source">
+<pre>
+<span class="ruby-comment"># File lib/scutil.rb, line 210</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear!</span>(<span class="ruby-identifier">hostname</span>)
+  <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
+    <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">clear</span>(<span class="ruby-identifier">hostname</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Error: :scutil_pty_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- clear-21-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- clear-21-method -->
+
+      
+        <div id="exec_command-method" class="method-detail ">
+          <a name="method-c-exec_command"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">exec_command</span><span
+              class="method-args">(hostname, username, cmd, output=nil, options={})</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p><a href="Scutil.html#method-c-exec_command">Scutil.exec_command</a> is used
+to execute a command, specified in <em>cmd</em>, on a remote system.  The
+return value and any ouput of the command are captured.</p>
+
+<p>If <em>output</em> is a string it will be treated as a filename to be
+opened (mode ‘w+’) and all command output will be written to this file.  If
+<em>output</em> is an IO object it will be treated as an open file handle.*
+Finally, if <em>output</em> is omitted, or an empty string, all command
+output will be directed to _$stdout_.</p>
+
+<p><em>*<b>NB:</b> This isn't actually true.  The only check made is to see if
+output responds to <tt>:write</tt>.  The idea being that not only will a
+file handle have a <tt>write</tt> method, but also something like
+<tt>StringIO</tt>.  Using <tt>StringIO</tt> here makes it easy to capture
+the command's output in a string.  Suggestions on a better way to do this
+are definitely welcome.</em></p>
+
+<p><a href="Scutil.html">Scutil</a> will automatically request a PTY if
+<em>sudo</em> is at the start of <em>cmd</em>.  Right now the regex that
+drives this isn't configurable.  In a near future release it will be.  You
+can force a PTY request by specifying <tt>:scutil_force_pty</tt> in
+<em>options</em>.</p>
+
+<p><a href="Scutil.html#method-c-exec_command">Scutil.exec_command</a> takes
+the following options:</p>
+<ul><li>
+<p>:scutil_verbose   =&gt; Extra output.</p>
+</li><li>
+<p>:scutil_force_pty =&gt; Force a PTY request (or not) for every channel.</p>
+</li><li>
+<p>:scutil_pty_regex =&gt; Specific a custom regex here for use when</p>
+
+<pre>scutil decides whether or not to request a PTY.</pre>
+</li></ul>
+
+<p>In addition, any other options passed <a
+href="Scutil.html#method-c-exec_command">Scutil.exec_command</a> will be
+passed on to Net::SSH, <em>except</em> those prefixed with
+<em>scutil_</em>.</p>
+
+<p>All calls to <a
+href="Scutil.html#method-c-exec_command">Scutil.exec_command</a>,
+regardless of the way it’s used, will return the remote command’s return
+value.</p>
+
+<pre>retval = Scutil.exec_command('hostname', 'username', '/bin/true')
+puts &quot;True is false!&quot; if retval != 0</pre>
+            
+
+            
+            <div class="method-source-code" id="exec_command-source">
+<pre>
+<span class="ruby-comment"># File lib/scutil.rb, line 258</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={})      
+      <span class="ruby-comment"># Do we need a PTY?</span>
+      <span class="ruby-identifier">pty_needed</span> = <span class="ruby-identifier">check_pty_needed?</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>
+      
+      <span class="ruby-comment"># Check for an existing connection in the cache based on the hostname.  If the </span>
+      <span class="ruby-comment"># hostname exists find a suitable connection.</span>
+      <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">begin</span>
+        <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
+          <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">hostname</span>)
+          <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">hostname</span>)
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Adding new connection to cache\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
+          <span class="ruby-comment"># Call get_connection first.  Don't add to cache unless established.</span>
+          <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
+          <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sys_conn</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationFailed</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: Authenication failed for user: #{username}&quot;</span>, <span class="ruby-identifier">hostname</span>)
+      <span class="ruby-keyword">end</span>
+      
+      <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">$stdout</span>
+      <span class="ruby-keyword">if</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">nil?</span>)
+        <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">$stdout</span>
+      <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:write</span>)
+        <span class="ruby-comment"># XXX: This may not be a safe assumuption...</span>
+        <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">output</span>
+      <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">String</span>)
+        <span class="ruby-identifier">fh</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output</span>, <span class="ruby-string">'w+'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: Invalid output object type: #{output.class}.&quot;</span>, <span class="ruby-identifier">hostname</span>)
+      <span class="ruby-keyword">end</span>
+      
+      <span class="ruby-comment"># Setup channel callbacks</span>
+      <span class="ruby-identifier">odata</span> = <span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">edata</span> = <span class="ruby-string">&quot;&quot;</span>
+      <span class="ruby-identifier">exit_status</span> = <span class="ruby-value">0</span>
+      <span class="ruby-identifier">chan</span> = <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">open_channel</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">channel</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
+        <span class="ruby-keyword">if</span> (<span class="ruby-identifier">pty_needed</span>)
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Requesting PTY...\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
+          <span class="ruby-comment"># OPOST is necessary, CS8 makes sense.  Revisit after broader testing.</span>
+          <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">request_pty</span>(<span class="ruby-value">:modes</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">CS8</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">OPOST</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> } ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">success</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Failed to get a PTY&quot;</span>, <span class="ruby-identifier">hostname</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">success</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+        
+        <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_data</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+<span class="ruby-comment">#          $stderr.print &quot;on_data: #{data.size}\n&quot; if options[:scutil_verbose]</span>
+          <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
+
+          <span class="ruby-comment"># Only buffer some of the output before writing to disk (10M by default).</span>
+          <span class="ruby-keyword">if</span> (<span class="ruby-identifier">odata</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">output_buffer_size</span>)
+            <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">odata</span>
+            <span class="ruby-identifier">odata</span> = <span class="ruby-string">&quot;&quot;</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+        
+        <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_extended_data</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+<span class="ruby-comment">#          $stderr.print &quot;on_extended_data: #{data.size}\n&quot; if options[:scutil_verbose]</span>
+          <span class="ruby-identifier">edata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
+        <span class="ruby-keyword">end</span>
+        
+        <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_close</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] on_close\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
+        <span class="ruby-keyword">end</span>
+        
+        <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_open_failed</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">code</span>, <span class="ruby-identifier">desc</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Failed to open channel: #{desc}&quot;</span>, <span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">code</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">success</span>
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_request</span>(<span class="ruby-string">&quot;exit-status&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">exit_status</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_long</span>
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">cmd</span>)
+<span class="ruby-comment">#        channel.wait</span>
+      <span class="ruby-keyword">end</span>
+      
+      <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">loop</span>
+
+      <span class="ruby-comment"># Write whatever is left</span>
+      <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">odata</span>
+
+      <span class="ruby-comment"># If extended_data was recieved there was a problem...</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: #{edata}&quot;</span>, <span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">exit_status</span>) <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">edata</span>.<span class="ruby-identifier">empty?</span>)
+
+      <span class="ruby-comment"># The return value of the remote command.</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">exit_status</span>
+    <span class="ruby-keyword">end</span></pre>
+            </div><!-- exec_command-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- exec_command-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+
