@@ -55,6 +55,11 @@ module Scutil
       end
       false
     end
+
+    # Remove all instances of _hostname_.
+    def remove(hostname)
+      @cache.delete_if { |c| c.hostname == hostname }
+    end
     
     def <<(conn)
       @cache << conn
@@ -65,7 +70,7 @@ module Scutil
     end
   end
   
-  SCUTIL_VERSION = '0.2.1'
+  SCUTIL_VERSION = '0.2.2'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
   # Checks for a command starting with _sudo_ by default.
@@ -200,7 +205,16 @@ module Scutil
         return options[:scutil_force_pty] ? true : false
       end
     end
-    
+
+    # Drops all instances of +hostname+ from connection_cache.
+    def clear!(hostname)
+      if (Scutil.connection_cache.exists?(hostname))
+        Scutil.connection_cache.clear(hostname)
+      else
+        raise Scutil::Error.new("Error: :scutil_pty_regex must be a kind of Regexp", hostname)
+      end
+    end
+
     # Scutil.exec_command is used to execute a command, specified in
     # _cmd_, on a remote system.  The return value and any ouput of
     # the command are captured.
