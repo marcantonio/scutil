@@ -26,50 +26,6 @@ THE SOFTWARE.
 require 'net/ssh'
 
 module Scutil
-  # Utiliy class to hold all the connections created, possibly for
-  # reuse later.
-  class ConnectionCache
-    attr_reader :cache
-    include Enumerable
-
-    def initialize
-      @cache = []
-    end
-
-    # Need each to mixin Enumerable
-    def each
-      @cache.each do |c|
-        yield c
-      end
-    end
-    
-    def fetch(hostname)
-      each do |c|
-        return c if c.hostname == hostname
-      end
-    end
-    
-    def exists?(hostname)
-      each do |c|
-        return true if c.hostname == hostname
-      end
-      false
-    end
-
-    # Remove all instances of _hostname_.
-    def remove(hostname)
-      @cache.delete_if { |c| c.hostname == hostname }
-    end
-    
-    def <<(conn)
-      @cache << conn
-    end
-    
-    def to_s
-      @cache.join("\n")
-    end
-  end
-  
   SCUTIL_VERSION = '0.2.2'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -85,105 +41,6 @@ module Scutil
     # Set to 10M by default, this can be adjusted to tell scutil when
     # to write command output to _output_.
     attr_accessor :output_buffer_size
-  end
-  
-  # Wrapper for each connection to a system.  Capabile of holding a
-  # standard connect (@connection) and and PTY connection
-  # (@pty_connection) for each system.
-  class SystemConnection
-    attr_reader :hostname,:pty_connection,:connection
-    def initialize(hostname, options={})
-      @hostname = hostname
-      @connection = nil
-      @pty_connection = nil
-      @options = options
-    end
-    
-    # Return a connection for system.  Checks to see if an established
-    # connection exists.  If not it creates a new one.  Requests a PTY
-    # if needed.
-    def get_connection(hostname, username, pty_needed=false, options={})
-      conn = nil
-      # Local map has precedence.
-      @options.merge!(options)
-      
-      scrub_options @options
-      
-      if (pty_needed)
-        if !@pty_connection.nil?
-          # Existing PTY connection
-          $stderr.print "[#{hostname}] Using existing connection (pty)\n" if @options[:scutil_verbose]
-          return @pty_connection
-        end
-        
-        # New PTY connection
-        $stderr.print "[#{hostname}] Opening new channel (pty) to system...\n" if @options[:scutil_verbose]
-        conn = Net::SSH.start(hostname, username, @options)
-        @pty_connection = conn
-      else
-        if !@connection.nil?
-          # Existing non-PTY connection
-          $stderr.print "[#{hostname}] Using existing connection (non-pty)\n" if @options[:scutil_verbose]
-          return @connection
-        end
-        
-        # New non-PTY connection
-        $stderr.print "[#{hostname}] Opening channel (non-pty) to system...\n" if @options[:scutil_verbose]
-        conn = Net::SSH.start(hostname, username, @options)
-        @connection = conn
-      end
-  
-      return conn
-    end
-    
-    # Remove scutil specific options.  The rest go to Net::SSH.
-    def scrub_options(options)
-      options.delete(:scutil_verbose) if (options.has_key?(:scutil_verbose))
-      options.delete(:scutil_force_pty) if (options.has_key?(:scutil_force_pty))
-      options.delete(:scutil_pty_regex) if (options.has_key?(:scutil_pty_regex))
-    end
-    
-    def to_s
-      "#{self.class}: #{@name}, @connection = #{@connection}, @pty_connection = #{@pty_connection}"
-    end
-  end
-  
-  # Instantiate this class if you wish to use scutil as an object.
-  # For example:
-  #
-  #   exec = Scutil::Exec.new('severname', 'mas')
-  #
-  #   exec.exec_command('echo "foo"')
-  #
-  #   exec.exec_command('echo "bar"; sudo whoami', "", 
-  #                     { :scutil_force_pty => true, 
-  #                       :scutil_verbose => true 
-  #                     })
-  #
-  class Exec
-    include Scutil
-    attr_reader :hostname,:username
-    
-    def initialize(hostname, username, options={})
-      @hostname = hostname
-      @username = username
-      @options = options
-    end
-    
-    # See Scutil.exec_command.  Takes _cmd_ and optionally _output_,
-    # and _options_.  Other arguments specified at class
-    # initialization.
-    #
-    # The _options_ specified here will take precedence over those
-    # specified in the constructor.
-    def exec_command(cmd, output=nil, options={})
-      # Local map has precedence.
-      @options.merge!(options)
-      Scutil.exec_command(@hostname, @username, cmd, output, @options)
-    end
-  end
-  
-  class << self
 
     # Should we request a PTY?  Uses custom regex if defined in
     # +:scutil_pty_regex+.
@@ -352,7 +209,6 @@ module Scutil
   
   #  end
 end
-
 # Exception class for scutil.  The system, error message, and return
 # value of the remote command are stored here on error.
 #
