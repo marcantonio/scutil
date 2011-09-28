@@ -34,8 +34,8 @@
         <div class="section-body">
           <ul>
           
-            <li><a href="../lib/scutil_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/scutil.rb">lib/scutil.rb</a></li>
+            <li><a href="../lib/scutil/system_connection_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil/system_connection.rb">lib/scutil/system_connection.rb</a></li>
           
           </ul>
         </div>
@@ -121,6 +121,8 @@
           <li><a href="../Scutil/Exec.html">Scutil::Exec</a></li>
         
           <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+        
+          <li><a href="../TestScutil.html">TestScutil</a></li>
         
         </ul>
         <div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -231,7 +233,7 @@ for each system.</p>
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 95</span>
+<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-ivar">@hostname</span> = <span class="ruby-identifier">hostname</span>
   <span class="ruby-ivar">@connection</span> = <span class="ruby-keyword">nil</span>
@@ -274,7 +276,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
             
             <div class="method-source-code" id="get_connection-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 105</span>
+<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-comment"># Local map has precedence.</span>
@@ -337,7 +339,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
             
             <div class="method-source-code" id="scrub_options-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 140</span>
+<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">scrub_options</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_verbose</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_verbose</span>))
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_force_pty</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_force_pty</span>))
@@ -372,7 +374,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
             
             <div class="method-source-code" id="to_s-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 146</span>
+<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;#{self.class}: #{@name}, @connection = #{@connection}, @pty_connection = #{@pty_connection}&quot;</span>
 <span class="ruby-keyword">end</span></pre>

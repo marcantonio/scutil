@@ -1,5 +1,10 @@
-Sun, 25 Sep 2011 23:21:00 -0400
-README	Thu, 22 Sep 2011 10:20:00 -0400
-THANKS	Thu, 22 Sep 2011 10:20:00 -0400
-CHANGELOG	Sun, 25 Sep 2011 23:20:03 -0400
-lib/scutil.rb	Sun, 25 Sep 2011 23:20:35 -0400
+Tue, 27 Sep 2011 21:23:08 -0400
+README	Mon, 26 Sep 2011 00:19:52 -0400
+THANKS	Mon, 26 Sep 2011 00:19:52 -0400
+CHANGELOG	Tue, 27 Sep 2011 21:12:54 -0400
+lib/scutil/system_connection.rb	Mon, 26 Sep 2011 20:08:57 -0400
+lib/scutil/exec.rb	Mon, 26 Sep 2011 20:11:41 -0400
+lib/scutil/connection_cache.rb	Mon, 26 Sep 2011 20:10:08 -0400
+lib/scutil/error.rb	Tue, 27 Sep 2011 20:29:09 -0400
+lib/scutil.rb	Tue, 27 Sep 2011 21:03:09 -0400
+test/test_scutil.rb	Tue, 27 Sep 2011 20:25:13 -0400

@@ -34,8 +34,8 @@
         <div class="section-body">
           <ul>
           
-            <li><a href="../lib/scutil_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/scutil.rb">lib/scutil.rb</a></li>
+            <li><a href="../lib/scutil/error_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil/error.rb">lib/scutil/error.rb</a></li>
           
           </ul>
         </div>
@@ -117,6 +117,8 @@
           <li><a href="../Scutil/Exec.html">Scutil::Exec</a></li>
         
           <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+        
+          <li><a href="../TestScutil.html">TestScutil</a></li>
         
         </ul>
         <div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -239,7 +241,7 @@ Exit status: 2</pre>
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 376</span>
+<span class="ruby-comment"># File lib/scutil/error.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">message</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">hostname</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">command_exit_status</span>=<span class="ruby-value">-1</span>)
   <span class="ruby-ivar">@message</span> = <span class="ruby-identifier">message</span>
   <span class="ruby-ivar">@hostname</span> = <span class="ruby-identifier">hostname</span>
@@ -280,7 +282,7 @@ Exit status: 2</pre>
             
             <div class="method-source-code" id="to_s-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 382</span>
+<span class="ruby-comment"># File lib/scutil/error.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;Message: #{@message}\nHostname: #{@hostname}\nExit status: #{command_exit_status}\n&quot;</span>
 <span class="ruby-keyword">end</span></pre>

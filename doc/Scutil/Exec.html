@@ -34,8 +34,8 @@
         <div class="section-body">
           <ul>
           
-            <li><a href="../lib/scutil_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/scutil.rb">lib/scutil.rb</a></li>
+            <li><a href="../lib/scutil/exec_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil/exec.rb">lib/scutil/exec.rb</a></li>
           
           </ul>
         </div>
@@ -129,6 +129,8 @@
           <li><a href="../Scutil/Exec.html">Scutil::Exec</a></li>
         
           <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+        
+          <li><a href="../TestScutil.html">TestScutil</a></li>
         
         </ul>
         <div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -230,7 +232,7 @@ exec.exec_command('echo &quot;bar&quot;; sudo whoami', &quot;&quot;,
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 167</span>
+<span class="ruby-comment"># File lib/scutil/exec.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-ivar">@hostname</span> = <span class="ruby-identifier">hostname</span>
   <span class="ruby-ivar">@username</span> = <span class="ruby-identifier">username</span>
@@ -276,7 +278,7 @@ specified in the constructor.</p>
             
             <div class="method-source-code" id="exec_command-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 179</span>
+<span class="ruby-comment"># File lib/scutil/exec.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-comment"># Local map has precedence.</span>
   <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)

@@ -34,6 +34,15 @@
         <div class="section-body">
           <ul>
           
+            <li><a href="./lib/scutil/system_connection_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil/system_connection.rb">lib/scutil/system_connection.rb</a></li>
+          
+            <li><a href="./lib/scutil/exec_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil/exec.rb">lib/scutil/exec.rb</a></li>
+          
+            <li><a href="./lib/scutil/connection_cache_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/scutil/connection_cache.rb">lib/scutil/connection_cache.rb</a></li>
+          
             <li><a href="./lib/scutil_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
               class="thickbox" title="lib/scutil.rb">lib/scutil.rb</a></li>
           
@@ -127,6 +136,8 @@
           <li><a href="./Scutil/Exec.html">Scutil::Exec</a></li>
         
           <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+        
+          <li><a href="./TestScutil.html">TestScutil</a></li>
         
         </ul>
         <div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -246,7 +257,7 @@ command output to <em>output</em>.</p>
             
             <div class="method-source-code" id="check_pty_needed-3F-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 191</span>
+<span class="ruby-comment"># File lib/scutil.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_pty_needed?</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>)
   <span class="ruby-identifier">regex</span> = <span class="ruby-constant">DEFAULT_PTY_REGEX</span>
   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_force_pty</span>].<span class="ruby-identifier">nil?</span>)
@@ -293,10 +304,10 @@ command output to <em>output</em>.</p>
             
             <div class="method-source-code" id="clear-21-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 210</span>
+<span class="ruby-comment"># File lib/scutil.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">clear!</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
-    <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">clear</span>(<span class="ruby-identifier">hostname</span>)
+    <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Error: :scutil_pty_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">end</span>
@@ -376,7 +387,7 @@ puts &quot;True is false!&quot; if retval != 0</pre>
             
             <div class="method-source-code" id="exec_command-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 258</span>
+<span class="ruby-comment"># File lib/scutil.rb, line 119</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={})      
       <span class="ruby-comment"># Do we need a PTY?</span>
       <span class="ruby-identifier">pty_needed</span> = <span class="ruby-identifier">check_pty_needed?</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>
@@ -387,12 +398,13 @@ puts &quot;True is false!&quot; if retval != 0</pre>
       <span class="ruby-keyword">begin</span>
         <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
           <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">hostname</span>)
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Using existing connection\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
         <span class="ruby-keyword">else</span>
           <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">hostname</span>)
-          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Adding new connection to cache\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-comment"># Call get_connection first.  Don't add to cache unless established.</span>
           <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Adding new connection to cache\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sys_conn</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationFailed</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
@@ -452,7 +464,11 @@ puts &quot;True is false!&quot; if retval != 0</pre>
         <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_request</span>(<span class="ruby-string">&quot;exit-status&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
           <span class="ruby-identifier">exit_status</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_long</span>
         <span class="ruby-keyword">end</span>
-
+        
+<span class="ruby-comment">#        channel.on_open_failed do |ch, code, desc|</span>
+<span class="ruby-comment">#          </span>
+<span class="ruby-comment">#        end</span>
+        
         <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">cmd</span>)
 <span class="ruby-comment">#        channel.wait</span>
       <span class="ruby-keyword">end</span>
