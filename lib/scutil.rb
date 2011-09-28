@@ -24,9 +24,13 @@ THE SOFTWARE.
 =end
 
 require 'net/ssh'
+require 'scutil/exec'
+require 'scutil/error'
+require 'scutil/connection_cache'
+require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.2.2'
+  SCUTIL_VERSION = '0.2.3'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
   # Checks for a command starting with _sudo_ by default.
@@ -62,7 +66,7 @@ module Scutil
         return options[:scutil_force_pty] ? true : false
       end
     end
-
+    
     # Drops all instances of +hostname+ from connection_cache.
     def clear!(hostname)
       if (Scutil.connection_cache.exists?(hostname))
@@ -71,7 +75,7 @@ module Scutil
         raise Scutil::Error.new("Error: :scutil_pty_regex must be a kind of Regexp", hostname)
       end
     end
-
+    
     # Scutil.exec_command is used to execute a command, specified in
     # _cmd_, on a remote system.  The return value and any ouput of
     # the command are captured.
@@ -122,12 +126,13 @@ module Scutil
       begin
         if (Scutil.connection_cache.exists?(hostname))
           sys_conn = Scutil.connection_cache.fetch(hostname)
+          $stderr.print "[#{hostname}] Using existing connection\n" if options[:scutil_verbose]
           conn = sys_conn.get_connection(hostname, username, pty_needed, options)
         else
           sys_conn = SystemConnection.new(hostname)
-          $stderr.print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
           # Call get_connection first.  Don't add to cache unless established.
           conn = sys_conn.get_connection(hostname, username, pty_needed, options)
+          $stderr.print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
           Scutil.connection_cache << sys_conn
         end
       rescue Net::SSH::AuthenticationFailed => err
@@ -187,7 +192,11 @@ module Scutil
         channel.on_request("exit-status") do |ch, data|
           exit_status = data.read_long
         end
-
+        
+#        channel.on_open_failed do |ch, code, desc|
+#          
+#        end
+        
         channel.exec(cmd)
 #        channel.wait
       end
@@ -208,34 +217,4 @@ module Scutil
   #  def xfer_file(hostname, username, src, dst, direction=:to, command=nil, options={})
   
   #  end
-end
-# Exception class for scutil.  The system, error message, and return
-# value of the remote command are stored here on error.
-#
-#   begin
-#     Scutil.exec_command('ls -al /root')
-#   rescue Scutil::Error => err
-#     puts "Message: " + err.message
-#     puts "Hostname: " + err.hostname
-#     puts "Exit status: #{err.command_exit_status}"
-#   end
-#
-# Will produce:
-#
-#   Message: Error: ls: /root: Permission denied
-#   Hostname: server.name.com
-#   Exit status: 2
-#
-class Scutil::Error < StandardError
-  attr_reader :hostname,:message,:command_exit_status
-  
-  def initialize(message=nil, hostname=nil, command_exit_status=-1)
-    @message = message
-    @hostname = hostname
-    @command_exit_status = command_exit_status
-  end
-
-  def to_s
-    "Message: #{@message}\nHostname: #{@hostname}\nExit status: #{command_exit_status}\n"
-  end
 end

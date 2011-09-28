@@ -1,6 +1,12 @@
 
 ===Changelog
 
+===0.2.3 | 2011-09-27
+
+* Fixed bug in Scutil.clear!
+* Added beginnings of a test suite
+* Restructured code into a more sane file structure.
+
 ===0.2.2 | 2011-09-25
 
 * Added Scutil.clear! method for remove cached connections.

@@ -1,7 +1,7 @@
-#!/usr/bin/ruby -w
+#!/usr/bin/ruby -I../lib -w
 
 require 'test/unit'
-require '../lib/scutil'
+require 'scutil'
 require 'stringio'
 
 class TestScutil < Test::Unit::TestCase
