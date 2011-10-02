@@ -37,7 +37,7 @@ module Scutil
   DEFAULT_PTY_REGEX = /^\s*sudo/
   @connection_cache = ConnectionCache.new
   @output_buffer_size = DEFAULT_OUTPUT_BUFFER_SIZE
-
+  
   class << self
     # All successfully established connections end up here for reuse
     # later.
@@ -45,7 +45,7 @@ module Scutil
     # Set to 10M by default, this can be adjusted to tell scutil when
     # to write command output to _output_.
     attr_accessor :output_buffer_size
-
+    
     # Should we request a PTY?  Uses custom regex if defined in
     # +:scutil_pty_regex+.
     #

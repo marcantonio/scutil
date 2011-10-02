@@ -29,7 +29,11 @@ module Scutil
       end
       false
     end
-
+    
+    def remove_all
+      @cache = []
+    end
+    
     # Remove all instances of _hostname_.
     def remove(hostname)
       @cache.delete_if { |c| c.hostname == hostname }
