@@ -25,23 +25,23 @@ module Scutil
       if (pty_needed)
         if !@pty_connection.nil?
           # Existing PTY connection
-          $stderr.print "[#{hostname}] Using existing connection (pty)\n" if @options[:scutil_verbose]
+          print "[#{hostname}] Using existing connection (pty)\n" if @options[:scutil_verbose]
           return @pty_connection
         end
         
         # New PTY connection
-        $stderr.print "[#{hostname}] Opening new channel (pty) to system...\n" if @options[:scutil_verbose]
+        print "[#{hostname}] Opening new channel (pty) to system...\n" if @options[:scutil_verbose]
         conn = Net::SSH.start(hostname, username, @options)
         @pty_connection = conn
       else
         if !@connection.nil?
           # Existing non-PTY connection
-          $stderr.print "[#{hostname}] Using existing connection (non-pty)\n" if @options[:scutil_verbose]
+          print "[#{hostname}] Using existing connection (non-pty)\n" if @options[:scutil_verbose]
           return @connection
         end
         
         # New non-PTY connection
-        $stderr.print "[#{hostname}] Opening channel (non-pty) to system...\n" if @options[:scutil_verbose]
+        print "[#{hostname}] Opening channel (non-pty) to system...\n" if @options[:scutil_verbose]
         conn = Net::SSH.start(hostname, username, @options)
         @connection = conn
       end
@@ -57,7 +57,7 @@ module Scutil
     end
     
     def to_s
-      "#{self.class}: #{@name}, @connection = #{@connection}, @pty_connection = #{@pty_connection}"
+      "#{self.class}: #{@hostname}, @connection = #{@connection}, @pty_connection = #{@pty_connection}"
     end
   end
 end

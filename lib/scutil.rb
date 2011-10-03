@@ -86,7 +86,7 @@ module Scutil
     # open file handle.*  Finally, if _output_ is omitted, or an empty
     # string, all command output will be directed to _$stdout_.
     #
-    # <em>**NB:* This isn't actually true.  The only check made is to
+    # <em>*NB:* This isn't actually true.  The only check made is to
     # see if _output_ responds to +:write+.  The idea being that not
     # only will a file handle have a +write+ method, but also
     # something like +StringIO+.  Using +StringIO+ here makes it easy
@@ -94,17 +94,15 @@ module Scutil
     # better way to do this are definitely welcome.</em>
     #
     # Scutil will automatically request a PTY if _sudo_ is at the
-    # start of _cmd_.  Right now the regex that drives this isn't
-    # configurable.  In a near future release it will be.  You can
-    # force a PTY request by specifying +:scutil_force_pty+ in
-    # _options_.
+    # start of _cmd_.  This is driven by a regex which is customizable
+    # via the option +:scutil_pty_regex+.  You can also force a PTY
+    # request by specifying +:scutil_force_pty+ in _options_.
     #
     # Scutil.exec_command takes the following options:
     #
     # * :scutil_verbose   => Extra output.
     # * :scutil_force_pty => Force a PTY request (or not) for every channel.
-    # * :scutil_pty_regex => Specific a custom regex here for use when
-    #                        scutil decides whether or not to request a PTY.
+    # * :scutil_pty_regex => Specific a custom regex here for use when scutil decides whether or not to request a PTY.
     #
     # In addition, any other options passed Scutil.exec_command will
     # be passed on to Net::SSH, _except_ those prefixed with
@@ -126,13 +124,13 @@ module Scutil
       begin
         if (Scutil.connection_cache.exists?(hostname))
           sys_conn = Scutil.connection_cache.fetch(hostname)
-          $stderr.print "[#{hostname}] Using existing connection\n" if options[:scutil_verbose]
+          print "[#{hostname}] Using existing connection\n" if options[:scutil_verbose]
           conn = sys_conn.get_connection(hostname, username, pty_needed, options)
         else
           sys_conn = SystemConnection.new(hostname)
           # Call get_connection first.  Don't add to cache unless established.
           conn = sys_conn.get_connection(hostname, username, pty_needed, options)
-          $stderr.print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
+          print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
           Scutil.connection_cache << sys_conn
         end
       rescue Net::SSH::AuthenticationFailed => err
@@ -156,9 +154,9 @@ module Scutil
       edata = ""
       exit_status = 0
       chan = conn.open_channel do |channel|
-        $stderr.print "[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n" if options[:scutil_verbose]
+        print "[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n" if options[:scutil_verbose]
         if (pty_needed)
-          $stderr.print "[#{conn.host}:#{channel.local_id}] Requesting PTY...\n" if options[:scutil_verbose]
+          print "[#{conn.host}:#{channel.local_id}] Requesting PTY...\n" if options[:scutil_verbose]
           # OPOST is necessary, CS8 makes sense.  Revisit after broader testing.
           channel.request_pty(:modes => { Net::SSH::Connection::Term::CS8 => 1, Net::SSH::Connection::Term::OPOST => 0 } ) do |ch, success|
             raise Scutil::Error.new("Failed to get a PTY", hostname) if !success
@@ -166,7 +164,7 @@ module Scutil
         end
         
         channel.on_data do |ch, data|
-#          $stderr.print "on_data: #{data.size}\n" if options[:scutil_verbose]
+#          print "on_data: #{data.size}\n" if options[:scutil_verbose]
           odata += data
 
           # Only buffer some of the output before writing to disk (10M by default).
@@ -177,12 +175,12 @@ module Scutil
         end
         
         channel.on_extended_data do |ch, type, data|
-#          $stderr.print "on_extended_data: #{data.size}\n" if options[:scutil_verbose]
+#          print "on_extended_data: #{data.size}\n" if options[:scutil_verbose]
           edata += data
         end
         
         channel.on_close do |ch|
-          $stderr.print "[#{conn.host}:#{channel.local_id}] on_close\n" if options[:scutil_verbose]
+          print "[#{conn.host}:#{channel.local_id}] on_close\n" if options[:scutil_verbose]
         end
         
         channel.on_open_failed do |ch, code, desc|

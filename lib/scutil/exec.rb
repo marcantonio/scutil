@@ -33,5 +33,6 @@ module Scutil
       @options.merge!(options)
       Scutil.exec_command(@hostname, @username, cmd, output, @options)
     end
+    # TODO: options should be customizable via an instance method.
   end
 end
