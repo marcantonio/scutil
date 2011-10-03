@@ -5,6 +5,10 @@ require 'scutil'
 require 'stringio'
 
 class TestScutil < Test::Unit::TestCase
+  TRUE_COMMAND  = '/bin/true'
+  FALSE_COMMAND = '/bin/false'
+  FAKE_COMMAND  = '/bin/no_such_command'
+
   @hostname = nil
   @port = nil
   @user = nil
@@ -26,7 +30,9 @@ class TestScutil < Test::Unit::TestCase
   def setup
     @output = nil
     @tmp_output = nil
-    @exec = Scutil::Exec.new(TestScutil.hostname, TestScutil.user, { :port => TestScutil.port })
+    @exec = Scutil::Exec.new(TestScutil.hostname, TestScutil.user, 
+                             { :port => TestScutil.port,
+                               :scutil_verbose => false })
   end
   
   def teardown
@@ -44,22 +50,22 @@ class TestScutil < Test::Unit::TestCase
   
   def test_exec_doesnt_raise_an_exception
     assert_nothing_raised do
-      @exec.exec_command('/bin/true')
+      @exec.exec_command(TRUE_COMMAND)
     end
   end
   
   def test_run_successful_command
-    retval = @exec.exec_command('/bin/true')
+    retval = @exec.exec_command(TRUE_COMMAND)
     assert_equal 0, retval
   end
   
   def test_run_failed_command
-    retval = @exec.exec_command('/bin/false')
+    retval = @exec.exec_command(FALSE_COMMAND)
     assert_not_equal 0, retval
   end
   
   def test_added_to_cache
-    @exec.exec_command('/bin/true')
+    @exec.exec_command(TRUE_COMMAND)
     assert(Scutil.connection_cache.exists?(TestScutil.hostname))
   end
   
@@ -72,40 +78,57 @@ class TestScutil < Test::Unit::TestCase
   end
   
   def test_clear_connection
-    @exec.exec_command('/bin/true')
+    @exec.exec_command(TRUE_COMMAND)
     Scutil.clear!(TestScutil.hostname)
     assert(!Scutil.connection_cache.exists?(TestScutil.hostname))
   end
   
   def test_exception_raised
     assert_raises(Scutil::Error) do
-      @exec.exec_command('/bin/not_such_command')
+      @exec.exec_command(FAKE_COMMAND)
     end
+  end
+  
+  def test_pty_not_requested
+    @exec.exec_command(TRUE_COMMAND)
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.connection)
+    assert_nil(conn.pty_connection)
+  end
+  
+  def test_pty_requested
+    @exec.exec_command("sudo " + TRUE_COMMAND)
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.pty_connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
+    assert_nil(conn.connection)
+  end
+
+  def test_option_pty_regex
+    @exec.exec_command("env " + TRUE_COMMAND, nil, { :scutil_pty_regex => /^env / })
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.pty_connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
+    assert_nil(conn.connection)    
+  end
+  
+  def test_option_verbose_set_and_local_options_take_precedence
+    divert_stdout
+    @exec.exec_command(TRUE_COMMAND, nil, { :scutil_verbose => true })
+    revert_stdout
+    assert_match(/\[#{TestScutil.hostname}\]/, @output.string)
+  end
+
+  def test_option_force_pty
+    @exec.exec_command(TRUE_COMMAND, nil, { :scutil_force_pty => true })
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.pty_connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
+    assert_nil(conn.connection)
   end
 end
 
-=begin
-class TestScutil2 < Test::Unit::TestCase
-  include ScutilTestsCommon
-  
-  def setup
-    p self
-    @hostname = ARGV[0]
-    @port = ARGV[1]
-    @user = 'mas'
-    module_setup
-    @exec = Scutil::Exec.new(@hostname, @user, { :port => @port })
-  end
-  
-  def test_run_command
-    divert_stdout
-    retval = @exec.exec_command('echo "bravo"')
-    revert_stdout
-    assert_equal "bravo", @output.string.chomp
-  end
-end  
-=end
-  
 if ARGV[0].nil?
   puts "Usage: #{$0} host[:port]"
   exit(1)
