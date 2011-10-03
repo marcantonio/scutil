@@ -77,6 +77,8 @@
           
           <li><a href="#method-i-remove">#remove</a></li>
           
+          <li><a href="#method-i-remove_all">#remove_all</a></li>
+          
           <li><a href="#method-i-to_s">#to_s</a></li>
           
         </ul>
@@ -257,7 +259,7 @@
             
             <div class="method-source-code" id="3C-3C-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 38</span>
+<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;&lt;</span>(<span class="ruby-identifier">conn</span>)
   <span class="ruby-ivar">@cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">conn</span>
 <span class="ruby-keyword">end</span></pre>
@@ -396,7 +398,7 @@
             
             <div class="method-source-code" id="remove-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 34</span>
+<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-ivar">@cache</span>.<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">hostname</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hostname</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -408,6 +410,39 @@
 
           
         </div><!-- remove-method -->
+
+      
+        <div id="remove_all-method" class="method-detail ">
+          <a name="method-i-remove_all"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">remove_all</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="remove_all-source">
+<pre>
+<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_all</span>
+  <span class="ruby-ivar">@cache</span> = []
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- remove_all-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- remove_all-method -->
 
       
         <div id="to_s-method" class="method-detail ">
@@ -429,7 +464,7 @@
             
             <div class="method-source-code" id="to_s-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 42</span>
+<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-ivar">@cache</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
 <span class="ruby-keyword">end</span></pre>

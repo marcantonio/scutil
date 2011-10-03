@@ -55,9 +55,8 @@ of this documentation.</p>
 href="Scutil.html#method-c-exec_command">Scutil.exec_command</a>. 
 Basically, if <em>sudo</em> is at the start of the command to be executed,
 scutil will request a PTY.  This regex is configurable through
-<tt>:scutil_pty_regex</tt>.  In a near future release it will be.  You can
-force a PTY request by specifying <tt>:scutil_force_pty</tt> in the various
-<em>options</em> arguments.</p>
+<tt>:scutil_pty_regex</tt>.  You can force a PTY request by specifying
+<tt>:scutil_force_pty</tt> in the various <em>options</em> arguments.</p>
 
 <p>All of this syntactic sugar can be used as a simple class method with <a
 href="Scutil.html#method-c-exec_command">Scutil.exec_command</a>, as an
@@ -174,11 +173,11 @@ DEALINGS IN THE SOFTWARE.</p>
     
       <li><a href="Scutil.html#method-c-exec_command">::exec_command &mdash; Scutil</a></li>
     
-      <li><a href="Scutil/Error.html#method-c-new">::new &mdash; Scutil::Error</a></li>
+      <li><a href="Scutil/ConnectionCache.html#method-c-new">::new &mdash; Scutil::ConnectionCache</a></li>
     
       <li><a href="Scutil/Exec.html#method-c-new">::new &mdash; Scutil::Exec</a></li>
     
-      <li><a href="Scutil/ConnectionCache.html#method-c-new">::new &mdash; Scutil::ConnectionCache</a></li>
+      <li><a href="Scutil/Error.html#method-c-new">::new &mdash; Scutil::Error</a></li>
     
       <li><a href="Scutil/SystemConnection.html#method-c-new">::new &mdash; Scutil::SystemConnection</a></li>
     
@@ -198,23 +197,49 @@ DEALINGS IN THE SOFTWARE.</p>
     
       <li><a href="Scutil/ConnectionCache.html#method-i-remove">#remove &mdash; Scutil::ConnectionCache</a></li>
     
+      <li><a href="Scutil/ConnectionCache.html#method-i-remove_all">#remove_all &mdash; Scutil::ConnectionCache</a></li>
+    
       <li><a href="TestScutil.html#method-i-revert_stdout">#revert_stdout &mdash; TestScutil</a></li>
     
       <li><a href="Scutil/SystemConnection.html#method-i-scrub_options">#scrub_options &mdash; Scutil::SystemConnection</a></li>
     
       <li><a href="TestScutil.html#method-i-setup">#setup &mdash; TestScutil</a></li>
     
-      <li><a href="TestScutil.html#method-i-test_initialize_exec_object">#test_initialize_exec_object &mdash; TestScutil</a></li>
+      <li><a href="TestScutil.html#method-i-teardown">#teardown &mdash; TestScutil</a></li>
     
-      <li><a href="TestScutil.html#method-i-test_is_correct_instance">#test_is_correct_instance &mdash; TestScutil</a></li>
+      <li><a href="TestScutil.html#method-i-test_added_to_cache">#test_added_to_cache &mdash; TestScutil</a></li>
     
-      <li><a href="TestScutil.html#method-i-test_run_command">#test_run_command &mdash; TestScutil</a></li>
+      <li><a href="TestScutil.html#method-i-test_clear_connection">#test_clear_connection &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_exception_raised">#test_exception_raised &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_exec_command_output">#test_exec_command_output &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_object_initialized">#test_object_initialized &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_object_is_correct_class">#test_object_is_correct_class &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_option_force_pty">#test_option_force_pty &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_option_pty_regex">#test_option_pty_regex &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_option_verbose_set_and_local_options_take_precedence">#test_option_verbose_set_and_local_options_take_precedence &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_pty_not_requested">#test_pty_not_requested &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_pty_requested">#test_pty_requested &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_run_failed_command">#test_run_failed_command &mdash; TestScutil</a></li>
+    
+      <li><a href="TestScutil.html#method-i-test_run_successful_command">#test_run_successful_command &mdash; TestScutil</a></li>
     
       <li><a href="Scutil/Error.html#method-i-to_s">#to_s &mdash; Scutil::Error</a></li>
     
-      <li><a href="Scutil/SystemConnection.html#method-i-to_s">#to_s &mdash; Scutil::SystemConnection</a></li>
-    
       <li><a href="Scutil/ConnectionCache.html#method-i-to_s">#to_s &mdash; Scutil::ConnectionCache</a></li>
+    
+      <li><a href="Scutil/SystemConnection.html#method-i-to_s">#to_s &mdash; Scutil::SystemConnection</a></li>
     
   </ul>
 
