@@ -135,6 +135,8 @@ module Scutil
         end
       rescue Net::SSH::AuthenticationFailed => err
         raise Scutil::Error.new("Error: Authenication failed for user: #{username}", hostname)
+      rescue SocketError => err
+        raise Scutil::Error.new("Error: " + err.message, hostname)
       end
       
       fh = $stdout
@@ -166,7 +168,7 @@ module Scutil
         channel.on_data do |ch, data|
 #          print "on_data: #{data.size}\n" if options[:scutil_verbose]
           odata += data
-
+          
           # Only buffer some of the output before writing to disk (10M by default).
           if (odata.size >= Scutil.output_buffer_size)
             fh.write odata
@@ -186,14 +188,11 @@ module Scutil
         channel.on_open_failed do |ch, code, desc|
           raise Scutil::Error.new("Failed to open channel: #{desc}", hostname, code) if !success
         end
-
+        
         channel.on_request("exit-status") do |ch, data|
           exit_status = data.read_long
+          print "[#{conn.host}:#{channel.local_id}] on_request(\"exit-status\"): #{exit_status}\n" if options[:scutil_verbose]
         end
-        
-#        channel.on_open_failed do |ch, code, desc|
-#          
-#        end
         
         channel.exec(cmd)
 #        channel.wait
