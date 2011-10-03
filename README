@@ -28,9 +28,8 @@ PTYs is beyond the scope of this documentation.
 The "_automatic_" part of PTY requests comes from a regex in
 Scutil.exec_command.  Basically, if _sudo_ is at the start of the
 command to be executed, scutil will request a PTY.  This regex is
-configurable through +:scutil_pty_regex+.  In a near future release it
-will be.  You can force a PTY request by specifying
-+:scutil_force_pty+ in the various _options_ arguments.
+configurable through +:scutil_pty_regex+.  You can force a PTY request
+by specifying +:scutil_force_pty+ in the various _options_ arguments.
 
 All of this syntactic sugar can be used as a simple class method with
 Scutil.exec_command, as an instantiable class with Scutil::Exec, or as
