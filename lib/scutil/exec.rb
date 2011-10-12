@@ -15,7 +15,7 @@ module Scutil
   class Exec
     include Scutil
     attr_reader :hostname,:username
-    
+
     def initialize(hostname, username, options={})
       @hostname = hostname
       @username = username
@@ -30,9 +30,13 @@ module Scutil
     # specified in the constructor.
     def exec_command(cmd, output=nil, options={})
       # Local map has precedence.
-      @options.merge!(options)
+      set_options(options)
       Scutil.exec_command(@hostname, @username, cmd, output, @options)
     end
-    # TODO: options should be customizable via an instance method.
+
+    def set_options(options={})
+      # Local map has precedence.
+      @options.merge!(options)      
+    end
   end
 end

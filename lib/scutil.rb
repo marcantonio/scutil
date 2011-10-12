@@ -30,7 +30,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.2.4'
+  SCUTIL_VERSION = '0.3.0'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
   # Checks for a command starting with _sudo_ by default.
@@ -195,7 +195,6 @@ module Scutil
         end
         
         channel.exec(cmd)
-#        channel.wait
       end
       
       conn.loop
@@ -210,8 +209,4 @@ module Scutil
       return exit_status
     end
   end
-  
-  #  def xfer_file(hostname, username, src, dst, direction=:to, command=nil, options={})
-  
-  #  end
 end

@@ -1,6 +1,11 @@
 
 ==Changelog
 
+===0.3.0 | 2011-10-11
+
+* Added set_options method to instance.
+* Bug fixes.
+
 ===0.2.4 | 2011-10-02
 
 * More verbose logging.

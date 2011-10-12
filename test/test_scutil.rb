@@ -127,8 +127,84 @@ class TestScutil < Test::Unit::TestCase
     assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
     assert_nil(conn.connection)
   end
+  
+  def test_alter_options
+    divert_stdout
+    @exec.exec_command(TRUE_COMMAND)
+    revert_stdout
+    assert_not_match(/\[#{TestScutil.hostname}\]/, @output.string)
+    
+    @exec.set_options({ :scutil_verbose => true })
+    
+    divert_stdout
+    @exec.exec_command(TRUE_COMMAND)
+    revert_stdout
+    assert_match(/\[#{TestScutil.hostname}\]/, @output.string)
+  end
 end
 
+class TestScutilAlt < Test::Unit::TestCase
+  TRUE_COMMAND  = '/bin/true'
+  FALSE_COMMAND = '/bin/false'
+  FAKE_COMMAND  = '/bin/no_such_command'
+
+  @hostname = nil
+  @port = nil
+  @user = nil
+  
+  class << self
+    attr_accessor :hostname,:port,:user
+  end
+  
+  def divert_stdout
+    @tmp_output = $stdout
+    $stdout = StringIO.new
+  end
+  
+  def revert_stdout
+    @output = $stdout
+    $stdout = @tmp_output
+  end
+  
+  def setup
+    @output = nil
+    @tmp_output = nil
+  end
+  
+  def test_exec_doesnt_raise_an_exception
+    assert_nothing_raised do
+      Scutil.exec_command(TestScutil.hostname, TestScutil.user, TRUE_COMMAND, nil, { :port => TestScutil.port })
+    end
+  end
+  
+  def test_run_successful_command
+    retval = Scutil.exec_command(TestScutil.hostname, TestScutil.user, TRUE_COMMAND, nil, { :port => TestScutil.port })
+    assert_equal 0, retval
+  end
+  
+  def test_run_failed_command
+    retval = Scutil.exec_command(TestScutil.hostname, TestScutil.user, FALSE_COMMAND, nil, { :port => TestScutil.port })
+    assert_not_equal 0, retval
+  end
+  
+  def test_added_to_cache
+    Scutil.exec_command(TestScutil.hostname, TestScutil.user, TRUE_COMMAND, nil, { :port => TestScutil.port })
+    assert(Scutil.connection_cache.exists?(TestScutil.hostname))
+  end
+  
+  def test_exec_command_output
+    divert_stdout
+    Scutil.exec_command(TestScutil.hostname, TestScutil.user, 'echo "alpha"', nil, { :port => TestScutil.port })
+    revert_stdout
+    assert_equal "alpha", @output.string.chomp
+  end
+
+  def teardown
+    Scutil.connection_cache.remove_all
+  end
+end
+
+# XXX: This breaks --name, et al.
 if ARGV[0].nil?
   puts "Usage: #{$0} host[:port]"
   exit(1)
