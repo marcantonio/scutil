@@ -69,6 +69,8 @@
           
           <li><a href="#method-i-exec_command">#exec_command</a></li>
           
+          <li><a href="#method-i-set_options">#set_options</a></li>
+          
         </ul>
       </div>
       
@@ -95,9 +97,7 @@
         <h3 class="section-header">Files</h3>
         <ul>
         
-          <li class="file"><a href="../CHANGELOG.html">CHANGELOG</a></li>
-        
-          <li class="file"><a href="../README.html">README</a></li>
+          <li class="file"><a href="../README_rdoc.html">README.rdoc</a></li>
         
           <li class="file"><a href="../THANKS.html">THANKS</a></li>
         
@@ -131,6 +131,8 @@
           <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
         
           <li><a href="../TestScutil.html">TestScutil</a></li>
+        
+          <li><a href="../TestScutilAlt.html">TestScutilAlt</a></li>
         
         </ul>
         <div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -281,7 +283,7 @@ specified in the constructor.</p>
 <span class="ruby-comment"># File lib/scutil/exec.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-comment"># Local map has precedence.</span>
-  <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">set_options</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-ivar">@hostname</span>, <span class="ruby-ivar">@username</span>, <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>, <span class="ruby-ivar">@options</span>)
 <span class="ruby-keyword">end</span></pre>
             </div><!-- exec_command-source -->
@@ -292,6 +294,40 @@ specified in the constructor.</p>
 
           
         </div><!-- exec_command-method -->
+
+      
+        <div id="set_options-method" class="method-detail ">
+          <a name="method-i-set_options"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">set_options</span><span
+              class="method-args">(options={})</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="set_options-source">
+<pre>
+<span class="ruby-comment"># File lib/scutil/exec.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_options</span>(<span class="ruby-identifier">options</span>={})
+  <span class="ruby-comment"># Local map has precedence.</span>
+  <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)      
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- set_options-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- set_options-method -->
 
       
       </div><!-- public-instance-method-details -->
