@@ -43,7 +43,7 @@ see Scutil.
   require 'scutil'
 
   # Class method executed immediately:  
-  Scutil.exec_command('servername1', 'username', 'pwd', 
+  Scutil.exec_command('servername1', 'username', 'pwd', nil,
                     { 
                       :keys => '~mas/.ssh/id_rsa',  
                       :scutil_verbose => true 
@@ -51,8 +51,8 @@ see Scutil.
                     
 
   # Object to be used and reused:
-  exec = Scutil::Exec.new('servername2', 'mas', 
-                        { :keys => '~mas/.ssh/id_rsa' })
+  exec = Scutil::Exec.new('servername2', 'mas', nil,
+                        { :password => 'myPassw0rd' })
   exec.exec_command("ls -l /")
 
   return_value = exec.exec_command("grep -q ...")
