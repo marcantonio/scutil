@@ -1,274 +1,90 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html>
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-  <title>SSH Command UTILity</title>
+<title>SSH Command UTILity</title>
 
-  <link type="text/css" media="screen" href="rdoc.css" rel="stylesheet" />
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
-  <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
 
-</head>
-<body class="indexpage">
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
 
+
+<body>
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
   
-  <h1>SSH Command UTILity</h1>
-
+    <li class="file"><a href="./THANKS.html">THANKS</a>
   
-  <div id="main">
-    
+  </ul>
+</nav>
 
-<h2>Description:</h2>
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
 
-<p><a href="Scutil.html">Scutil</a> <em>(pronounced "scuttle")</em> is a small
-Ruby library that makes using <a
-href="http://net-ssh.github.com">Net::SSH</a> to execute commands on remote
-systems even more convenient.</p>
-
-<p>It does this in three ways:</p>
-
-<p>First, it defines <a
-href="Scutil.html#method-c-exec_command">Scutil.exec_command</a> which
-abstracts the callbacks and other setup necessary to connect to a system,
-execute a command, and capture the output and return value of that command.
-You can roughly think of it as a generic <em>“Capistrano lite”</em> in this
-regard.</p>
-
-<p>Second, it tracks the connections used on all systems and reuses these
-connections where ever possible.</p>
-
-<p>Finally, scutil takes away the burden of managing data transfers over PTY
-connections.  It automatically requests PTYs where needed and makes them
-“binary safe” (this functionality is configurable and can be disabled). 
-PTYs are needed for some curses-based programs and, most importantly in
-scutil’s context, for sudo.  A full discussion on PTYs is beyond the scope
-of this documentation.</p>
-
-<p>The “<em>automatic</em>” part of PTY requests comes from a regex in <a
-href="Scutil.html#method-c-exec_command">Scutil.exec_command</a>. 
-Basically, if <em>sudo</em> is at the start of the command to be executed,
-scutil will request a PTY.  This regex is configurable through
-<tt>:scutil_pty_regex</tt>.  You can force a PTY request by specifying
-<tt>:scutil_force_pty</tt> in the various <em>options</em> arguments.</p>
-
-<p>All of this syntactic sugar can be used as a simple class method with <a
-href="Scutil.html#method-c-exec_command">Scutil.exec_command</a>, as an
-instantiable class with <a href="Scutil/Exec.html">Scutil::Exec</a>, or as
-a mixin with the module <a href="Scutil.html">Scutil</a>.</p>
-
-<h2>Synopsis:</h2>
-
-<p>You can use scutil in a few different ways, for more usage examples see <a
-href="Scutil.html">Scutil</a>.</p>
-
-<pre>require 'scutil'
-
-# Class method executed immediately:  
-Scutil.exec_command('servername1', 'username', 'pwd', 
-                  { 
-                    :keys =&gt; '~mas/.ssh/id_rsa',  
-                    :scutil_verbose =&gt; true 
-                  })
-
-# Object to be used and reused:
-exec = Scutil::Exec.new('servername2', 'mas', 
-                      { :keys =&gt; '~mas/.ssh/id_rsa' })
-exec.exec_command(&quot;ls -l /&quot;)
-
-return_value = exec.exec_command(&quot;grep -q ...&quot;)
-
-# Tar up /usr/src/linux on the remote machine and write it to
-# /var/tmp/linux.tar.gz on the local machine.  Hostname, error
-# message, and return value in the exception:
-begin
-  exec.exec_command('sudo tar -C /usr/src -czf - linux', '/var/tmp/linux.tar.gz')
-rescue Scutil::Error =&gt; err
-  puts &quot;Message: &quot; + err.message
-  puts &quot;Hostname: &quot; + err.hostname
-  puts &quot;Exit status: #{err.command_exit_status}&quot;
-end
-
-# Capture command output in a string:
-require 'stringio'
-
-command_output = StringIO.new
-Scutil.exec_command('servername1', 'mas', 'sudo cat /root/secrets.txt', command_output)
-puts command_output.string</pre>
-
-<h2>Installation:</h2>
-
-<pre>gem install scutil</pre>
-
-<h2>License:</h2>
-
-<p>The MIT License (MIT)</p>
-
-<p>Copyright © 2011 by Marc Soda</p>
-
-<p>Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the “Software”),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.</p>
+  <ul class="link-list">
+  
+    <li><a href="./Scutil.html">Scutil</a>
+  
+    <li><a href="./Scutil/ConnectionCache.html">Scutil::ConnectionCache</a>
+  
+    <li><a href="./Scutil/Error.html">Scutil::Error</a>
+  
+    <li><a href="./Scutil/Exec.html">Scutil::Exec</a>
+  
+    <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a>
+  
+    <li><a href="./TestScutil.html">TestScutil</a>
+  
+    <li><a href="./TestScutilAlt.html">TestScutilAlt</a>
+  
+  </ul>
+</nav>
 
   </div>
-  
+</nav>
 
-  
-  
-  <h2>Files</h2>
-  <ul>
-    
-      <li class="file"><a href="README_rdoc.html">README.rdoc</a></li>
-    
-      <li class="file"><a href="THANKS.html">THANKS</a></li>
-    
-  </ul>
-  
+<p>This is the API documentation for SSH Command UTILity.
 
-  <h2 id="classes">Classes/Modules</h2>
-  <ul>
-    
-    <li class="module"><a href="Scutil.html">Scutil</a></li>
-    
-    <li class="class"><a href="Scutil/ConnectionCache.html">Scutil::ConnectionCache</a></li>
-    
-    <li class="class"><a href="Scutil/Error.html">Scutil::Error</a></li>
-    
-    <li class="class"><a href="Scutil/Exec.html">Scutil::Exec</a></li>
-    
-    <li class="class"><a href="Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
-    
-    <li class="class"><a href="TestScutil.html">TestScutil</a></li>
-    
-    <li class="class"><a href="TestScutilAlt.html">TestScutilAlt</a></li>
-    
-  </ul>
 
-  <h2 id="methods">Methods</h2>
-  <ul>
-    
-      <li><a href="Scutil.html#method-c-check_pty_needed-3F">::check_pty_needed? &mdash; Scutil</a></li>
-    
-      <li><a href="Scutil.html#method-c-clear-21">::clear! &mdash; Scutil</a></li>
-    
-      <li><a href="Scutil.html#method-c-exec_command">::exec_command &mdash; Scutil</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-c-new">::new &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="Scutil/Exec.html#method-c-new">::new &mdash; Scutil::Exec</a></li>
-    
-      <li><a href="Scutil/Error.html#method-c-new">::new &mdash; Scutil::Error</a></li>
-    
-      <li><a href="Scutil/SystemConnection.html#method-c-new">::new &mdash; Scutil::SystemConnection</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-3C-3C">#<< &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-divert_stdout">#divert_stdout &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-divert_stdout">#divert_stdout &mdash; TestScutil</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-each">#each &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="Scutil/Exec.html#method-i-exec_command">#exec_command &mdash; Scutil::Exec</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-exists-3F">#exists? &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-fetch">#fetch &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="Scutil/SystemConnection.html#method-i-get_connection">#get_connection &mdash; Scutil::SystemConnection</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-remove">#remove &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-remove_all">#remove_all &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-revert_stdout">#revert_stdout &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-revert_stdout">#revert_stdout &mdash; TestScutil</a></li>
-    
-      <li><a href="Scutil/SystemConnection.html#method-i-scrub_options">#scrub_options &mdash; Scutil::SystemConnection</a></li>
-    
-      <li><a href="Scutil/Exec.html#method-i-set_options">#set_options &mdash; Scutil::Exec</a></li>
-    
-      <li><a href="TestScutil.html#method-i-setup">#setup &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-setup">#setup &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-teardown">#teardown &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-teardown">#teardown &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-test_added_to_cache">#test_added_to_cache &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_added_to_cache">#test_added_to_cache &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_alter_options">#test_alter_options &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_clear_connection">#test_clear_connection &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_exception_raised">#test_exception_raised &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-test_exec_command_output">#test_exec_command_output &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_exec_command_output">#test_exec_command_output &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_object_initialized">#test_object_initialized &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_object_is_correct_class">#test_object_is_correct_class &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_option_force_pty">#test_option_force_pty &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_option_pty_regex">#test_option_pty_regex &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_option_verbose_set_and_local_options_take_precedence">#test_option_verbose_set_and_local_options_take_precedence &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_pty_not_requested">#test_pty_not_requested &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_pty_requested">#test_pty_requested &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-test_run_failed_command">#test_run_failed_command &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_run_failed_command">#test_run_failed_command &mdash; TestScutil</a></li>
-    
-      <li><a href="TestScutilAlt.html#method-i-test_run_successful_command">#test_run_successful_command &mdash; TestScutilAlt</a></li>
-    
-      <li><a href="TestScutil.html#method-i-test_run_successful_command">#test_run_successful_command &mdash; TestScutil</a></li>
-    
-      <li><a href="Scutil/ConnectionCache.html#method-i-to_s">#to_s &mdash; Scutil::ConnectionCache</a></li>
-    
-      <li><a href="Scutil/Error.html#method-i-to_s">#to_s &mdash; Scutil::Error</a></li>
-    
-      <li><a href="Scutil/SystemConnection.html#method-i-to_s">#to_s &mdash; Scutil::SystemConnection</a></li>
-    
-  </ul>
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.10.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
 
-  <div id="validator-badges">
-    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
-    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
-      Rdoc Generator</a> 2</small>.</p>
-  </div>
-</body>
-</html>

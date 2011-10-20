@@ -1,282 +1,257 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+
+<html>
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-  <title>Class: Scutil::SystemConnection</title>
+<title>Class: Scutil::SystemConnection</title>
 
-  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
-  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
 
-</head>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
 <body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
 
-  <div id="metadata">
-    <div id="home-metadata">
-      <div id="home-section" class="section">
-        <h3 class="section-header">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#classes">Classes</a>
-          <a href="../index.html#methods">Methods</a>
-        </h3>
-      </div>
-    </div>
 
-    <div id="file-metadata">
-      <div id="file-list-section" class="section">
-        <h3 class="section-header">In Files</h3>
-        <div class="section-body">
-          <ul>
-          
-            <li><a href="../lib/scutil/system_connection_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/scutil/system_connection.rb">lib/scutil/system_connection.rb</a></li>
-          
-          </ul>
-        </div>
-      </div>
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
 
-      
-    </div>
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
 
-    <div id="class-metadata">
-      
-      <!-- Parent Class -->
-      <div id="parent-class-section" class="section">
-        <h3 class="section-header">Parent</h3>
-        
-        <p class="link">Object</p>
-        
-      </div>
-      
 
-      
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/scutil/system_connection.rb
+  </ul>
+</nav>
 
-      
-
-      
-      <!-- Method Quickref -->
-      <div id="method-list-section" class="section">
-        <h3 class="section-header">Methods</h3>
-        <ul class="link-list">
-          
-          <li><a href="#method-c-new">::new</a></li>
-          
-          <li><a href="#method-i-get_connection">#get_connection</a></li>
-          
-          <li><a href="#method-i-scrub_options">#scrub_options</a></li>
-          
-          <li><a href="#method-i-to_s">#to_s</a></li>
-          
-        </ul>
-      </div>
-      
-
-      
-    </div>
-
-    <div id="project-metadata">
-      
-      
-      <div id="fileindex-section" class="section project-section">
-        <h3 class="section-header">Files</h3>
-        <ul>
-        
-          <li class="file"><a href="../README_rdoc.html">README.rdoc</a></li>
-        
-          <li class="file"><a href="../THANKS.html">THANKS</a></li>
-        
-        </ul>
-      </div>
-      
-
-      <div id="classindex-section" class="section project-section">
-        <h3 class="section-header">Class/Module Index
-          <span class="search-toggle"><img src="../images/find.png"
-            height="16" width="16" alt="[+]"
-            title="show/hide quicksearch" /></span></h3>
-        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
-        <fieldset>
-          <legend>Quicksearch</legend>
-          <input type="text" name="quicksearch" value=""
-            class="quicksearch-field" />
-        </fieldset>
-        </form>
-
-        <ul class="link-list">
-        
-          <li><a href="../Scutil.html">Scutil</a></li>
-        
-          <li><a href="../Scutil/ConnectionCache.html">Scutil::ConnectionCache</a></li>
-        
-          <li><a href="../Scutil/Error.html">Scutil::Error</a></li>
-        
-          <li><a href="../Scutil/Exec.html">Scutil::Exec</a></li>
-        
-          <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
-        
-          <li><a href="../TestScutil.html">TestScutil</a></li>
-        
-          <li><a href="../TestScutilAlt.html">TestScutilAlt</a></li>
-        
-        </ul>
-        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
-      </div>
-
-      
-    </div>
+    
   </div>
 
-  <div id="documentation">
-    <h1 class="class">Scutil::SystemConnection</h1>
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
 
-    <div id="description" class="description">
-      
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-get_connection">#get_connection</a>
+    
+    <li><a href="#method-i-scrub_options">#scrub_options</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../THANKS.html">THANKS</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Scutil.html">Scutil</a>
+  
+    <li><a href="../Scutil/ConnectionCache.html">Scutil::ConnectionCache</a>
+  
+    <li><a href="../Scutil/Error.html">Scutil::Error</a>
+  
+    <li><a href="../Scutil/Exec.html">Scutil::Exec</a>
+  
+    <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a>
+  
+    <li><a href="../TestScutil.html">TestScutil</a>
+  
+    <li><a href="../TestScutilAlt.html">TestScutilAlt</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Scutil::SystemConnection</h1>
+
+  <div id="description" class="description">
+    
 <p>Wrapper for each connection to a system.  Capabile of holding a standard
 connect (@connection) and and PTY connection (@<a
-href="SystemConnection.html#attribute-i-pty_connection">pty_connection</a>)
+href="SystemConnection.html#attribute-i-pty_connection">#pty_connection</a>)
 for each system.</p>
 
-    </div><!-- description -->
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
 
     
+
     
+
     
-    <div id="5Buntitled-5D" class="documentation-section">
-      
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
 
       
+      <div id="attribute-i-connection" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">connection</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
 
-      
-
-      
-      <!-- Attributes -->
-      <div id="attribute-method-details" class="method-section section">
-        <h3 class="section-header">Attributes</h3>
-
+        <div class="method-description">
         
-        <div id="connection-attribute-method" class="method-detail">
-          <a name="connection"></a>
-          
-          <div class="method-heading attribute-method-heading">
-            <span class="method-name">connection</span><span
-              class="attribute-access-type">[R]</span>
-          </div>
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-hostname" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">hostname</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
 
-          <div class="method-description">
-          
-          
-          
-          </div>
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-pty_connection" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">pty_connection</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(hostname, options={})</span>
+          <span class="method-click-advice">click to toggle source</span>
         </div>
         
-        <div id="hostname-attribute-method" class="method-detail">
-          <a name="hostname"></a>
-          
-          <div class="method-heading attribute-method-heading">
-            <span class="method-name">hostname</span><span
-              class="attribute-access-type">[R]</span>
-          </div>
 
-          <div class="method-description">
+        <div class="method-description">
           
           
           
-          </div>
-        </div>
-        
-        <div id="pty_connection-attribute-method" class="method-detail">
-          <a name="pty_connection"></a>
-          
-          <div class="method-heading attribute-method-heading">
-            <span class="method-name">pty_connection</span><span
-              class="attribute-access-type">[R]</span>
-          </div>
-
-          <div class="method-description">
-          
-          
-          
-          </div>
-        </div>
-        
-      </div><!-- attribute-method-details -->
-      
-
-      <!-- Methods -->
-      
-      <div id="public-class-method-details" class="method-section section">
-        <h3 class="section-header">Public Class Methods</h3>
-
-      
-        <div id="new-method" class="method-detail ">
-          <a name="method-c-new"></a>
 
           
-          <div class="method-heading">
-            <span class="method-name">new</span><span
-              class="method-args">(hostname, options={})</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="new-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 8</span>
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-ivar">@hostname</span> = <span class="ruby-identifier">hostname</span>
   <span class="ruby-ivar">@connection</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@pty_connection</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@options</span> = <span class="ruby-identifier">options</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- new-source -->
-            
-          </div>
-
+          </div><!-- new-source -->
           
+        </div>
 
-          
-        </div><!-- new-method -->
+        
 
-      
-      </div><!-- public-class-method-details -->
+        
+      </div><!-- new-method -->
+
     
-      <div id="public-instance-method-details" class="method-section section">
-        <h3 class="section-header">Public Instance Methods</h3>
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
 
-      
-        <div id="get_connection-method" class="method-detail ">
-          <a name="method-i-get_connection"></a>
+    
+      <div id="method-i-get_connection" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_connection</span><span
+            class="method-args">(hostname, username, pty_needed=false, options={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
 
+        <div class="method-description">
           
-          <div class="method-heading">
-            <span class="method-name">get_connection</span><span
-              class="method-args">(hostname, username, pty_needed=false, options={})</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            <p>Return a connection for system.  Checks to see if an established connection
+          <p>Return a connection for system.  Checks to see if an established connection
 exists.  If not it creates a new one.  Requests a PTY if needed.</p>
-            
+          
 
-            
-            <div class="method-source-code" id="get_connection-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 18</span>
+          
+          <div class="method-source-code" id="get_connection-source">
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-comment"># Local map has precedence.</span>
@@ -310,97 +285,88 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
   
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">conn</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- get_connection-source -->
-            
-          </div>
+          </div><!-- get_connection-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- get_connection-method -->
+
+    
+      <div id="method-i-scrub_options" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">scrub_options</span><span
+            class="method-args">(options)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Remove scutil specific options.  The rest go to Net::SSH.</p>
           
 
           
-        </div><!-- get_connection-method -->
-
-      
-        <div id="scrub_options-method" class="method-detail ">
-          <a name="method-i-scrub_options"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">scrub_options</span><span
-              class="method-args">(options)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            <p>Remove scutil specific options.  The rest go to Net::SSH.</p>
-            
-
-            
-            <div class="method-source-code" id="scrub_options-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 53</span>
+          <div class="method-source-code" id="scrub_options-source">
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">scrub_options</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_verbose</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_verbose</span>))
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_force_pty</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_force_pty</span>))
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_pty_regex</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_pty_regex</span>))
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- scrub_options-source -->
-            
-          </div>
+          </div><!-- scrub_options-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- scrub_options-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
 
           
-        </div><!-- scrub_options-method -->
-
-      
-        <div id="to_s-method" class="method-detail ">
-          <a name="method-i-to_s"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">to_s</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="to_s-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/system_connection.rb, line 59</span>
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;#{self.class}: #{@hostname}, @connection = #{@connection}, @pty_connection = #{@pty_connection}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- to_s-source -->
-            
-          </div>
-
+          </div><!-- to_s-source -->
           
+        </div>
 
-          
-        </div><!-- to_s-method -->
+        
 
-      
-      </div><!-- public-instance-method-details -->
+        
+      </div><!-- to_s-method -->
+
     
-    </div><!-- 5Buntitled-5D -->
+    </section><!-- public-instance-method-details -->
   
+  </section><!-- 5Buntitled-5D -->
 
-  </div><!-- documentation -->
+</div><!-- documentation -->
 
-  <div id="validator-badges">
-    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
-    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
-      Rdoc Generator</a> 2</small>.</p>
-  </div>
 
-</body>
-</html>
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.10.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
 
