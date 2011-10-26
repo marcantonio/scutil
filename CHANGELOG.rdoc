@@ -1,6 +1,11 @@
 
 ==Changelog
 
+===0.3.1 | 2011-10-26
+
+* Added conn method to instance to expose Net::SSH::Session object.
+* Documentation corrections.
+
 ===0.3.0 | 2011-10-11
 
 * Added set_options method to instance.

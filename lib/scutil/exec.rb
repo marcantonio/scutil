@@ -38,5 +38,17 @@ module Scutil
       # Local map has precedence.
       @options.merge!(options)      
     end
+    
+    def conn(pty_needed=false)
+      conn = nil
+      if Scutil.connection_cache.exists? @hostname
+        sys_conn = Scutil.connection_cache.fetch @hostname 
+        conn = sys_conn.get_connection @hostname, @username, pty_needed, @options 
+      else
+        sys_conn = SystemConnection.new @hostname
+        conn = sys_conn.get_connection @hostname, @username, pty_needed, @options
+      end
+      conn
+    end
   end
 end

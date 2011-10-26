@@ -51,7 +51,7 @@ see Scutil.
                     
 
   # Object to be used and reused:
-  exec = Scutil::Exec.new('servername2', 'mas', nil,
+  exec = Scutil::Exec.new('servername2', 'mas',
                         { :password => 'myPassw0rd' })
   exec.exec_command("ls -l /")
 

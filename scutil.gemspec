@@ -1,8 +1,8 @@
 
 Gem::Specification.new do |s|
   s.name        = 'scutil'
-  s.version     = '0.3.0'
-  s.date        = '2011-10-11'
+  s.version     = '0.3.1'
+  s.date        = '2011-10-26'
   s.summary     = 'SSH Command UTILity'
   s.description = <<-EOF
     Scutil is a library for conveniently executing commands 
