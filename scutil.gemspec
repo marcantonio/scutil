@@ -13,7 +13,7 @@ EOF
   s.license     = 'MIT'
   s.homepage    = 'http://marcantonio.github.com/scutil'
   s.rdoc_options << '--title' << 'SSH Command UTILity' << '--main' << 'README.rdoc'
-  s.extra_rdoc_files = ['README.rdoc', 'THANKS.rdoc', 'CHANGELOG..rdoc']
+  s.extra_rdoc_files = ['README.rdoc', 'THANKS.rdoc', 'CHANGELOG.rdoc']
   s.add_runtime_dependency 'net-ssh', '>= 2.1.0'
   s.files = %w(
 lib/scutil.rb
