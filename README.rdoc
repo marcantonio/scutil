@@ -43,7 +43,7 @@ see Scutil.
   require 'scutil'
 
   # Class method executed immediately:  
-  Scutil.exec_command('servername1', 'username', 'pwd', nil,
+  Scutil.exec_command('servername1', 'username', nil,
                     { 
                       :keys => '~mas/.ssh/id_rsa',  
                       :scutil_verbose => true 

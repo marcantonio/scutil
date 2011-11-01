@@ -25,6 +25,6 @@ scutil.gemspec
 README.rdoc
 CHANGELOG.rdoc
 THANKS.rdoc
-test/test_scutil.rb
 )
+  s.test_files = ['test/test_scutil.rb']
 end
