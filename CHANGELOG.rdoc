@@ -1,9 +1,16 @@
 
 ==Changelog
 
+===0.3.2 | 2011-11-03
+
+* Instance initialization will default to current user if username is
+  not specified.
+* More documentation corrections.
+
 ===0.3.1 | 2011-10-26
 
-* Added conn method to instance to expose Net::SSH::Session object.
+* Added conn method to instance to expose
+  Net::SSH::Connection::Session object.
 * Documentation corrections.
 
 ===0.3.0 | 2011-10-11

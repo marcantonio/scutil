@@ -7,7 +7,7 @@ module Scutil
   #
   #   exec.exec_command('echo "foo"')
   #
-  #   exec.exec_command('echo "bar"; sudo whoami', "", 
+  #   exec.exec_command('echo "bar"; sudo whoami', nil, 
   #                     { :scutil_force_pty => true, 
   #                       :scutil_verbose => true 
   #                     })
@@ -16,9 +16,11 @@ module Scutil
     include Scutil
     attr_reader :hostname,:username
 
-    def initialize(hostname, username, options={})
+    # Defaults to current user (ENV['USER'] if _username_ is not
+    # specified.
+    def initialize(hostname, username=nil, options={})
       @hostname = hostname
-      @username = username
+      @username =  username.nil? ? ENV['USER'] : username
       @options = options
     end
     
@@ -39,14 +41,16 @@ module Scutil
       @options.merge!(options)      
     end
     
+    # Exposes the raw Net:SSH::Connection::Session object associated
+    # with @hostname.
     def conn(pty_needed=false)
       conn = nil
-      if Scutil.connection_cache.exists? @hostname
-        sys_conn = Scutil.connection_cache.fetch @hostname 
-        conn = sys_conn.get_connection @hostname, @username, pty_needed, @options 
+      if Scutil.connection_cache.exists?(@hostname)
+        sys_conn = Scutil.connection_cache.fetch(@hostname)
+        conn = sys_conn.get_connection(@hostname, @username, pty_needed, @options)
       else
-        sys_conn = SystemConnection.new @hostname
-        conn = sys_conn.get_connection @hostname, @username, pty_needed, @options
+        sys_conn = SystemConnection.new(@hostname)
+        conn = sys_conn.get_connection(@hostname, @username, pty_needed, @options)
       end
       conn
     end
