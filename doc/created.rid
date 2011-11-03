@@ -1,10 +1,10 @@
-Tue, 01 Nov 2011 11:21:22 -0400
-README.rdoc	Tue, 01 Nov 2011 11:20:43 -0400
-THANKS.rdoc	Wed, 26 Oct 2011 14:04:30 -0400
-CHANGELOG.rdoc	Wed, 26 Oct 2011 14:04:38 -0400
-lib/scutil/error.rb	Wed, 26 Oct 2011 14:04:30 -0400
-lib/scutil/connection_cache.rb	Wed, 26 Oct 2011 14:04:30 -0400
-lib/scutil/system_connection.rb	Wed, 26 Oct 2011 14:04:30 -0400
-lib/scutil/exec.rb	Wed, 26 Oct 2011 14:04:38 -0400
-lib/scutil.rb	Wed, 26 Oct 2011 14:04:38 -0400
-test/test_scutil.rb	Wed, 26 Oct 2011 14:04:30 -0400
+Thu, 03 Nov 2011 16:41:01 -0400
+README.rdoc	Tue, 01 Nov 2011 11:25:50 -0400
+THANKS.rdoc	Tue, 01 Nov 2011 11:23:50 -0400
+CHANGELOG.rdoc	Thu, 03 Nov 2011 16:39:09 -0400
+lib/scutil/error.rb	Tue, 01 Nov 2011 11:23:50 -0400
+lib/scutil/connection_cache.rb	Tue, 01 Nov 2011 11:23:50 -0400
+lib/scutil/system_connection.rb	Tue, 01 Nov 2011 11:23:50 -0400
+lib/scutil/exec.rb	Thu, 03 Nov 2011 16:32:18 -0400
+lib/scutil.rb	Thu, 03 Nov 2011 16:33:33 -0400
+test/test_scutil.rb	Tue, 01 Nov 2011 11:23:50 -0400
