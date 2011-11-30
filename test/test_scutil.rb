@@ -1,4 +1,4 @@
-#!/usr/bin/ruby -I../lib -I. -w
+#!/usr/bin/ruby -I../lib -I.
 
 require 'test/unit'
 require 'scutil'
@@ -211,4 +211,5 @@ if ARGV[0].nil?
 end
 
 (TestScutil.hostname, TestScutil.port) = ARGV[0].split(':')
+ARGV[0] = nil;
 TestScutil.user = 'mas'
