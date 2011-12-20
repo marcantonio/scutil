@@ -30,7 +30,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.3.2'
+  SCUTIL_VERSION = '0.3.3'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
   # Checks for a command starting with _sudo_ by default.
@@ -81,7 +81,7 @@ module Scutil
     # the command are captured.
     #
     # If _output_ is a string it will be treated as a filename to be
-    # opened (mode 'w+') and all command output will be written to
+    # opened (mode 'w') and all command output will be written to
     # this file.  If _output_ is an IO object it will be treated as an
     # open file handle.*  Finally, if _output_ is omitted, or an empty
     # string, all command output will be directed to _$stdout_.
@@ -146,7 +146,7 @@ module Scutil
         # XXX: This may not be a safe assumuption...
         fh = output
       elsif (output.class == String)
-        fh = File.open(output, 'w+') unless output.empty?
+        fh = File.open(output, 'w') unless output.empty?
       else
         raise Scutil::Error.new("Error: Invalid output object type: #{output.class}.", hostname)
       end
@@ -201,6 +201,9 @@ module Scutil
 
       # Write whatever is left
       fh.write odata
+      
+      # Close the file or you'll chase red herrings for two hours...
+      fh.close unless fh == $stdout
 
       # If extended_data was recieved there was a problem...
       raise Scutil::Error.new("Error: #{edata}", hostname, exit_status) unless (edata.empty?)

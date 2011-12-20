@@ -1,6 +1,11 @@
 
 ==Changelog
 
+===0.3.3 | 2011-12-20
+
+* Fixed bug when writing file to disk and then immediately reading the
+  same file.
+
 ===0.3.2 | 2011-11-03
 
 * Instance initialization will default to current user if username is
