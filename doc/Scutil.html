@@ -47,10 +47,10 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/scutil/connection_cache.rb
-    <li>lib/scutil/system_connection.rb
-    <li>lib/scutil/exec.rb
     <li>lib/scutil.rb
+    <li>lib/scutil/connection_cache.rb
+    <li>lib/scutil/exec.rb
+    <li>lib/scutil/system_connection.rb
   </ul>
 </nav>
 
@@ -295,7 +295,7 @@ execute a command, specified in <em>cmd</em>, on a remote system.  The
 return value and any ouput of the command are captured.</p>
 
 <p>If <em>output</em> is a string it will be treated as a filename to be
-opened (mode ‘w+’) and all command output will be written to this file.  If
+opened (mode ‘w’) and all command output will be written to this file.  If
 <em>output</em> is an IO object it will be treated as an open file handle.*
 Finally, if <em>output</em> is omitted, or an empty string, all command
 output will be directed to _$stdout_.</p>
@@ -371,7 +371,7 @@ puts &quot;True is false!&quot; if retval != 0</pre>
         <span class="ruby-comment"># XXX: This may not be a safe assumuption...</span>
         <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">output</span>
       <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">String</span>)
-        <span class="ruby-identifier">fh</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output</span>, <span class="ruby-string">'w+'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">fh</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output</span>, <span class="ruby-string">'w'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: Invalid output object type: #{output.class}.&quot;</span>, <span class="ruby-identifier">hostname</span>)
       <span class="ruby-keyword">end</span>
@@ -426,6 +426,9 @@ puts &quot;True is false!&quot; if retval != 0</pre>
 
       <span class="ruby-comment"># Write whatever is left</span>
       <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">odata</span>
+      
+      <span class="ruby-comment"># Close the file or you'll chase red herrings for two hours...</span>
+      <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">fh</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">$stdout</span>
 
       <span class="ruby-comment"># If extended_data was recieved there was a problem...</span>
       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: #{edata}&quot;</span>, <span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">exit_status</span>) <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">edata</span>.<span class="ruby-identifier">empty?</span>)
