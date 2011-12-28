@@ -49,7 +49,7 @@ module Scutil
         sys_conn = Scutil.connection_cache.fetch(@hostname)
         conn = sys_conn.get_connection(@hostname, @username, pty_needed, @options)
       else
-        sys_conn = SystemConnection.new(@hostname)
+        sys_conn = SystemConnection.new(@hostname, @options)
         conn = sys_conn.get_connection(@hostname, @username, pty_needed, @options)
       end
       conn

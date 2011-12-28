@@ -8,6 +8,7 @@ class TestScutil < Test::Unit::TestCase
   TRUE_COMMAND  = '/bin/true'
   FALSE_COMMAND = '/bin/false'
   FAKE_COMMAND  = '/bin/no_such_command'
+  VERBOSE       = false
 
   @hostname = nil
   @port = nil
@@ -32,7 +33,10 @@ class TestScutil < Test::Unit::TestCase
     @tmp_output = nil
     @exec = Scutil::Exec.new(TestScutil.hostname, TestScutil.user, 
                              { :port => TestScutil.port,
-                               :scutil_verbose => false })
+                               :scutil_verbose => VERBOSE,
+                               :scutil_prompt_passwd => true, 
+                               :scutil_sudo_passwd => "c0r3d14l"
+                             })
   end
   
   def teardown
@@ -98,12 +102,23 @@ class TestScutil < Test::Unit::TestCase
   end
   
   def test_pty_requested
-    @exec.exec_command("sudo " + TRUE_COMMAND)
+    # XXX: check retvals everywhere!
+    ret_val = @exec.exec_command("sudo " + TRUE_COMMAND)
     conn = Scutil.connection_cache.fetch(TestScutil.hostname)
     assert_not_nil(conn.pty_connection)
     assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
     assert_nil(conn.connection)
+    assert_equal(0, ret_val)
   end
+
+#  def test_pty_requested_and_echo
+#    ret_val = @exec.exec_command('sudo ' + 'echo "alpha"')
+#    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+#    assert_not_nil(conn.pty_connection)
+#    assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
+#    assert_nil(conn.connection)
+#    assert_equal(0, ret_val)
+#  end
 
   def test_option_pty_regex
     @exec.exec_command("env " + TRUE_COMMAND, nil, { :scutil_pty_regex => /^env / })
@@ -204,12 +219,11 @@ class TestScutilAlt < Test::Unit::TestCase
   end
 end
 
-# XXX: This breaks --name, et al.
-if ARGV[0].nil?
-  puts "Usage: #{$0} host[:port]"
+if (ARGV[0].nil? || (ARGV[0] !~ /\w+:\d+/))
+  puts "Usage: #{$0} host:port"
   exit(1)
 end
 
-(TestScutil.hostname, TestScutil.port) = ARGV[0].split(':')
-ARGV[0] = nil;
+connect_string = ARGV.shift
+(TestScutil.hostname, TestScutil.port) = connect_string.split(':')
 TestScutil.user = 'mas'

@@ -28,13 +28,18 @@ require 'scutil/exec'
 require 'scutil/error'
 require 'scutil/connection_cache'
 require 'scutil/system_connection'
+# XXX: make this optional
+require 'highline/import'
 
 module Scutil
-  SCUTIL_VERSION = '0.3.3'
+  SCUTIL_VERSION = '0.4.0'
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
   # Checks for a command starting with _sudo_ by default.
   DEFAULT_PTY_REGEX = /^\s*sudo/
+  # Default password prompt is _Password:_.
+  DEFAULT_PASSWD_REGEX = /^Password:/
+  
   @connection_cache = ConnectionCache.new
   @output_buffer_size = DEFAULT_OUTPUT_BUFFER_SIZE
   
@@ -49,22 +54,15 @@ module Scutil
     # Should we request a PTY?  Uses custom regex if defined in
     # +:scutil_pty_regex+.
     #
-    def check_pty_needed?(cmd, options, hostname)
-      regex = DEFAULT_PTY_REGEX
-      if (options[:scutil_force_pty].nil?)
-        # If a custom regex has been defined, use it.
-        if (!options[:scutil_pty_regex].nil?)
-          if options[:scutil_pty_regex].kind_of? Regexp
-            regex = options[:scutil_pty_regex]
-          else
-            raise Scutil::Error.new("Error: :scutil_pty_regex must be a kind of Regexp", hostname)
-          end
-        else
-          return (cmd =~ regex) ? true : false
-        end
-      else
-        return options[:scutil_force_pty] ? true : false
+    def check_pty_needed?(cmd, options, hostname)      
+      if options[:scutil_force_pty]
+        return true
       end
+      
+      if !options[:scutil_pty_regex].kind_of? Regexp
+        raise Scutil::Error.new(":scutil_pty_regex must be a kind of Regexp", hostname)
+      end
+      return (cmd =~ options[:scutil_pty_regex]) ? true : false
     end
     
     # Drops all instances of +hostname+ from @connection_cache.
@@ -72,7 +70,7 @@ module Scutil
       if (Scutil.connection_cache.exists?(hostname))
         Scutil.connection_cache.remove(hostname)
       else
-        raise Scutil::Error.new("Error: :scutil_pty_regex must be a kind of Regexp", hostname)
+        raise Scutil::Error.new(":scutil_pty_regex must be a kind of Regexp", hostname)
       end
     end
     
@@ -114,7 +112,11 @@ module Scutil
     #   retval = Scutil.exec_command('hostname', 'username', '/bin/true')
     #   puts "True is false!" if retval != 0
     #
-    def exec_command(hostname, username, cmd, output=nil, options={})      
+    def exec_command(hostname, username, cmd, output=nil, new_options={})
+      # Fill in defaults
+      options = get_default_options
+      options.merge! new_options
+      
       # Do we need a PTY?
       pty_needed = check_pty_needed? cmd, options, hostname
       
@@ -127,18 +129,18 @@ module Scutil
           print "[#{hostname}] Using existing connection\n" if options[:scutil_verbose]
           conn = sys_conn.get_connection(hostname, username, pty_needed, options)
         else
-          sys_conn = SystemConnection.new(hostname)
+          sys_conn = SystemConnection.new(hostname, options)
           # Call get_connection first.  Don't add to cache unless established.
           conn = sys_conn.get_connection(hostname, username, pty_needed, options)
           print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
           Scutil.connection_cache << sys_conn
         end
       rescue Net::SSH::AuthenticationFailed => err
-        raise Scutil::Error.new("Error: Authenication failed for user: #{username}", hostname)
+        raise Scutil::Error.new("Authenication failed for user: #{username}", hostname)
       rescue SocketError => err
-        raise Scutil::Error.new("Error: " + err.message, hostname)
+        raise Scutil::Error.new(err.message, hostname)
       end
-      
+
       fh = $stdout
       if (output.nil?)
         fh = $stdout
@@ -148,13 +150,23 @@ module Scutil
       elsif (output.class == String)
         fh = File.open(output, 'w') unless output.empty?
       else
-        raise Scutil::Error.new("Error: Invalid output object type: #{output.class}.", hostname)
+        raise Scutil::Error.new("Invalid output object type: #{output.class}.", hostname)
       end
       
+      # If a custom password prompt regex has been defined, use it.
+      if (!options[:scutil_passwd_regex].nil? && 
+          (options[:scutil_passwd_regex].kind_of? Regexp))
+        passwd_regex = options[:scutil_passwd_regex]
+      else
+        raise Scutil::Error.new(":scutil_passwd_regex must be a kind of Regexp", hostname)
+      end
+
       # Setup channel callbacks
       odata = ""
       edata = ""
       exit_status = 0
+      # Crappy way of catching the first call to on_data...
+      on_start = true
       chan = conn.open_channel do |channel|
         print "[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n" if options[:scutil_verbose]
         if (pty_needed)
@@ -166,8 +178,25 @@ module Scutil
         end
         
         channel.on_data do |ch, data|
-#          print "on_data: #{data.size}\n" if options[:scutil_verbose]
-          odata += data
+          print "on_data: #{data.size}\n" if options[:scutil_verbose]
+#          $stdout.syswrite ">>> " + data
+          if (on_start)
+            if (data =~ passwd_regex)
+              if (options[:scutil_sudo_passwd].nil?)
+                # No password defined
+                if options[:scutil_prompt_passwd]
+                  options[:scutil_sudo_passwd] = ask("sudo password: ") {|q| q.echo = false}
+                else
+                  print "[#{conn.host}:#{channel.local_id}] skipping due to sudo password prompt.\n" if options[:scutil_verbose]
+                  channel.close
+                end
+              end
+              ch.send_data options[:scutil_sudo_passwd] + "\n"
+            end
+            on_start = false
+          else
+            odata += data
+          end
           
           # Only buffer some of the output before writing to disk (10M by default).
           if (odata.size >= Scutil.output_buffer_size)
@@ -198,7 +227,7 @@ module Scutil
       end
       
       conn.loop
-
+      
       # Write whatever is left
       fh.write odata
       
@@ -210,6 +239,18 @@ module Scutil
 
       # The return value of the remote command.
       return exit_status
+    end
+    
+    private
+    def get_default_options
+      { 
+        :scutil_verbose       => false,
+        :scutil_force_pty     => false,
+        :scutil_pty_regex     => DEFAULT_PTY_REGEX,
+        :scutil_passwd_regex  => DEFAULT_PASSWD_REGEX,
+        :scutil_prompt_passwd => false,
+        :scutil_sudo_passwd   => nil
+      }
     end
   end
 end
