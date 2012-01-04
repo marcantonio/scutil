@@ -8,7 +8,7 @@ class TestScutil < Test::Unit::TestCase
   TRUE_COMMAND  = '/bin/true'
   FALSE_COMMAND = '/bin/false'
   FAKE_COMMAND  = '/bin/no_such_command'
-  VERBOSE       = false
+  VERBOSE       = true
 
   @hostname = nil
   @port = nil
@@ -76,7 +76,6 @@ class TestScutil < Test::Unit::TestCase
   def test_exec_command_output
     divert_stdout
     @exec.exec_command('echo "alpha"')
-    # Scutil.exec_command(TestScutil.hostname, TestScutil.user, 'echo "alpha"', nil, { :port => TestScutil.port })
     revert_stdout
     assert_equal "alpha", @output.string.chomp
   end
@@ -110,16 +109,19 @@ class TestScutil < Test::Unit::TestCase
     assert_nil(conn.connection)
     assert_equal(0, ret_val)
   end
-
-#  def test_pty_requested_and_echo
-#    ret_val = @exec.exec_command('sudo ' + 'echo "alpha"')
-#    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
-#    assert_not_nil(conn.pty_connection)
-#    assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
-#    assert_nil(conn.connection)
-#    assert_equal(0, ret_val)
-#  end
-
+  
+  def test_pty_requested_and_echo
+#    divert_stdout
+    ret_val = @exec.exec_command('sudo ' + 'echo "alpha"')
+#    revert_stdout
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.pty_connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
+    assert_nil(conn.connection)
+    assert_equal(0, ret_val)
+#    assert_equal "alpha", @output.string.chomp
+  end
+  
   def test_option_pty_regex
     @exec.exec_command("env " + TRUE_COMMAND, nil, { :scutil_pty_regex => /^env / })
     conn = Scutil.connection_cache.fetch(TestScutil.hostname)
