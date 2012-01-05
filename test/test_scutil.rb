@@ -8,7 +8,8 @@ class TestScutil < Test::Unit::TestCase
   TRUE_COMMAND  = '/bin/true'
   FALSE_COMMAND = '/bin/false'
   FAKE_COMMAND  = '/bin/no_such_command'
-  VERBOSE       = true
+#  VERBOSE       = true
+  VERBOSE       = false
 
   @hostname = nil
   @port = nil
@@ -34,7 +35,6 @@ class TestScutil < Test::Unit::TestCase
     @exec = Scutil::Exec.new(TestScutil.hostname, TestScutil.user, 
                              { :port => TestScutil.port,
                                :scutil_verbose => VERBOSE,
-                               :scutil_prompt_passwd => true, 
                                :scutil_sudo_passwd => "c0r3d14l"
                              })
   end
@@ -111,15 +111,15 @@ class TestScutil < Test::Unit::TestCase
   end
   
   def test_pty_requested_and_echo
-#    divert_stdout
+    divert_stdout
     ret_val = @exec.exec_command('sudo ' + 'echo "alpha"')
-#    revert_stdout
+    revert_stdout
     conn = Scutil.connection_cache.fetch(TestScutil.hostname)
     assert_not_nil(conn.pty_connection)
     assert_instance_of(Net::SSH::Connection::Session, conn.pty_connection)
     assert_nil(conn.connection)
     assert_equal(0, ret_val)
-#    assert_equal "alpha", @output.string.chomp
+    assert_equal "alpha", @output.string.chomp
   end
   
   def test_option_pty_regex

@@ -40,7 +40,6 @@ module Scutil
   
   @connection_cache = ConnectionCache.new
   @output_buffer_size = DEFAULT_OUTPUT_BUFFER_SIZE
-  @has_highline = false
 
   class << self
     # All successfully established connections end up here for reuse
@@ -50,14 +49,10 @@ module Scutil
     # to write command output to _output_.
     attr_accessor :output_buffer_size
     
-    # Check for highline support to suppress echo.
-    attr_accessor :has_highline
-    begin
-      require 'highline/import'
-      Scutil.has_highline = true
-    rescue LoadError
-      Scutil.has_highline = false
-    end
+#    begin
+#      require 'highline/import'
+#    rescue LoadError
+#    end
     
     # Should we request a PTY?  Uses custom regex if defined in
     # +:scutil_pty_regex+.
@@ -174,7 +169,7 @@ module Scutil
       edata = ""
       exit_status = 0
       # Crappy way of catching the first call to on_data...
-      on_start = true
+      sudo_passwd_state = :new
       chan = conn.open_channel do |channel|
         print "[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n" if options[:scutil_verbose]
         if (pty_needed)
@@ -187,32 +182,25 @@ module Scutil
         
         channel.on_data do |ch, data|
           print "on_data: #{data.size}\n" if options[:scutil_verbose]
-          $stdout.syswrite ">>> " + data
-          if (on_start && (data =~ passwd_regex))
-            puts "here"
-            if (options[:scutil_sudo_passwd].nil?)
-                  puts "here too"
-              # No password defined
-              if options[:scutil_prompt_passwd]
-                if (Scutil.has_highline)
-                  options[:scutil_sudo_passwd] = ask("sudo password: ") {|q| q.echo = false}
-                else
-                  $stderr.print "HighLine not found. Password will be echoed.\n"
-                  print "sudo password: "
-                  $stdout.flush
-                  options[:scutil_sudo_passwd] = gets.chomp
-                end
-              else
-                print "[#{conn.host}:#{channel.local_id}] skipping due to sudo password prompt.\n" if options[:scutil_verbose]
+#          $stdout.syswrite ">>> " + data
+          if (sudo_passwd_state == :new)
+            if (data =~ passwd_regex)
+              if (options[:scutil_sudo_passwd].nil?)
+                # No password defined
+                raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password required for sudo.  Define in :scutil_sudo_passwd.", 
+                                        hostname)
                 channel.close
               end
+              ch.send_data options[:scutil_sudo_passwd] + "\n"
+            elsif (data == "\n")
+              sudo_passwd_state = :done 
+            else
+              sudo_passwd_state = :done
+              odata += data
             end
-            puts "and here" + options[:scutil_sudo_passwd] + "<<"
-            ch.send_data options[:scutil_sudo_passwd] + "\n"
           else
             odata += data
           end
-          on_start = false
           
           # Only buffer some of the output before writing to disk (10M by default).
           if (odata.size >= Scutil.output_buffer_size)
@@ -222,7 +210,7 @@ module Scutil
         end
         
         channel.on_extended_data do |ch, type, data|
-#          print "on_extended_data: #{data.size}\n" if options[:scutil_verbose]
+          print "on_extended_data: #{data.size}\n" if options[:scutil_verbose]
           edata += data
         end
         
@@ -264,7 +252,6 @@ module Scutil
         :scutil_force_pty     => false,
         :scutil_pty_regex     => DEFAULT_PTY_REGEX,
         :scutil_passwd_regex  => DEFAULT_PASSWD_REGEX,
-        :scutil_prompt_passwd => false,
         :scutil_sudo_passwd   => nil
       }
     end
