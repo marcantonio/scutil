@@ -72,7 +72,7 @@ see Scutil.
   require 'stringio'
 
   command_output = StringIO.new
-  Scutil.exec_command('servername1', 'mas', 'sudo cat /root/secrets.txt', command_output)
+  Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output)
   puts command_output.string
 
 == Installation:
