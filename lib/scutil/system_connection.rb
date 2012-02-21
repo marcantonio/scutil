@@ -19,9 +19,9 @@ module Scutil
       conn = nil
       # Local map has precedence.
       @options.merge!(options)
-      
-      scrub_options @options
-      
+
+      ssh_options = scrub_options @options
+      options = @options
       if (pty_needed)
         if !@pty_connection.nil?
           # Existing PTY connection
@@ -31,7 +31,7 @@ module Scutil
         
         # New PTY connection
         print "[#{hostname}] Opening new channel (pty) to system...\n" if @options[:scutil_verbose]
-        conn = Net::SSH.start(hostname, username, @options)
+        conn = Net::SSH.start(hostname, username, ssh_options)
         @pty_connection = conn
       else
         if !@connection.nil?
@@ -42,18 +42,19 @@ module Scutil
         
         # New non-PTY connection
         print "[#{hostname}] Opening channel (non-pty) to system...\n" if @options[:scutil_verbose]
-        conn = Net::SSH.start(hostname, username, @options)
+        conn = Net::SSH.start(hostname, username, ssh_options)
         @connection = conn
       end
-      
       return conn
     end
     
     # Remove scutil specific options.  The rest go to Net::SSH.
     def scrub_options(options)
-      options.delete(:scutil_verbose) if (options.has_key?(:scutil_verbose))
-      options.delete(:scutil_force_pty) if (options.has_key?(:scutil_force_pty))
-      options.delete(:scutil_pty_regex) if (options.has_key?(:scutil_pty_regex))
+      ssh_options = {}
+      options.each do |k, v|
+        ssh_options[k] = v if (k !~ /^scutil_+/)
+      end
+      return ssh_options
     end
     
     def to_s

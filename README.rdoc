@@ -3,42 +3,39 @@
 
 ==Description:
 
-Scutil <em>(pronounced "scuttle")</em> is a small Ruby library that
-makes using {Net::SSH}[http://net-ssh.github.com] to execute commands
-on remote systems even more convenient.
+Scutil <em>(pronounced "scuttle")</em> is a small Ruby library that makes using
+{Net::SSH}[http://net-ssh.github.com] to execute commands on remote systems even
+more convenient.
 
 It does this in three ways:
 
-First, it defines Scutil.exec_command which abstracts the callbacks
-and other setup necessary to connect to a system, execute a command,
-and capture the output and return value of that command.  You can
-roughly think of it as a generic <em>"Capistrano lite"</em> in this
-regard.
+First, it defines Scutil.exec_command which abstracts the callbacks and other
+setup necessary to connect to a system, execute a command, and capture the
+output and return value of that command.  You can roughly think of it as a
+generic <em>"Capistrano lite"</em> in this regard.
 
-Second, it tracks the connections used on all systems and reuses
-these connections where ever possible.
+Second, it tracks the connections used on all systems and reuses these
+connections where ever possible.
 
-Finally, scutil takes away the burden of managing data transfers over
-PTY connections.  It automatically requests PTYs where needed and
-makes them "binary safe" (this functionality is configurable and can
-be disabled).  PTYs are needed for some curses-based programs and,
-most importantly in scutil's context, for sudo.  A full discussion on
-PTYs is beyond the scope of this documentation.
+Finally, scutil takes away the burden of managing data transfers over PTY
+connections.  It automatically requests PTYs where needed and makes them "binary
+safe" (this functionality is configurable and can be disabled).  PTYs are needed
+for some curses-based programs and, most importantly in scutil's context, for
+sudo.  A full discussion on PTYs is beyond the scope of this documentation.
 
 The "_automatic_" part of PTY requests comes from a regex in
-Scutil.exec_command.  Basically, if _sudo_ is at the start of the
-command to be executed, scutil will request a PTY.  This regex is
-configurable through +:scutil_pty_regex+.  You can force a PTY request
-by specifying +:scutil_force_pty+ in the various _options_ arguments.
+Scutil.exec_command.  Basically, if _sudo_ is at the start of the command to be
+executed, scutil will request a PTY.  This regex is configurable through
++:scutil_pty_regex+.  You can force a PTY request by specifying
++:scutil_force_pty+ in the various _options_ arguments.
 
 All of this syntactic sugar can be used as a simple class method with
-Scutil.exec_command, as an instantiable class with Scutil::Exec, or as
-a mixin with the module Scutil.
+Scutil.exec_command, as an instantiable class with Scutil::Exec, or as a mixin
+with the module Scutil.
 
 ==Synopsis:
 
-You can use scutil in a few different ways, for more usage examples
-see Scutil.
+You can use scutil in a few different ways, for more usage examples see Scutil.
 
   require 'scutil'
 
@@ -83,22 +80,21 @@ see Scutil.
 
 The MIT License (MIT)
 
-Copyright (c) 2011 by Marc Soda
+Copyright (c) 2012 by Marc Soda
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

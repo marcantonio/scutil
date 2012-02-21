@@ -1,6 +1,11 @@
 
 ==Changelog
 
+===0.4.0 | 2011-02-21
+
+* Added built-in sudo password support.
+* Some new tests and documentation fixes.
+
 ===0.3.3 | 2011-12-20
 
 * Fixed bug when writing file to disk and then immediately reading the
