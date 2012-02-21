@@ -260,9 +260,9 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-comment"># Local map has precedence.</span>
   <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)
-  
-  <span class="ruby-identifier">scrub_options</span> <span class="ruby-ivar">@options</span>
-  
+
+  <span class="ruby-identifier">ssh_options</span> = <span class="ruby-identifier">scrub_options</span> <span class="ruby-ivar">@options</span>
+  <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@options</span>
   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">pty_needed</span>)
     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@pty_connection</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-comment"># Existing PTY connection</span>
@@ -272,7 +272,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
     
     <span class="ruby-comment"># New PTY connection</span>
     <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Opening new channel (pty) to system...\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:scutil_verbose</span>]
-    <span class="ruby-identifier">conn</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-ivar">@options</span>)
+    <span class="ruby-identifier">conn</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">ssh_options</span>)
     <span class="ruby-ivar">@pty_connection</span> = <span class="ruby-identifier">conn</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">nil?</span>
@@ -283,10 +283,9 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
     
     <span class="ruby-comment"># New non-PTY connection</span>
     <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Opening channel (non-pty) to system...\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:scutil_verbose</span>]
-    <span class="ruby-identifier">conn</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-ivar">@options</span>)
+    <span class="ruby-identifier">conn</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">ssh_options</span>)
     <span class="ruby-ivar">@connection</span> = <span class="ruby-identifier">conn</span>
   <span class="ruby-keyword">end</span>
-  
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">conn</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- get_connection-source -->
@@ -315,11 +314,13 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
 
           
           <div class="method-source-code" id="scrub_options-source">
-            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 53</span>
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">scrub_options</span>(<span class="ruby-identifier">options</span>)
-  <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_verbose</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_verbose</span>))
-  <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_force_pty</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_force_pty</span>))
-  <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scutil_pty_regex</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:scutil_pty_regex</span>))
+  <span class="ruby-identifier">ssh_options</span> = {}
+  <span class="ruby-identifier">options</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ssh_options</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">k</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">%r^scutil_+/</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">ssh_options</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- scrub_options-source -->
           
@@ -347,7 +348,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 59</span>
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;#{self.class}: #{@hostname}, @connection = #{@connection}, @pty_connection = #{@pty_connection}&quot;</span>
 <span class="ruby-keyword">end</span></pre>

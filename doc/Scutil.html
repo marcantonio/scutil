@@ -149,6 +149,17 @@
         <dd class="description"><p>Checks for a command starting with <em>sudo</em> by default.</p>
         
       
+        <dt id="DEFAULT_SUDO_PASSWD_FAILED_REGEX">DEFAULT_SUDO_PASSWD_FAILED_REGEX
+        
+        <dd class="description"><p>Default password failed prompt is _Sorry, try again_.</p>
+        
+      
+        <dt id="DEFAULT_SUDO_PASSWD_REGEX">DEFAULT_SUDO_PASSWD_REGEX
+        
+        <dd class="description"><p>Default password prompt is <a href="http://sudo">_</a> password for_. 
+Redhat based systems use <em>Password:</em> instead.</p>
+        
+      
         <dt id="SCUTIL_VERSION">SCUTIL_VERSION
         
         <dd class="description">
@@ -217,23 +228,16 @@ command output to <em>output</em>.</p>
 
           
           <div class="method-source-code" id="check_pty_needed-3F-source">
-            <pre><span class="ruby-comment"># File lib/scutil.rb, line 52</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_pty_needed?</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>)
-  <span class="ruby-identifier">regex</span> = <span class="ruby-constant">DEFAULT_PTY_REGEX</span>
-  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_force_pty</span>].<span class="ruby-identifier">nil?</span>)
-    <span class="ruby-comment"># If a custom regex has been defined, use it.</span>
-    <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>].<span class="ruby-identifier">nil?</span>)
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>
-        <span class="ruby-identifier">regex</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>]
-      <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Error: :scutil_pty_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
-      <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-keyword">return</span> (<span class="ruby-identifier">cmd</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">regex</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_force_pty</span>] <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+            <pre><span class="ruby-comment"># File lib/scutil.rb, line 61</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_pty_needed?</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>)      
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_force_pty</span>]
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;:scutil_pty_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> (<span class="ruby-identifier">cmd</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_pty_regex</span>]) <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- check_pty_needed-3F-source -->
           
@@ -261,12 +265,10 @@ command output to <em>output</em>.</p>
 
           
           <div class="method-source-code" id="clear-21-source">
-            <pre><span class="ruby-comment"># File lib/scutil.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/scutil.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">clear!</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
     <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-identifier">hostname</span>)
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Error: :scutil_pty_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- clear-21-source -->
@@ -283,7 +285,7 @@ command output to <em>output</em>.</p>
         
         <div class="method-heading">
           <span class="method-name">exec_command</span><span
-            class="method-args">(hostname, username, cmd, output=nil, options={})</span>
+            class="method-args">(hostname, username, cmd, output=nil, new_options={})</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -304,8 +306,8 @@ output will be directed to _$stdout_.</p>
 to see if output responds to <code>:write</code>.  The idea being that not
 only will a file handle have a <code>write</code> method, but also
 something like <code>StringIO</code>.  Using <code>StringIO</code> here
-makes it easy to capture the command's output in a string.  Suggestions on
-a better way to do this are definitely welcome.</em></p>
+makes it easy to capture the command's output in a string. Suggestions on a
+better way to do this are definitely welcome.</em></p>
 
 <p><a href="Scutil.html">Scutil</a> will automatically request a PTY if
 <em>sudo</em> is at the start of <em>cmd</em>.  This is driven by a regex
@@ -316,12 +318,25 @@ in <em>options</em>.</p>
 <p><a href="Scutil.html#method-c-exec_command">::exec_command</a> takes the
 following options:</p>
 <ul><li>
-<p>:scutil_verbose   =&gt; Extra output.</p>
+<p>:scutil_verbose                  =&gt; Extra output.</p>
 </li><li>
-<p>:scutil_force_pty =&gt; Force a PTY request (or not) for every channel.</p>
+<p>:scutil_force_pty                =&gt; Force a PTY request (or not) for
+every channel.</p>
 </li><li>
-<p>:scutil_pty_regex =&gt; Specific a custom regex here for use when scutil
-decides whether or not to request a PTY.</p>
+<p>:scutil_pty_regex                =&gt; Specific a custom regex here for use
+when scutil</p>
+
+<pre>decides whether or not to request a PTY.</pre>
+</li><li>
+<p>:scutil_sudo_passwd_regex        =&gt; If sudo requires a password you can
+specify the</p>
+
+<pre>prompt to look for, e.g., _Password:_ .</pre>
+</li><li>
+<p>:scutil_sudo_passwd_failed_regex =&gt; Regular expression for a sudo
+password failure.</p>
+</li><li>
+<p>:scutil_sudo_passwd              =&gt; The sudo password.</p>
 </li></ul>
 
 <p>In addition, any other options passed <a
@@ -334,17 +349,23 @@ the way it’s used, will return the remote command’s return value.</p>
 
 <pre>retval = Scutil.exec_command('hostname', 'username', '/bin/true')
 puts &quot;True is false!&quot; if retval != 0</pre>
+
+<p>See the test/ directory for more usage examples.</p>
           
 
           
           <div class="method-source-code" id="exec_command-source">
-            <pre><span class="ruby-comment"># File lib/scutil.rb, line 117</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={})      
+            <pre><span class="ruby-comment"># File lib/scutil.rb, line 121</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">new_options</span>={})
+      <span class="ruby-comment"># Fill in defaults</span>
+      <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get_default_options</span>
+      <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">new_options</span>
+      
       <span class="ruby-comment"># Do we need a PTY?</span>
       <span class="ruby-identifier">pty_needed</span> = <span class="ruby-identifier">check_pty_needed?</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">hostname</span>
       
-      <span class="ruby-comment"># Check for an existing connection in the cache based on the hostname.  If the </span>
-      <span class="ruby-comment"># hostname exists find a suitable connection.</span>
+      <span class="ruby-comment"># Check for an existing connection in the cache based on the hostname.  If</span>
+      <span class="ruby-comment"># the hostname exists find a suitable connection.</span>
       <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
       <span class="ruby-keyword">begin</span>
         <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
@@ -352,47 +373,99 @@ puts &quot;True is false!&quot; if retval != 0</pre>
           <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Using existing connection\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
         <span class="ruby-keyword">else</span>
-          <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">hostname</span>)
+          <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">options</span>)
           <span class="ruby-comment"># Call get_connection first.  Don't add to cache unless established.</span>
           <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
           <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Adding new connection to cache\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sys_conn</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationFailed</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: Authenication failed for user: #{username}&quot;</span>, <span class="ruby-identifier">hostname</span>)
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Authenication failed for user: #{username}&quot;</span>, <span class="ruby-identifier">hostname</span>)
       <span class="ruby-keyword">rescue</span> <span class="ruby-constant">SocketError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Error: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">err</span>.<span class="ruby-identifier">message</span>, <span class="ruby-identifier">hostname</span>)
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">err</span>.<span class="ruby-identifier">message</span>, <span class="ruby-identifier">hostname</span>)
       <span class="ruby-keyword">end</span>
       
       <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">$stdout</span>
       <span class="ruby-keyword">if</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">nil?</span>)
         <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">$stdout</span>
-      <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:write</span>)
-        <span class="ruby-comment"># XXX: This may not be a safe assumuption...</span>
+      <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:write</span>)  <span class="ruby-comment"># XXX: This may not be a safe assumuption...</span>
         <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">output</span>
       <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">String</span>)
         <span class="ruby-identifier">fh</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output</span>, <span class="ruby-string">'w'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: Invalid output object type: #{output.class}.&quot;</span>, <span class="ruby-identifier">hostname</span>)
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Invalid output object type: #{output.class}.&quot;</span>, <span class="ruby-identifier">hostname</span>)
+      <span class="ruby-keyword">end</span>
+      
+      <span class="ruby-comment"># If a custom password prompt regex has been defined, use it.</span>
+      <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_regex</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> 
+          (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>))
+        <span class="ruby-identifier">passwd_regex</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_regex</span>]
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;:scutil_sudo_passwd_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
+      <span class="ruby-keyword">end</span>
+      
+      <span class="ruby-comment"># If a custom bad password prompt regex has been defined, use it.</span>
+      <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_failed_regex</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> 
+          (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_failed_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>))
+        <span class="ruby-identifier">passwd_failed_regex</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_failed_regex</span>]
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;:scutil_sudo_passwd_failed_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
       <span class="ruby-keyword">end</span>
       
       <span class="ruby-comment"># Setup channel callbacks</span>
       <span class="ruby-identifier">odata</span> = <span class="ruby-string">&quot;&quot;</span>
       <span class="ruby-identifier">edata</span> = <span class="ruby-string">&quot;&quot;</span>
       <span class="ruby-identifier">exit_status</span> = <span class="ruby-value">0</span>
+      <span class="ruby-comment"># Catch the first call to on_data</span>
+      <span class="ruby-identifier">sudo_passwd_state</span> = <span class="ruby-value">:new</span>
       <span class="ruby-identifier">chan</span> = <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">open_channel</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">channel</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
         <span class="ruby-keyword">if</span> (<span class="ruby-identifier">pty_needed</span>)
           <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Requesting PTY...\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-comment"># OPOST is necessary, CS8 makes sense.  Revisit after broader testing.</span>
-          <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">request_pty</span>(<span class="ruby-value">:modes</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">CS8</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">OPOST</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> } ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">success</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">request_pty</span>(<span class="ruby-value">:modes</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">CS8</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, 
+                                <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">OPOST</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> } ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">success</span><span class="ruby-operator">|</span>
             <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Failed to get a PTY&quot;</span>, <span class="ruby-identifier">hostname</span>) <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">success</span>
           <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
         
         <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_data</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
 <span class="ruby-comment">#          print &quot;on_data: #{data.size}\n&quot; if options[:scutil_verbose]</span>
-          <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
+          
+          <span class="ruby-comment"># sudo password states are as follows:</span>
+          <span class="ruby-comment">#  :new     =&gt; Connection established, first data packet.</span>
+          <span class="ruby-comment">#  :waiting =&gt; Password sent, wating for reply.</span>
+          <span class="ruby-comment">#  :done    =&gt; Authenication complete or not required.</span>
+          <span class="ruby-keyword">case</span> (<span class="ruby-identifier">sudo_passwd_state</span>)
+          <span class="ruby-keyword">when</span> <span class="ruby-value">:new</span>
+            <span class="ruby-keyword">if</span> (<span class="ruby-identifier">data</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">passwd_regex</span>)
+              <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd</span>].<span class="ruby-identifier">nil?</span>)
+                <span class="ruby-comment"># No password defined</span>
+                <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Password required for sudo.  
+Define in :scutil_sudo_passwd.&quot;</span>, <span class="ruby-identifier">hostname</span>)
+                <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">close</span>
+              <span class="ruby-keyword">end</span>
+              <span class="ruby-identifier">ch</span>.<span class="ruby-identifier">send_data</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd</span>] <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n&quot;</span>
+              <span class="ruby-identifier">sudo_passwd_state</span> = <span class="ruby-value">:waiting</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
+              <span class="ruby-identifier">sudo_passwd_state</span> = <span class="ruby-value">:done</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">when</span> <span class="ruby-value">:waiting</span>
+<span class="ruby-comment">#            if (data == &quot;\n&quot;)</span>
+            <span class="ruby-keyword">if</span> (<span class="ruby-identifier">data</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">passwd_failed_regex</span>)
+              <span class="ruby-comment"># Bad sudo password</span>
+              <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Password failed for sudo.  
+Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correct failure response.&quot;</span>, 
+                                      <span class="ruby-identifier">hostname</span>)
+              <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">close</span>
+              <span class="ruby-identifier">sudo_passwd_state</span> = <span class="ruby-value">:done</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-comment"># NoOp for &quot;\n&quot;</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">else</span>
+            <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
+          <span class="ruby-keyword">end</span>
           
           <span class="ruby-comment"># Only buffer some of the output before writing to disk (10M by default).</span>
           <span class="ruby-keyword">if</span> (<span class="ruby-identifier">odata</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">output_buffer_size</span>)
@@ -402,7 +475,7 @@ puts &quot;True is false!&quot; if retval != 0</pre>
         <span class="ruby-keyword">end</span>
         
         <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_extended_data</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
-<span class="ruby-comment">#          print &quot;on_extended_data: #{data.size}\n&quot; if options[:scutil_verbose]</span>
+          <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;on_extended_data: #{data.size}\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
           <span class="ruby-identifier">edata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
         <span class="ruby-keyword">end</span>
         
@@ -423,16 +496,16 @@ puts &quot;True is false!&quot; if retval != 0</pre>
       <span class="ruby-keyword">end</span>
       
       <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">loop</span>
-
+      
       <span class="ruby-comment"># Write whatever is left</span>
       <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">odata</span>
       
       <span class="ruby-comment"># Close the file or you'll chase red herrings for two hours...</span>
       <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">fh</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">$stdout</span>
-
+      
       <span class="ruby-comment"># If extended_data was recieved there was a problem...</span>
       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Error: #{edata}&quot;</span>, <span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">exit_status</span>) <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">edata</span>.<span class="ruby-identifier">empty?</span>)
-
+      
       <span class="ruby-comment"># The return value of the remote command.</span>
       <span class="ruby-keyword">return</span> <span class="ruby-identifier">exit_status</span>
     <span class="ruby-keyword">end</span></pre>

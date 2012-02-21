@@ -261,14 +261,14 @@
 
           
           <div class="method-source-code" id="conn-source">
-            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 46</span>
+            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">conn</span>(<span class="ruby-identifier">pty_needed</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-ivar">@hostname</span>)
     <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-ivar">@hostname</span>)
     <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-ivar">@hostname</span>, <span class="ruby-ivar">@username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-ivar">@options</span>)
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@hostname</span>)
+    <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@hostname</span>, <span class="ruby-ivar">@options</span>)
     <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-ivar">@hostname</span>, <span class="ruby-ivar">@username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-ivar">@options</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">conn</span>
@@ -338,7 +338,6 @@ specified in the constructor.</p>
           <div class="method-source-code" id="set_options-source">
             <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_options</span>(<span class="ruby-identifier">options</span>={})
-  <span class="ruby-comment"># Local map has precedence.</span>
   <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)      
 <span class="ruby-keyword">end</span></pre>
           </div><!-- set_options-source -->
