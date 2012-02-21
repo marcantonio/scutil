@@ -15,7 +15,7 @@ module Scutil
   class Exec
     include Scutil
     attr_reader :hostname,:username
-
+    
     # Defaults to current user (ENV['USER'] if _username_ is not
     # specified.
     def initialize(hostname, username=nil, options={})
@@ -35,9 +35,8 @@ module Scutil
       set_options(options)
       Scutil.exec_command(@hostname, @username, cmd, output, @options)
     end
-
+    
     def set_options(options={})
-      # Local map has precedence.
       @options.merge!(options)      
     end
     

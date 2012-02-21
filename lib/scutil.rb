@@ -2,25 +2,24 @@
 =begin
 The MIT License (MIT)
 
-Copyright (C) 2011 by Marc Soda
+Copyright (C) 2012 by Marc Soda
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
 require 'net/ssh'
@@ -31,28 +30,30 @@ require 'scutil/system_connection'
 
 module Scutil
   SCUTIL_VERSION = '0.4.0'
+  
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
+  
   # Checks for a command starting with _sudo_ by default.
   DEFAULT_PTY_REGEX = /^\s*sudo/
-  # Default password prompt is _Password:_.
-  DEFAULT_PASSWD_REGEX = /^Password:/
+  
+  # Default password prompt is _[sudo] password for_.  Redhat based systems use
+  # _Password:_ instead.
+  DEFAULT_SUDO_PASSWD_REGEX = /^\[sudo\] password for/
+  # DEFAULT_PASSWD_REGEX = /^Password:/
+  
+  # Default password failed prompt is _Sorry, try again_.
+  DEFAULT_SUDO_PASSWD_FAILED_REGEX = /^Sorry, try again/
   
   @connection_cache = ConnectionCache.new
   @output_buffer_size = DEFAULT_OUTPUT_BUFFER_SIZE
-
+  
   class << self
-    # All successfully established connections end up here for reuse
-    # later.
+    # All successfully established connections end up here for reuse later.
     attr_accessor :connection_cache
-    # Set to 10M by default, this can be adjusted to tell scutil when
-    # to write command output to _output_.
+    # Set to 10M by default, this can be adjusted to tell scutil when to write
+    # command output to _output_.
     attr_accessor :output_buffer_size
-    
-#    begin
-#      require 'highline/import'
-#    rescue LoadError
-#    end
     
     # Should we request a PTY?  Uses custom regex if defined in
     # +:scutil_pty_regex+.
@@ -72,49 +73,51 @@ module Scutil
     def clear!(hostname)
       if (Scutil.connection_cache.exists?(hostname))
         Scutil.connection_cache.remove(hostname)
-      else
-        raise Scutil::Error.new(":scutil_pty_regex must be a kind of Regexp", hostname)
       end
     end
     
-    # Scutil.exec_command is used to execute a command, specified in
-    # _cmd_, on a remote system.  The return value and any ouput of
-    # the command are captured.
+    # Scutil.exec_command is used to execute a command, specified in _cmd_, on a
+    # remote system.  The return value and any ouput of the command are
+    # captured.
     #
-    # If _output_ is a string it will be treated as a filename to be
-    # opened (mode 'w') and all command output will be written to
-    # this file.  If _output_ is an IO object it will be treated as an
-    # open file handle.*  Finally, if _output_ is omitted, or an empty
-    # string, all command output will be directed to _$stdout_.
+    # If _output_ is a string it will be treated as a filename to be opened
+    # (mode 'w') and all command output will be written to this file.  If
+    # _output_ is an IO object it will be treated as an open file handle.*
+    # Finally, if _output_ is omitted, or an empty string, all command output
+    # will be directed to _$stdout_.
     #
-    # <em>*NB:* This isn't actually true.  The only check made is to
-    # see if _output_ responds to +:write+.  The idea being that not
-    # only will a file handle have a +write+ method, but also
-    # something like +StringIO+.  Using +StringIO+ here makes it easy
-    # to capture the command's output in a string.  Suggestions on a
-    # better way to do this are definitely welcome.</em>
+    # <em>*NB:* This isn't actually true.  The only check made is to see if
+    # _output_ responds to +:write+.  The idea being that not only will a file
+    # handle have a +write+ method, but also something like +StringIO+.  Using
+    # +StringIO+ here makes it easy to capture the command's output in a string.
+    # Suggestions on a better way to do this are definitely welcome.</em>
     #
-    # Scutil will automatically request a PTY if _sudo_ is at the
-    # start of _cmd_.  This is driven by a regex which is customizable
-    # via the option +:scutil_pty_regex+.  You can also force a PTY
-    # request by specifying +:scutil_force_pty+ in _options_.
+    # Scutil will automatically request a PTY if _sudo_ is at the start of
+    # _cmd_.  This is driven by a regex which is customizable via the option
+    # +:scutil_pty_regex+.  You can also force a PTY request by specifying
+    # +:scutil_force_pty+ in _options_.
     #
     # Scutil.exec_command takes the following options:
     #
-    # * :scutil_verbose   => Extra output.
-    # * :scutil_force_pty => Force a PTY request (or not) for every channel.
-    # * :scutil_pty_regex => Specific a custom regex here for use when scutil decides whether or not to request a PTY.
+    # * :scutil_verbose                  => Extra output.
+    # * :scutil_force_pty                => Force a PTY request (or not) for every channel.
+    # * :scutil_pty_regex                => Specific a custom regex here for use when scutil
+    #                                       decides whether or not to request a PTY.
+    # * :scutil_sudo_passwd_regex        => If sudo requires a password you can specify the
+    #                                       prompt to look for, e.g., _Password:_ .
+    # * :scutil_sudo_passwd_failed_regex => Regular expression for a sudo password failure.
+    # * :scutil_sudo_passwd              => The sudo password.
     #
-    # In addition, any other options passed Scutil.exec_command will
-    # be passed on to Net::SSH, _except_ those prefixed with
-    # _scutil__.
+    # In addition, any other options passed Scutil.exec_command will be passed
+    # on to Net::SSH, _except_ those prefixed with _scutil__.
     #
-    # All calls to Scutil.exec_command, regardless of the way it's
-    # used, will return the remote command's return value.
+    # All calls to Scutil.exec_command, regardless of the way it's used, will
+    # return the remote command's return value.
     #
     #   retval = Scutil.exec_command('hostname', 'username', '/bin/true')
     #   puts "True is false!" if retval != 0
     #
+    # See the test/ directory for more usage examples.
     def exec_command(hostname, username, cmd, output=nil, new_options={})
       # Fill in defaults
       options = get_default_options
@@ -123,8 +126,8 @@ module Scutil
       # Do we need a PTY?
       pty_needed = check_pty_needed? cmd, options, hostname
       
-      # Check for an existing connection in the cache based on the hostname.  If the 
-      # hostname exists find a suitable connection.
+      # Check for an existing connection in the cache based on the hostname.  If
+      # the hostname exists find a suitable connection.
       conn = nil
       begin
         if (Scutil.connection_cache.exists?(hostname))
@@ -143,12 +146,11 @@ module Scutil
       rescue SocketError => err
         raise Scutil::Error.new(err.message, hostname)
       end
-
+      
       fh = $stdout
       if (output.nil?)
         fh = $stdout
-      elsif (output.respond_to? :write)
-        # XXX: This may not be a safe assumuption...
+      elsif (output.respond_to? :write)  # XXX: This may not be a safe assumuption...
         fh = output
       elsif (output.class == String)
         fh = File.open(output, 'w') unless output.empty?
@@ -157,46 +159,71 @@ module Scutil
       end
       
       # If a custom password prompt regex has been defined, use it.
-      if (!options[:scutil_passwd_regex].nil? && 
-          (options[:scutil_passwd_regex].kind_of? Regexp))
-        passwd_regex = options[:scutil_passwd_regex]
+      if (!options[:scutil_sudo_passwd_regex].nil? && 
+          (options[:scutil_sudo_passwd_regex].kind_of? Regexp))
+        passwd_regex = options[:scutil_sudo_passwd_regex]
       else
-        raise Scutil::Error.new(":scutil_passwd_regex must be a kind of Regexp", hostname)
+        raise Scutil::Error.new(":scutil_sudo_passwd_regex must be a kind of Regexp", hostname)
       end
-
+      
+      # If a custom bad password prompt regex has been defined, use it.
+      if (!options[:scutil_sudo_passwd_failed_regex].nil? && 
+          (options[:scutil_sudo_passwd_failed_regex].kind_of? Regexp))
+        passwd_failed_regex = options[:scutil_sudo_passwd_failed_regex]
+      else
+        raise Scutil::Error.new(":scutil_sudo_passwd_failed_regex must be a kind of Regexp", hostname)
+      end
+      
       # Setup channel callbacks
       odata = ""
       edata = ""
       exit_status = 0
-      # Crappy way of catching the first call to on_data...
+      # Catch the first call to on_data
       sudo_passwd_state = :new
       chan = conn.open_channel do |channel|
         print "[#{conn.host}:#{channel.local_id}] Setting up callbacks...\n" if options[:scutil_verbose]
         if (pty_needed)
           print "[#{conn.host}:#{channel.local_id}] Requesting PTY...\n" if options[:scutil_verbose]
           # OPOST is necessary, CS8 makes sense.  Revisit after broader testing.
-          channel.request_pty(:modes => { Net::SSH::Connection::Term::CS8 => 1, Net::SSH::Connection::Term::OPOST => 0 } ) do |ch, success|
+          channel.request_pty(:modes => { Net::SSH::Connection::Term::CS8 => 1, 
+                                Net::SSH::Connection::Term::OPOST => 0 } ) do |ch, success|
             raise Scutil::Error.new("Failed to get a PTY", hostname) if !success
           end
         end
         
         channel.on_data do |ch, data|
-          print "on_data: #{data.size}\n" if options[:scutil_verbose]
-#          $stdout.syswrite ">>> " + data
-          if (sudo_passwd_state == :new)
+#          print "on_data: #{data.size}\n" if options[:scutil_verbose]
+          
+          # sudo password states are as follows:
+          #  :new     => Connection established, first data packet.
+          #  :waiting => Password sent, wating for reply.
+          #  :done    => Authenication complete or not required.
+          case (sudo_passwd_state)
+          when :new
             if (data =~ passwd_regex)
               if (options[:scutil_sudo_passwd].nil?)
                 # No password defined
-                raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password required for sudo.  Define in :scutil_sudo_passwd.", 
-                                        hostname)
+                raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password required for sudo.  
+Define in :scutil_sudo_passwd.", hostname)
                 channel.close
               end
               ch.send_data options[:scutil_sudo_passwd] + "\n"
-            elsif (data == "\n")
-              sudo_passwd_state = :done 
+              sudo_passwd_state = :waiting
             else
-              sudo_passwd_state = :done
               odata += data
+              sudo_passwd_state = :done
+            end
+          when :waiting
+#            if (data == "\n")
+            if (data =~ passwd_failed_regex)
+              # Bad sudo password
+              raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password failed for sudo.  
+Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correct failure response.", 
+                                      hostname)
+              channel.close
+              sudo_passwd_state = :done
+            else
+              # NoOp for "\n"
             end
           else
             odata += data
@@ -237,22 +264,24 @@ module Scutil
       
       # Close the file or you'll chase red herrings for two hours...
       fh.close unless fh == $stdout
-
+      
       # If extended_data was recieved there was a problem...
       raise Scutil::Error.new("Error: #{edata}", hostname, exit_status) unless (edata.empty?)
-
+      
       # The return value of the remote command.
       return exit_status
     end
     
     private
+    # Set the default options for connection.
     def get_default_options
       { 
-        :scutil_verbose       => false,
-        :scutil_force_pty     => false,
-        :scutil_pty_regex     => DEFAULT_PTY_REGEX,
-        :scutil_passwd_regex  => DEFAULT_PASSWD_REGEX,
-        :scutil_sudo_passwd   => nil
+        :scutil_verbose                  => false,
+        :scutil_force_pty                => false,
+        :scutil_pty_regex                => DEFAULT_PTY_REGEX,
+        :scutil_sudo_passwd_regex        => DEFAULT_PASSWD_REGEX,
+        :scutil_sudo_passwd_failed_regex => DEFAULT_PASSWD_FAILED_REGEX,
+        :scutil_sudo_passwd              => nil
       }
     end
   end
