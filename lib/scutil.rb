@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.0'
+  SCUTIL_VERSION = '0.4.1'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -37,12 +37,12 @@ module Scutil
   # Checks for a command starting with _sudo_ by default.
   DEFAULT_PTY_REGEX = /^\s*sudo/
   
-  # Default password prompt is _[sudo] password for_.  Redhat based systems use
+  # Default password prompt is <em>[sudo] password for</em>.  Redhat based systems use
   # _Password:_ instead.
   DEFAULT_SUDO_PASSWD_REGEX = /^\[sudo\] password for/
   # DEFAULT_PASSWD_REGEX = /^Password:/
   
-  # Default password failed prompt is _Sorry, try again_.
+  # Default password failed prompt is <em>Sorry, try again</em>.
   DEFAULT_SUDO_PASSWD_FAILED_REGEX = /^Sorry, try again/
   
   @connection_cache = ConnectionCache.new
@@ -82,9 +82,9 @@ module Scutil
     #
     # If _output_ is a string it will be treated as a filename to be opened
     # (mode 'w') and all command output will be written to this file.  If
-    # _output_ is an IO object it will be treated as an open file handle.*
+    # _output_ is an IO object it will be treated as an open file handle.
     # Finally, if _output_ is omitted, or an empty string, all command output
-    # will be directed to _$stdout_.
+    # will be directed to <em>$stdout</em>.
     #
     # <em>*NB:* This isn't actually true.  The only check made is to see if
     # _output_ responds to +:write+.  The idea being that not only will a file
@@ -101,10 +101,8 @@ module Scutil
     #
     # * :scutil_verbose                  => Extra output.
     # * :scutil_force_pty                => Force a PTY request (or not) for every channel.
-    # * :scutil_pty_regex                => Specific a custom regex here for use when scutil
-    #                                       decides whether or not to request a PTY.
-    # * :scutil_sudo_passwd_regex        => If sudo requires a password you can specify the
-    #                                       prompt to look for, e.g., _Password:_ .
+    # * :scutil_pty_regex                => Specific a custom regex here for use when scutil decides whether or not to request a PTY.
+    # * :scutil_sudo_passwd_regex        => If sudo requires a password you can specify the prompt to look for, e.g., _Password:_ .
     # * :scutil_sudo_passwd_failed_regex => Regular expression for a sudo password failure.
     # * :scutil_sudo_passwd              => The sudo password.
     #
@@ -112,12 +110,12 @@ module Scutil
     # on to Net::SSH, _except_ those prefixed with _scutil__.
     #
     # All calls to Scutil.exec_command, regardless of the way it's used, will
-    # return the remote command's return value.
+    # return the remote command's return value:
     #
     #   retval = Scutil.exec_command('hostname', 'username', '/bin/true')
     #   puts "True is false!" if retval != 0
     #
-    # See the test/ directory for more usage examples.
+    # See the _test_ directory for more usage examples.
     def exec_command(hostname, username, cmd, output=nil, new_options={})
       # Fill in defaults
       options = get_default_options
@@ -279,8 +277,8 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
         :scutil_verbose                  => false,
         :scutil_force_pty                => false,
         :scutil_pty_regex                => DEFAULT_PTY_REGEX,
-        :scutil_sudo_passwd_regex        => DEFAULT_PASSWD_REGEX,
-        :scutil_sudo_passwd_failed_regex => DEFAULT_PASSWD_FAILED_REGEX,
+        :scutil_sudo_passwd_regex        => DEFAULT_SUDO_PASSWD_REGEX,
+        :scutil_sudo_passwd_failed_regex => DEFAULT_SUDO_PASSWD_FAILED_REGEX,
         :scutil_sudo_passwd              => nil
       }
     end
