@@ -151,13 +151,13 @@
       
         <dt id="DEFAULT_SUDO_PASSWD_FAILED_REGEX">DEFAULT_SUDO_PASSWD_FAILED_REGEX
         
-        <dd class="description"><p>Default password failed prompt is _Sorry, try again_.</p>
+        <dd class="description"><p>Default password failed prompt is <em>Sorry, try again</em>.</p>
         
       
         <dt id="DEFAULT_SUDO_PASSWD_REGEX">DEFAULT_SUDO_PASSWD_REGEX
         
-        <dd class="description"><p>Default password prompt is <a href="http://sudo">_</a> password for_. 
-Redhat based systems use <em>Password:</em> instead.</p>
+        <dd class="description"><p>Default password prompt is <em>[sudo] password for</em>.  Redhat based
+systems use <em>Password:</em> instead.</p>
         
       
         <dt id="SCUTIL_VERSION">SCUTIL_VERSION
@@ -298,9 +298,9 @@ return value and any ouput of the command are captured.</p>
 
 <p>If <em>output</em> is a string it will be treated as a filename to be
 opened (mode ‘w’) and all command output will be written to this file.  If
-<em>output</em> is an IO object it will be treated as an open file handle.*
+<em>output</em> is an IO object it will be treated as an open file handle.
 Finally, if <em>output</em> is omitted, or an empty string, all command
-output will be directed to _$stdout_.</p>
+output will be directed to <em>$stdout</em>.</p>
 
 <p><strong><em>NB:</strong> This isn't actually true.  The only check made is
 to see if output responds to <code>:write</code>.  The idea being that not
@@ -324,14 +324,10 @@ following options:</p>
 every channel.</p>
 </li><li>
 <p>:scutil_pty_regex                =&gt; Specific a custom regex here for use
-when scutil</p>
-
-<pre>decides whether or not to request a PTY.</pre>
+when scutil decides whether or not to request a PTY.</p>
 </li><li>
 <p>:scutil_sudo_passwd_regex        =&gt; If sudo requires a password you can
-specify the</p>
-
-<pre>prompt to look for, e.g., _Password:_ .</pre>
+specify the prompt to look for, e.g., <em>Password:</em> .</p>
 </li><li>
 <p>:scutil_sudo_passwd_failed_regex =&gt; Regular expression for a sudo
 password failure.</p>
@@ -345,17 +341,17 @@ on to Net::SSH, <em>except</em> those prefixed with <em>scutil_</em>.</p>
 
 <p>All calls to <a
 href="Scutil.html#method-c-exec_command">::exec_command</a>, regardless of
-the way it’s used, will return the remote command’s return value.</p>
+the way it’s used, will return the remote command’s return value:</p>
 
 <pre>retval = Scutil.exec_command('hostname', 'username', '/bin/true')
 puts &quot;True is false!&quot; if retval != 0</pre>
 
-<p>See the test/ directory for more usage examples.</p>
+<p>See the <em>test</em> directory for more usage examples.</p>
           
 
           
           <div class="method-source-code" id="exec_command-source">
-            <pre><span class="ruby-comment"># File lib/scutil.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/scutil.rb, line 119</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">new_options</span>={})
       <span class="ruby-comment"># Fill in defaults</span>
       <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get_default_options</span>
