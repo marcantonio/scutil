@@ -1,6 +1,10 @@
 
 ==Changelog
 
+===0.4.2 | 2011-02-23
+
+* Fixed bug when using Ruby 1.8.
+
 ===0.4.1 | 2011-02-22
 
 * Fixed uninitialized constant error introduced in 0.4.0.

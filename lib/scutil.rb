@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.1'
+  SCUTIL_VERSION = '0.4.2'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
