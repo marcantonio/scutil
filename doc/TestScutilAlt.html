@@ -243,7 +243,7 @@
 
           
           <div class="method-source-code" id="divert_stdout-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 216</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 219</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">divert_stdout</span>
   <span class="ruby-ivar">@tmp_output</span> = <span class="ruby-identifier">$stdout</span>
   <span class="ruby-identifier">$stdout</span> = <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>
@@ -274,7 +274,7 @@
 
           
           <div class="method-source-code" id="revert_stdout-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 221</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 224</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">revert_stdout</span>
   <span class="ruby-ivar">@output</span> = <span class="ruby-identifier">$stdout</span>
   <span class="ruby-identifier">$stdout</span> = <span class="ruby-ivar">@tmp_output</span>
@@ -305,7 +305,7 @@
 
           
           <div class="method-source-code" id="setup-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 226</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 229</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
   <span class="ruby-ivar">@output</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@tmp_output</span> = <span class="ruby-keyword">nil</span>
@@ -336,7 +336,7 @@
 
           
           <div class="method-source-code" id="teardown-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 259</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 262</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">teardown</span>
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">remove_all</span>
 <span class="ruby-keyword">end</span></pre>
@@ -366,7 +366,7 @@
 
           
           <div class="method-source-code" id="test_added_to_cache-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 247</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 250</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_added_to_cache</span>
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">TRUE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">assert</span>(<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>))
@@ -397,7 +397,7 @@
 
           
           <div class="method-source-code" id="test_exec_command_output-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 252</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 255</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_exec_command_output</span>
   <span class="ruby-identifier">divert_stdout</span>
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-string">'echo &quot;alpha&quot;'</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
@@ -430,7 +430,7 @@
 
           
           <div class="method-source-code" id="test_exec_doesnt_raise_an_exception-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 231</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 234</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_exec_doesnt_raise_an_exception</span>
   <span class="ruby-identifier">assert_nothing_raised</span> <span class="ruby-keyword">do</span>
     <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">TRUE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
@@ -462,7 +462,7 @@
 
           
           <div class="method-source-code" id="test_run_failed_command-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 242</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 245</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_run_failed_command</span>
   <span class="ruby-identifier">retval</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">FALSE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">assert_not_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">retval</span>
@@ -493,7 +493,7 @@
 
           
           <div class="method-source-code" id="test_run_successful_command-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 237</span>
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 240</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_run_successful_command</span>
   <span class="ruby-identifier">retval</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">TRUE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">retval</span>

@@ -318,7 +318,11 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">scrub_options</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">ssh_options</span> = {}
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">ssh_options</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">k</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">%r^scutil_+/</span>)
+    <span class="ruby-keyword">if</span> (<span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^1.8/</span>)
+      <span class="ruby-identifier">ssh_options</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">%r^scutil_+/</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">ssh_options</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">k</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">%r^scutil_+/</span>)
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">ssh_options</span>
 <span class="ruby-keyword">end</span></pre>
@@ -348,7 +352,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 60</span>
+            <pre><span class="ruby-comment"># File lib/scutil/system_connection.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;#{self.class}: #{@hostname}, @connection = #{@connection}, @pty_connection = #{@pty_connection}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
