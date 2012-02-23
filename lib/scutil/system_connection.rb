@@ -52,7 +52,11 @@ module Scutil
     def scrub_options(options)
       ssh_options = {}
       options.each do |k, v|
-        ssh_options[k] = v if (k !~ /^scutil_+/)
+        if (RUBY_VERSION =~ /^1.8/)
+          ssh_options[k] = v if (k.to_s !~ /^scutil_+/)
+        else
+          ssh_options[k] = v if (k !~ /^scutil_+/)
+        end
       end
       return ssh_options
     end

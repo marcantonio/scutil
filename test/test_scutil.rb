@@ -1,5 +1,8 @@
 #!/usr/bin/ruby -I../lib -I.
 
+if RUBY_VERSION =~ /^1.8/
+  require 'rubygems'
+end
 require 'test/unit'
 require 'scutil'
 require 'stringio'
