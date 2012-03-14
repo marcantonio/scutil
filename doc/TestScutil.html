@@ -84,6 +84,8 @@
     
     <li><a href="#method-i-test_clear_connection">#test_clear_connection</a>
     
+    <li><a href="#method-i-test_download_file">#test_download_file</a>
+    
     <li><a href="#method-i-test_exception_raised">#test_exception_raised</a>
     
     <li><a href="#method-i-test_exec_command_output">#test_exec_command_output</a>
@@ -109,6 +111,8 @@
     <li><a href="#method-i-test_run_failed_command">#test_run_failed_command</a>
     
     <li><a href="#method-i-test_run_successful_command">#test_run_successful_command</a>
+    
+    <li><a href="#method-i-test_upload_file">#test_upload_file</a>
     
   </ul>
 </nav>
@@ -483,6 +487,39 @@
 
         
       </div><!-- test_clear_connection-method -->
+
+    
+      <div id="method-i-test_download_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_download_file</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_download_file-source">
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 164</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_download_file</span>
+  <span class="ruby-ivar">@exec</span>.<span class="ruby-identifier">download</span>(<span class="ruby-string">&quot;/bin/ls&quot;</span>, <span class="ruby-string">&quot;./ls-binary&quot;</span>)
+  <span class="ruby-identifier">conn</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>)
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-identifier">conn</span>.<span class="ruby-identifier">connection</span>)
+  <span class="ruby-identifier">assert_instance_of</span>(<span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>, <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">connection</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_download_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_download_file-method -->
 
     
       <div id="method-i-test_exception_raised" class="method-detail ">
@@ -911,6 +948,39 @@
 
         
       </div><!-- test_run_successful_command-method -->
+
+    
+      <div id="method-i-test_upload_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_upload_file</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_upload_file-source">
+            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 171</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_upload_file</span>
+  <span class="ruby-ivar">@exec</span>.<span class="ruby-identifier">upload</span>(<span class="ruby-string">&quot;./ls-binary&quot;</span>, <span class="ruby-string">&quot;ls-binary-up&quot;</span>)
+  <span class="ruby-identifier">conn</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>)
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-identifier">conn</span>.<span class="ruby-identifier">connection</span>)
+  <span class="ruby-identifier">assert_instance_of</span>(<span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>, <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">connection</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_upload_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_upload_file-method -->
 
     
     </section><!-- public-instance-method-details -->

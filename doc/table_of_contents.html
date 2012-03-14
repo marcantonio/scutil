@@ -31,6 +31,7 @@
     <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
     <ul class="initially-hidden">
       <li><a href="CHANGELOG_rdoc.html#label-Changelog">Changelog</a>
+      <li><a href="CHANGELOG_rdoc.html#label-0.4.3+%7C+2011-03-14">0.4.3 | 2011-03-14</a>
       <li><a href="CHANGELOG_rdoc.html#label-0.4.2+%7C+2011-02-23">0.4.2 | 2011-02-23</a>
       <li><a href="CHANGELOG_rdoc.html#label-0.4.1+%7C+2011-02-22">0.4.1 | 2011-02-22</a>
       <li><a href="CHANGELOG_rdoc.html#label-0.4.0+%7C+2011-02-21">0.4.0 | 2011-02-21</a>
@@ -117,9 +118,11 @@
   
     <li class="method"><a href="Scutil/Exec.html#method-i-conn">#conn &mdash; Scutil::Exec</a>
   
+    <li class="method"><a href="TestScutil.html#method-i-divert_stdout">#divert_stdout &mdash; TestScutil</a>
+  
     <li class="method"><a href="TestScutilAlt.html#method-i-divert_stdout">#divert_stdout &mdash; TestScutilAlt</a>
   
-    <li class="method"><a href="TestScutil.html#method-i-divert_stdout">#divert_stdout &mdash; TestScutil</a>
+    <li class="method"><a href="Scutil/Exec.html#method-i-download">#download &mdash; Scutil::Exec</a>
   
     <li class="method"><a href="Scutil/ConnectionCache.html#method-i-each">#each &mdash; Scutil::ConnectionCache</a>
   
@@ -135,9 +138,9 @@
   
     <li class="method"><a href="Scutil/ConnectionCache.html#method-i-remove_all">#remove_all &mdash; Scutil::ConnectionCache</a>
   
-    <li class="method"><a href="TestScutilAlt.html#method-i-revert_stdout">#revert_stdout &mdash; TestScutilAlt</a>
-  
     <li class="method"><a href="TestScutil.html#method-i-revert_stdout">#revert_stdout &mdash; TestScutil</a>
+  
+    <li class="method"><a href="TestScutilAlt.html#method-i-revert_stdout">#revert_stdout &mdash; TestScutilAlt</a>
   
     <li class="method"><a href="Scutil/SystemConnection.html#method-i-scrub_options">#scrub_options &mdash; Scutil::SystemConnection</a>
   
@@ -147,9 +150,9 @@
   
     <li class="method"><a href="TestScutilAlt.html#method-i-setup">#setup &mdash; TestScutilAlt</a>
   
-    <li class="method"><a href="TestScutilAlt.html#method-i-teardown">#teardown &mdash; TestScutilAlt</a>
-  
     <li class="method"><a href="TestScutil.html#method-i-teardown">#teardown &mdash; TestScutil</a>
+  
+    <li class="method"><a href="TestScutilAlt.html#method-i-teardown">#teardown &mdash; TestScutilAlt</a>
   
     <li class="method"><a href="TestScutilAlt.html#method-i-test_added_to_cache">#test_added_to_cache &mdash; TestScutilAlt</a>
   
@@ -159,15 +162,17 @@
   
     <li class="method"><a href="TestScutil.html#method-i-test_clear_connection">#test_clear_connection &mdash; TestScutil</a>
   
+    <li class="method"><a href="TestScutil.html#method-i-test_download_file">#test_download_file &mdash; TestScutil</a>
+  
     <li class="method"><a href="TestScutil.html#method-i-test_exception_raised">#test_exception_raised &mdash; TestScutil</a>
   
     <li class="method"><a href="TestScutil.html#method-i-test_exec_command_output">#test_exec_command_output &mdash; TestScutil</a>
   
     <li class="method"><a href="TestScutilAlt.html#method-i-test_exec_command_output">#test_exec_command_output &mdash; TestScutilAlt</a>
   
-    <li class="method"><a href="TestScutil.html#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception &mdash; TestScutil</a>
-  
     <li class="method"><a href="TestScutilAlt.html#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception &mdash; TestScutilAlt</a>
+  
+    <li class="method"><a href="TestScutil.html#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception &mdash; TestScutil</a>
   
     <li class="method"><a href="TestScutil.html#method-i-test_object_initialized">#test_object_initialized &mdash; TestScutil</a>
   
@@ -185,19 +190,23 @@
   
     <li class="method"><a href="TestScutil.html#method-i-test_pty_requested_and_echo">#test_pty_requested_and_echo &mdash; TestScutil</a>
   
-    <li class="method"><a href="TestScutilAlt.html#method-i-test_run_failed_command">#test_run_failed_command &mdash; TestScutilAlt</a>
-  
     <li class="method"><a href="TestScutil.html#method-i-test_run_failed_command">#test_run_failed_command &mdash; TestScutil</a>
+  
+    <li class="method"><a href="TestScutilAlt.html#method-i-test_run_failed_command">#test_run_failed_command &mdash; TestScutilAlt</a>
   
     <li class="method"><a href="TestScutilAlt.html#method-i-test_run_successful_command">#test_run_successful_command &mdash; TestScutilAlt</a>
   
     <li class="method"><a href="TestScutil.html#method-i-test_run_successful_command">#test_run_successful_command &mdash; TestScutil</a>
   
-    <li class="method"><a href="Scutil/SystemConnection.html#method-i-to_s">#to_s &mdash; Scutil::SystemConnection</a>
+    <li class="method"><a href="TestScutil.html#method-i-test_upload_file">#test_upload_file &mdash; TestScutil</a>
   
     <li class="method"><a href="Scutil/Error.html#method-i-to_s">#to_s &mdash; Scutil::Error</a>
   
+    <li class="method"><a href="Scutil/SystemConnection.html#method-i-to_s">#to_s &mdash; Scutil::SystemConnection</a>
+  
     <li class="method"><a href="Scutil/ConnectionCache.html#method-i-to_s">#to_s &mdash; Scutil::ConnectionCache</a>
+  
+    <li class="method"><a href="Scutil/Exec.html#method-i-upload">#upload &mdash; Scutil::Exec</a>
   
 </ul>
 

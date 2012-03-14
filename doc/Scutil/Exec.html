@@ -86,9 +86,13 @@
     
     <li><a href="#method-i-conn">#conn</a>
     
+    <li><a href="#method-i-download">#download</a>
+    
     <li><a href="#method-i-exec_command">#exec_command</a>
     
     <li><a href="#method-i-set_options">#set_options</a>
+    
+    <li><a href="#method-i-upload">#upload</a>
     
   </ul>
 </nav>
@@ -216,7 +220,7 @@
 
         <div class="method-description">
           
-          <p>Defaults to current user (<a href="http://'USER'">ENV</a> if
+          <p>Defaults to current user (<a href="http://'USER'">ENV</a>) if
 <em>username</em> is not specified.</p>
           
 
@@ -255,14 +259,15 @@
 
         <div class="method-description">
           
-          <p>Exposes the raw Net:SSH::Connection::Session object associated with
-@hostname.</p>
+          <p>Exposes the raw Net::SSH::Connection::Session object associated with
+<code>:hostname</code>.</p>
           
 
           
           <div class="method-source-code" id="conn-source">
-            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">conn</span>(<span class="ruby-identifier">pty_needed</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">sys_conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-ivar">@hostname</span>)
     <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-ivar">@hostname</span>)
@@ -271,6 +276,7 @@
     <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@hostname</span>, <span class="ruby-ivar">@options</span>)
     <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-ivar">@hostname</span>, <span class="ruby-ivar">@username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-ivar">@options</span>)
   <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sys_conn</span>
   <span class="ruby-identifier">conn</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- conn-source -->
@@ -281,6 +287,46 @@
 
         
       </div><!-- conn-method -->
+
+    
+      <div id="method-i-download" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">download</span><span
+            class="method-args">(remote, local=nil, options={}, &progress)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convenience method for downloading files.  Only available if you have
+Net::SCP.  This function simply calls Net::SCP#download! but reuses the SSH
+connection if it’s available.  All options and semantics are identical to
+<a href="../Scutil.html#method-c-exec_command">Scutil.exec_command</a> and
+Net::SCP.</p>
+
+<p><strong><em>NB:</strong> This function currently calls the
+<strong>blocking</strong> <code>download!</code> function rather than the
+<strong>non-blocking</strong> <code>download</code> function.  This is by
+design and will most likely be changed in the near future.</em></p>
+          
+
+          
+          <div class="method-source-code" id="download-source">
+            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">download</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
+  <span class="ruby-identifier">set_options</span> <span class="ruby-identifier">options</span>
+  <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">download!</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- download-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- download-method -->
 
     
       <div id="method-i-exec_command" class="method-detail ">
@@ -304,7 +350,7 @@ specified in the constructor.</p>
 
           
           <div class="method-source-code" id="exec_command-source">
-            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec_command</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">output</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-comment"># Local map has precedence.</span>
   <span class="ruby-identifier">set_options</span>(<span class="ruby-identifier">options</span>)
@@ -331,12 +377,12 @@ specified in the constructor.</p>
 
         <div class="method-description">
           
-          
+          <p>Alter the options set on this instance.</p>
           
 
           
           <div class="method-source-code" id="set_options-source">
-            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 39</span>
+            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_options</span>(<span class="ruby-identifier">options</span>={})
   <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)      
 <span class="ruby-keyword">end</span></pre>
@@ -348,6 +394,46 @@ specified in the constructor.</p>
 
         
       </div><!-- set_options-method -->
+
+    
+      <div id="method-i-upload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">upload</span><span
+            class="method-args">(local, remote, options={}, &progress)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convenience method for uploading files.  Only available if you have
+Net::SCP.  This function simply calls Net::SCP#upload! but reuses the SSH
+connection if it’s available.  All options and semantics are identical to
+<a href="../Scutil.html#method-c-exec_command">Scutil.exec_command</a> and
+Net::SCP.</p>
+
+<p><strong><em>NB:</strong> This function currently calls the
+<strong>blocking</strong> <code>upload!</code> function rather than the
+<strong>non-blocking</strong> upload function.  This is by design and will
+most likely be changed in the near future.</em></p>
+          
+
+          
+          <div class="method-source-code" id="upload-source">
+            <pre><span class="ruby-comment"># File lib/scutil/exec.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">upload</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
+  <span class="ruby-identifier">set_options</span> <span class="ruby-identifier">options</span>
+  <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">upload!</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- upload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- upload-method -->
 
     
     </section><!-- public-instance-method-details -->
