@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.2'
+  SCUTIL_VERSION = '0.4.3'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -212,7 +212,6 @@ Define in :scutil_sudo_passwd.", hostname)
               sudo_passwd_state = :done
             end
           when :waiting
-#            if (data == "\n")
             if (data =~ passwd_failed_regex)
               # Bad sudo password
               raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password failed for sudo.  
