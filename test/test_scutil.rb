@@ -101,7 +101,7 @@ class TestScutil < Test::Unit::TestCase
     assert_instance_of(Net::SSH::Connection::Session, conn.connection)
     assert_nil(conn.pty_connection)
   end
-  
+
   def test_pty_requested
     # XXX: check retvals everywhere!
     ret_val = @exec.exec_command("sudo " + TRUE_COMMAND)
@@ -161,6 +161,20 @@ class TestScutil < Test::Unit::TestCase
     assert_match(/\[#{TestScutil.hostname}\]/, @output.string)
   end
   
+  def test_download_file
+    @exec.download("/bin/ls", "./ls-binary")
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.connection)
+  end
+  
+  def test_upload_file
+    @exec.upload("./ls-binary", "ls-binary-up")
+    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
+    assert_not_nil(conn.connection)
+    assert_instance_of(Net::SSH::Connection::Session, conn.connection)
+  end
+
 #  def test_sudo_passwd
 #    ret_val = @exec.exec_command('sudo ' + TRUE_COMMAND, nil, { :scutil_sudo_passwd => "p4ssw0rd", :scutil_sudo_passwd_regex => /^Password:/ })
 #    conn = Scutil.connection_cache.fetch(TestScutil.hostname)
