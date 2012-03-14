@@ -1,7 +1,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'scutil'
-  s.version     = '0.4.2pre3'
+  s.version     = '0.4.3'
   s.date        = '2012-03-14'
   s.summary     = 'SSH Command UTILity'
   s.description = <<-EOF
