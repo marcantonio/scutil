@@ -1,523 +1,576 @@
-<!DOCTYPE html>
-
-<html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 
-<title>class TestScutilAlt - SSH Command UTILity</title>
+  <title>Class: TestScutilAlt</title>
 
-<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+  <link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
 
-<script type="text/javascript">
-  var rdoc_rel_prefix = "./";
-</script>
+  <script src="./js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/darkfish.js" type="text/javascript" charset="utf-8"></script>
 
-<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
-<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
-<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
-<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
-<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
-
-
+</head>
 <body id="top" class="class">
-<nav id="metadata">
-  <nav id="home-section" class="section">
-  <h3 class="section-header">
-    <a href="./index.html">Home</a>
-    <a href="./table_of_contents.html#classes">Classes</a>
-    <a href="./table_of_contents.html#methods">Methods</a>
-  </h3>
-</nav>
 
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
 
-  <nav id="search-section" class="section project-section" class="initially-hidden">
-  <form action="#" method="get" accept-charset="utf-8">
-    <h3 class="section-header">
-      <input type="text" name="search" placeholder="Search" id="search-field"
-             title="Type to search, Up and Down to navigate, Enter to load">
-    </h3>
-  </form>
-
-  <ul id="search-results" class="initially-hidden"></ul>
-</nav>
-
-
-  <div id="file-metadata">
-    <nav id="file-list-section" class="section">
-  <h3 class="section-header">Defined In</h3>
-  <ul>
-    <li>test/test_scutil.rb
-  </ul>
-</nav>
-
-    
-  </div>
-
-  <div id="class-metadata">
-    
-    <nav id="parent-class-section" class="section">
-  <h3 class="section-header">Parent</h3>
-  
-  <p class="link">Test::Unit::TestCase
-  
-</nav>
-
-    
-    <!-- Method Quickref -->
-<nav id="method-list-section" class="section">
-  <h3 class="section-header">Methods</h3>
-
-  <ul class="link-list">
-    
-    <li><a href="#method-i-divert_stdout">#divert_stdout</a>
-    
-    <li><a href="#method-i-revert_stdout">#revert_stdout</a>
-    
-    <li><a href="#method-i-setup">#setup</a>
-    
-    <li><a href="#method-i-teardown">#teardown</a>
-    
-    <li><a href="#method-i-test_added_to_cache">#test_added_to_cache</a>
-    
-    <li><a href="#method-i-test_exec_command_output">#test_exec_command_output</a>
-    
-    <li><a href="#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception</a>
-    
-    <li><a href="#method-i-test_run_failed_command">#test_run_failed_command</a>
-    
-    <li><a href="#method-i-test_run_successful_command">#test_run_successful_command</a>
-    
-  </ul>
-</nav>
-
-  </div>
-
-  <div id="project-metadata">
-    <nav id="fileindex-section" class="section project-section">
-  <h3 class="section-header">Pages</h3>
-
-  <ul>
-  
-    <li class="file"><a href="./CHANGELOG_rdoc.html">CHANGELOG</a>
-  
-    <li class="file"><a href="./README_rdoc.html">README</a>
-  
-    <li class="file"><a href="./THANKS_rdoc.html">THANKS</a>
-  
-  </ul>
-</nav>
-
-    <nav id="classindex-section" class="section project-section">
-  <h3 class="section-header">Class and Module Index</h3>
-
-  <ul class="link-list">
-  
-    <li><a href="./Scutil.html">Scutil</a>
-  
-    <li><a href="./Scutil/ConnectionCache.html">Scutil::ConnectionCache</a>
-  
-    <li><a href="./Scutil/Error.html">Scutil::Error</a>
-  
-    <li><a href="./Scutil/Exec.html">Scutil::Exec</a>
-  
-    <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a>
-  
-    <li><a href="./TestScutil.html">TestScutil</a>
-  
-    <li><a href="./TestScutilAlt.html">TestScutilAlt</a>
-  
-  </ul>
-</nav>
-
-  </div>
-</nav>
-
-<div id="documentation">
-  <h1 class="class">class TestScutilAlt</h1>
-
-  <div id="description" class="description">
-    
-  </div><!-- description -->
-
-  
-  
-  
-  <section id="5Buntitled-5D" class="documentation-section">
-    
-
-    
-
-    
-    <!-- Constants -->
-    <section id="constants-list" class="section">
-      <h3 class="section-header">Constants</h3>
-      <dl>
-      
-        <dt id="FAKE_COMMAND">FAKE_COMMAND
-        
-        <dd class="description">
-        
-      
-        <dt id="FALSE_COMMAND">FALSE_COMMAND
-        
-        <dd class="description">
-        
-      
-        <dt id="TRUE_COMMAND">TRUE_COMMAND
-        
-        <dd class="description">
-        
-      
-      </dl>
-    </section>
-    
-
-    
-    <!-- Attributes -->
-    <section id="attribute-method-details" class="method-section section">
-      <h3 class="section-header">Attributes</h3>
-
-      
-      <div id="attribute-c-hostname" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">hostname</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="./test/test_scutil_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="test/test_scutil.rb">test/test_scutil.rb</a></li>
+          
+          </ul>
         </div>
       </div>
-      
-      <div id="attribute-c-port" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">port</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
 
-        <div class="method-description">
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
         
+        <p class="link">Test::Unit::TestCase</p>
         
-        
-        </div>
       </div>
       
-      <div id="attribute-c-user" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">user</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
 
-        <div class="method-description">
-        
-        
-        
-        </div>
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-i-divert_stdout">#divert_stdout</a></li>
+          
+          <li><a href="#method-i-revert_stdout">#revert_stdout</a></li>
+          
+          <li><a href="#method-i-setup">#setup</a></li>
+          
+          <li><a href="#method-i-teardown">#teardown</a></li>
+          
+          <li><a href="#method-i-test_added_to_cache">#test_added_to_cache</a></li>
+          
+          <li><a href="#method-i-test_exec_command_output">#test_exec_command_output</a></li>
+          
+          <li><a href="#method-i-test_exec_doesnt_raise_an_exception">#test_exec_doesnt_raise_an_exception</a></li>
+          
+          <li><a href="#method-i-test_run_failed_command">#test_run_failed_command</a></li>
+          
+          <li><a href="#method-i-test_run_successful_command">#test_run_successful_command</a></li>
+          
+        </ul>
       </div>
       
-    </section><!-- attribute-method-details -->
-    
 
-    <!-- Methods -->
-    
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
+      
+    </div>
 
-    
-      <div id="method-i-divert_stdout" class="method-detail ">
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
         
-        <div class="method-heading">
-          <span class="method-name">divert_stdout</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+          <li class="file"><a href="./CHANGELOG_rdoc.html">CHANGELOG.rdoc</a></li>
+        
+          <li class="file"><a href="./README_rdoc.html">README.rdoc</a></li>
+        
+          <li class="file"><a href="./THANKS_rdoc.html">THANKS.rdoc</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="./images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="./Scutil.html">Scutil</a></li>
+        
+          <li><a href="./Scutil/ConnectionCache.html">Scutil::ConnectionCache</a></li>
+        
+          <li><a href="./Scutil/Error.html">Scutil::Error</a></li>
+        
+          <li><a href="./Scutil/Exec.html">Scutil::Exec</a></li>
+        
+          <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
+        
+          <li><a href="./TestScutil.html">TestScutil</a></li>
+        
+          <li><a href="./TestScutilAlt.html">TestScutilAlt</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">TestScutilAlt</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+      <!-- Constants -->
+      <div id="constants-list" class="section">
+        <h3 class="section-header">Constants</h3>
+        <dl>
+        
+          <dt><a name="FAKE_COMMAND">FAKE_COMMAND</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+          <dt><a name="FALSE_COMMAND">FALSE_COMMAND</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+          <dt><a name="TRUE_COMMAND">TRUE_COMMAND</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+        </dl>
+      </div>
+      
+
+      
+      <!-- Attributes -->
+      <div id="attribute-method-details" class="method-section section">
+        <h3 class="section-header">Attributes</h3>
+
+        
+        <div id="hostname-attribute-method" class="method-detail">
+          <a name="hostname"></a>
+          
+          <a name="hostname="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">hostname</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
         </div>
         
+        <div id="port-attribute-method" class="method-detail">
+          <a name="port"></a>
+          
+          <a name="port="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">port</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
 
-        <div class="method-description">
+          <div class="method-description">
           
           
           
+          </div>
+        </div>
+        
+        <div id="user-attribute-method" class="method-detail">
+          <a name="user"></a>
+          
+          <a name="user="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">user</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
+        </div>
+        
+      </div><!-- attribute-method-details -->
+      
+
+      <!-- Methods -->
+      
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="divert_stdout-method" class="method-detail ">
+          <a name="method-i-divert_stdout"></a>
 
           
-          <div class="method-source-code" id="divert_stdout-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 233</span>
+          <div class="method-heading">
+            <span class="method-name">divert_stdout</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="divert_stdout-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 233</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">divert_stdout</span>
   <span class="ruby-ivar">@tmp_output</span> = <span class="ruby-identifier">$stdout</span>
   <span class="ruby-identifier">$stdout</span> = <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- divert_stdout-source -->
-          
-        </div>
+            </div><!-- divert_stdout-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- divert_stdout-method -->
-
-    
-      <div id="method-i-revert_stdout" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">revert_stdout</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="revert_stdout-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 238</span>
+        </div><!-- divert_stdout-method -->
+
+      
+        <div id="revert_stdout-method" class="method-detail ">
+          <a name="method-i-revert_stdout"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">revert_stdout</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="revert_stdout-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 238</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">revert_stdout</span>
   <span class="ruby-ivar">@output</span> = <span class="ruby-identifier">$stdout</span>
   <span class="ruby-identifier">$stdout</span> = <span class="ruby-ivar">@tmp_output</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- revert_stdout-source -->
-          
-        </div>
+            </div><!-- revert_stdout-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- revert_stdout-method -->
-
-    
-      <div id="method-i-setup" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">setup</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="setup-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 243</span>
+        </div><!-- revert_stdout-method -->
+
+      
+        <div id="setup-method" class="method-detail ">
+          <a name="method-i-setup"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">setup</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="setup-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 243</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
   <span class="ruby-ivar">@output</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@tmp_output</span> = <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- setup-source -->
-          
-        </div>
+            </div><!-- setup-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- setup-method -->
-
-    
-      <div id="method-i-teardown" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">teardown</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="teardown-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 276</span>
+        </div><!-- setup-method -->
+
+      
+        <div id="teardown-method" class="method-detail ">
+          <a name="method-i-teardown"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">teardown</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="teardown-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 276</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">teardown</span>
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">remove_all</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- teardown-source -->
-          
-        </div>
+            </div><!-- teardown-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- teardown-method -->
-
-    
-      <div id="method-i-test_added_to_cache" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">test_added_to_cache</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="test_added_to_cache-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 264</span>
+        </div><!-- teardown-method -->
+
+      
+        <div id="test_added_to_cache-method" class="method-detail ">
+          <a name="method-i-test_added_to_cache"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">test_added_to_cache</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="test_added_to_cache-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 264</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_added_to_cache</span>
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">TRUE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">assert</span>(<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>))
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- test_added_to_cache-source -->
-          
-        </div>
+            </div><!-- test_added_to_cache-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- test_added_to_cache-method -->
-
-    
-      <div id="method-i-test_exec_command_output" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">test_exec_command_output</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="test_exec_command_output-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 269</span>
+        </div><!-- test_added_to_cache-method -->
+
+      
+        <div id="test_exec_command_output-method" class="method-detail ">
+          <a name="method-i-test_exec_command_output"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">test_exec_command_output</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="test_exec_command_output-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 269</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_exec_command_output</span>
   <span class="ruby-identifier">divert_stdout</span>
   <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-string">'echo &quot;alpha&quot;'</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">revert_stdout</span>
   <span class="ruby-identifier">assert_equal</span> <span class="ruby-string">&quot;alpha&quot;</span>, <span class="ruby-ivar">@output</span>.<span class="ruby-identifier">string</span>.<span class="ruby-identifier">chomp</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- test_exec_command_output-source -->
-          
-        </div>
+            </div><!-- test_exec_command_output-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- test_exec_command_output-method -->
-
-    
-      <div id="method-i-test_exec_doesnt_raise_an_exception" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">test_exec_doesnt_raise_an_exception</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="test_exec_doesnt_raise_an_exception-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 248</span>
+        </div><!-- test_exec_command_output-method -->
+
+      
+        <div id="test_exec_doesnt_raise_an_exception-method" class="method-detail ">
+          <a name="method-i-test_exec_doesnt_raise_an_exception"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">test_exec_doesnt_raise_an_exception</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="test_exec_doesnt_raise_an_exception-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 248</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_exec_doesnt_raise_an_exception</span>
   <span class="ruby-identifier">assert_nothing_raised</span> <span class="ruby-keyword">do</span>
     <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">TRUE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- test_exec_doesnt_raise_an_exception-source -->
-          
-        </div>
+            </div><!-- test_exec_doesnt_raise_an_exception-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- test_exec_doesnt_raise_an_exception-method -->
-
-    
-      <div id="method-i-test_run_failed_command" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">test_run_failed_command</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="test_run_failed_command-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 259</span>
+        </div><!-- test_exec_doesnt_raise_an_exception-method -->
+
+      
+        <div id="test_run_failed_command-method" class="method-detail ">
+          <a name="method-i-test_run_failed_command"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">test_run_failed_command</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="test_run_failed_command-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 259</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_run_failed_command</span>
   <span class="ruby-identifier">retval</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">FALSE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">assert_not_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">retval</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- test_run_failed_command-source -->
-          
-        </div>
+            </div><!-- test_run_failed_command-source -->
+            
+          </div>
 
-        
-
-        
-      </div><!-- test_run_failed_command-method -->
-
-    
-      <div id="method-i-test_run_successful_command" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">test_run_successful_command</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
           
 
           
-          <div class="method-source-code" id="test_run_successful_command-source">
-            <pre><span class="ruby-comment"># File test/test_scutil.rb, line 254</span>
+        </div><!-- test_run_failed_command-method -->
+
+      
+        <div id="test_run_successful_command-method" class="method-detail ">
+          <a name="method-i-test_run_successful_command"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">test_run_successful_command</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="test_run_successful_command-source">
+<pre>
+<span class="ruby-comment"># File test/test_scutil.rb, line 254</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_run_successful_command</span>
   <span class="ruby-identifier">retval</span> = <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">hostname</span>, <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">user</span>, <span class="ruby-constant">TRUE_COMMAND</span>, <span class="ruby-keyword">nil</span>, { <span class="ruby-value">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TestScutil</span>.<span class="ruby-identifier">port</span> })
   <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">retval</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- test_run_successful_command-source -->
+            </div><!-- test_run_successful_command-source -->
+            
+          </div>
+
           
-        </div>
 
-        
+          
+        </div><!-- test_run_successful_command-method -->
 
-        
-      </div><!-- test_run_successful_command-method -->
-
+      
+      </div><!-- public-instance-method-details -->
     
-    </section><!-- public-instance-method-details -->
+    </div><!-- 5Buntitled-5D -->
   
-  </section><!-- 5Buntitled-5D -->
 
-</div><!-- documentation -->
+  </div><!-- documentation -->
 
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
 
-<footer id="validator-badges">
-  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
-  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
-</footer>
+</body>
+</html>
 
