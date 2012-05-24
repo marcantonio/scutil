@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.3'
+  SCUTIL_VERSION = '0.4.4'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -57,7 +57,6 @@ module Scutil
     
     # Should we request a PTY?  Uses custom regex if defined in
     # +:scutil_pty_regex+.
-    #
     def check_pty_needed?(cmd, options, hostname)      
       if options[:scutil_force_pty]
         return true
@@ -124,26 +123,7 @@ module Scutil
       # Do we need a PTY?
       pty_needed = check_pty_needed? cmd, options, hostname
       
-      # Check for an existing connection in the cache based on the hostname.  If
-      # the hostname exists find a suitable connection.
-      conn = nil
-      begin
-        if (Scutil.connection_cache.exists?(hostname))
-          sys_conn = Scutil.connection_cache.fetch(hostname)
-          print "[#{hostname}] Using existing connection\n" if options[:scutil_verbose]
-          conn = sys_conn.get_connection(hostname, username, pty_needed, options)
-        else
-          sys_conn = SystemConnection.new(hostname, options)
-          # Call get_connection first.  Don't add to cache unless established.
-          conn = sys_conn.get_connection(hostname, username, pty_needed, options)
-          print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
-          Scutil.connection_cache << sys_conn
-        end
-      rescue Net::SSH::AuthenticationFailed => err
-        raise Scutil::Error.new("Authenication failed for user: #{username}", hostname)
-      rescue SocketError => err
-        raise Scutil::Error.new(err.message, hostname)
-      end
+      conn = find_connection(hostname, username, pty_needed, options)
       
       fh = $stdout
       if (output.nil?)
@@ -269,6 +249,70 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
       return exit_status
     end
     
+    begin
+      require 'net/scp'
+    rescue LoadError
+    end
+    
+    if defined? Net::SCP
+      # Convenience method for uploading files.  Only available if you have
+      # Net::SCP.  This function simply calls Net::SCP#upload! but reuses the
+      # SSH connection if it's available.  All options and semantics are
+      # identical to Scutil.exec_command and Net::SCP.
+      #
+      # <em>*NB:* This function currently calls the *blocking* Net::SCP#upload!
+      # function rather than the *non-blocking* #upload function.  This is by
+      # design and will most likely be changed in the near future.</em>
+      def upload(hostname, username, local, remote, new_options={}, &progress)
+        options = get_default_options
+        options.merge! new_options
+        conn = find_connection(hostname, username, false, options)
+        conn.scp.upload!(local, remote, options, &progress)
+      end
+      
+      # Convenience method for downloading files.  Only available if you have
+      # Net::SCP.  This function simply calls Net::SCP#download! but reuses the
+      # SSH connection if it's available.  All options and semantics are
+      # identical to Scutil.exec_command and Net::SCP.  If _local_ is nil the
+      # downloaded file will be stored in a string in memory returned by
+      # +download+.
+      #
+      # <em>*NB:* This function currently calls the *blocking* Net::SCP#download!
+      # function rather than the *non-blocking* #download function.  This is by
+      # design and will most likely be changed in the near future.</em>
+      def download(hostname, username, remote, local=nil, new_options={}, &progress)
+        options = get_default_options
+        options.merge! new_options
+        conn = find_connection(hostname, username, false, options)
+        conn.scp.download!(remote, local, options, &progress)
+      end
+    end
+    
+    # Check for an existing connection in the cache based on _hostname_.  If the
+    # _hostname_ exists find a suitable connection.  Otherwise establish a
+    # connection and add it to the pool.
+    def find_connection(hostname, username, pty_needed=false, options)
+      conn = nil
+      begin
+        if (Scutil.connection_cache.exists?(hostname))
+          sys_conn = Scutil.connection_cache.fetch(hostname)
+          print "[#{hostname}] Using existing connection\n" if options[:scutil_verbose]
+          conn = sys_conn.get_connection(hostname, username, pty_needed, options)
+        else
+          sys_conn = SystemConnection.new(hostname, options)
+          # Call get_connection first.  Don't add to cache unless established.
+          conn = sys_conn.get_connection(hostname, username, pty_needed, options)
+          print "[#{hostname}] Adding new connection to cache\n" if options[:scutil_verbose]
+          Scutil.connection_cache << sys_conn
+        end
+      rescue Net::SSH::AuthenticationFailed => err
+        raise Scutil::Error.new("Authenication failed for user: #{username}", hostname)
+      rescue SocketError => err
+        raise Scutil::Error.new(err.message, hostname)
+      end
+      return conn
+    end
+    
     private
     # Set the default options for connection.
     def get_default_options
@@ -281,5 +325,10 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
         :scutil_sudo_passwd              => nil
       }
     end
+  end
+  
+  def method_missing(method, *args, &block)
+    return if ((method == :download) || (method == :upload))
+    super
   end
 end

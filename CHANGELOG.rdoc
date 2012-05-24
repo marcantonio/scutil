@@ -1,20 +1,26 @@
 
 ==Changelog
 
-===0.4.3 | 2011-03-14
+===0.4.4 | 2012-05-24
+
+* Added Net::SCP wrapper support to the module functions.
+
+* DRY'd things up a bit.
+
+===0.4.3 | 2012-03-14
 
 * Added preliminary support for a Net::SCP wrapper.
 
-===0.4.2 | 2011-02-23
+===0.4.2 | 2012-02-23
 
 * Fixed bug when using Ruby 1.8.
 
-===0.4.1 | 2011-02-22
+===0.4.1 | 2012-02-22
 
 * Fixed uninitialized constant error introduced in 0.4.0.
 * Yet more doc clean up...
 
-===0.4.0 | 2011-02-21
+===0.4.0 | 2012-02-21
 
 * Added built-in sudo password support.
 * Some new tests and documentation fixes.

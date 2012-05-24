@@ -279,7 +279,7 @@ class TestScutilAlt < Test::Unit::TestCase
 end
 
 if (ARGV[0].nil? || (ARGV[0] !~ /\w+:\d+/))
-  puts "Usage: #{$0} host:port"
+  puts "Usage: #{$0} host:port [--name testname]"
   exit(1)
 end
 
