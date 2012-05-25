@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.4'
+  SCUTIL_VERSION = '0.4.5'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -291,7 +291,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
     # Check for an existing connection in the cache based on _hostname_.  If the
     # _hostname_ exists find a suitable connection.  Otherwise establish a
     # connection and add it to the pool.
-    def find_connection(hostname, username, pty_needed=false, options)
+    def find_connection(hostname, username, pty_needed, options)
       conn = nil
       begin
         if (Scutil.connection_cache.exists?(hostname))

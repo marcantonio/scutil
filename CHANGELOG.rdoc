@@ -1,6 +1,10 @@
 
 ==Changelog
 
+===0.4.5 | 2012-05-25
+
+* Minor bug when running scutil with Ruby 1.8.
+
 ===0.4.4 | 2012-05-24
 
 * Added Net::SCP wrapper support to the module functions.
