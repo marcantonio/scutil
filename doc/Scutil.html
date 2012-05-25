@@ -605,7 +605,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
           
           <div class="method-heading">
             <span class="method-name">find_connection</span><span
-              class="method-args">(hostname, username, pty_needed=false, options)</span>
+              class="method-args">(hostname, username, pty_needed, options)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
           
@@ -621,7 +621,7 @@ establish a connection and add it to the pool.</p>
             <div class="method-source-code" id="find_connection-source">
 <pre>
 <span class="ruby-comment"># File lib/scutil.rb, line 294</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">find_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">find_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">begin</span>
     <span class="ruby-keyword">if</span> (<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>))
