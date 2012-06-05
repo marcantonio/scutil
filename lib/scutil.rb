@@ -137,20 +137,10 @@ module Scutil
       end
       
       # If a custom password prompt regex has been defined, use it.
-      if (!options[:scutil_sudo_passwd_regex].nil? && 
-          (options[:scutil_sudo_passwd_regex].kind_of? Regexp))
-        passwd_regex = options[:scutil_sudo_passwd_regex]
-      else
-        raise Scutil::Error.new(":scutil_sudo_passwd_regex must be a kind of Regexp", hostname)
-      end
+      passwd_regex = set_sudo_password_prompt(options)
       
       # If a custom bad password prompt regex has been defined, use it.
-      if (!options[:scutil_sudo_passwd_failed_regex].nil? && 
-          (options[:scutil_sudo_passwd_failed_regex].kind_of? Regexp))
-        passwd_failed_regex = options[:scutil_sudo_passwd_failed_regex]
-      else
-        raise Scutil::Error.new(":scutil_sudo_passwd_failed_regex must be a kind of Regexp", hostname)
-      end
+      passwd_failed_regex = set_sudo_password_failed(options)
       
       # Setup channel callbacks
       odata = ""
@@ -325,10 +315,28 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
         :scutil_sudo_passwd              => nil
       }
     end
-  end
-  
-  def method_missing(method, *args, &block)
-    return if ((method == :download) || (method == :upload))
-    super
+    
+    def set_sudo_password_prompt(options)
+      if (!options[:scutil_sudo_passwd_regex].nil? && 
+          (options[:scutil_sudo_passwd_regex].kind_of? Regexp))
+        return options[:scutil_sudo_passwd_regex]
+      else
+        raise Scutil::Error.new(":scutil_sudo_passwd_regex must be a kind of Regexp", hostname)
+      end
+    end
+    
+    def set_sudo_password_failed(options)
+      if (!options[:scutil_sudo_passwd_failed_regex].nil? && 
+          (options[:scutil_sudo_passwd_failed_regex].kind_of? Regexp))
+        return options[:scutil_sudo_passwd_failed_regex]
+      else
+        raise Scutil::Error.new(":scutil_sudo_passwd_failed_regex must be a kind of Regexp", hostname)
+      end
+    end
+    
+    def method_missing(method, *args, &block)
+      return if ((method == :download) || (method == :upload))
+      super
+    end
   end
 end
