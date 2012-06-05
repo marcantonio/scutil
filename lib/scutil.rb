@@ -177,23 +177,23 @@ module Scutil
           #  :waiting => Password sent, wating for reply.
           #  :done    => Authenication complete or not required.
           case (sudo_passwd_state)
+          when :done
+            odata += data
           when :new
-            if (data =~ passwd_regex)
-              if (options[:scutil_sudo_passwd].nil?)
-                # No password defined
+            if (data =~ passwd_regex) # We have been prompted for a sudo password
+              if (options[:scutil_sudo_passwd].nil?) # No password defined, bail
                 raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password required for sudo.  
 Define in :scutil_sudo_passwd.", hostname)
                 channel.close
               end
               ch.send_data options[:scutil_sudo_passwd] + "\n"
               sudo_passwd_state = :waiting
-            else
+            else # No sudo password needed, grab the data and move on.
               odata += data
               sudo_passwd_state = :done
             end
           when :waiting
-            if (data =~ passwd_failed_regex)
-              # Bad sudo password
+            if (data =~ passwd_failed_regex) # Bad sudo password
               raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Password failed for sudo.  
 Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correct failure response.", 
                                       hostname)
@@ -203,7 +203,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
               # NoOp for "\n"
             end
           else
-            odata += data
+            raise Scutil::Error.new("[#{conn.host}:#{channel.local_id}] Invalid connection state.", hostname)
           end
           
           # Only buffer some of the output before writing to disk (10M by default).
