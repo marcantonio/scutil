@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.5'
+  SCUTIL_VERSION = '0.4.6'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -298,6 +298,8 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
       rescue Net::SSH::AuthenticationFailed => err
         raise Scutil::Error.new("Authenication failed for user: #{username}", hostname)
       rescue SocketError => err
+        raise Scutil::Error.new(err.message, hostname)
+      rescue Errno::ETIMEDOUT => err
         raise Scutil::Error.new(err.message, hostname)
       end
       return conn

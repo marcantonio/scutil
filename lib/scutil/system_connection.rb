@@ -19,7 +19,7 @@ module Scutil
       conn = nil
       # Local map has precedence.
       @options.merge!(options)
-
+      
       ssh_options = scrub_options @options
       options = @options
       if (pty_needed)

@@ -1,6 +1,10 @@
 
 ==Changelog
 
+===0.4.6 | 2012-08-23
+
+* Handle connection timeouts with a Scutil::Error.
+
 ===0.4.5 | 2012-05-25
 
 * Minor bug when running scutil with Ruby 1.8.
