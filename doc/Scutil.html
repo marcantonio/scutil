@@ -94,8 +94,6 @@
           
           <li><a href="#method-c-upload">::upload</a></li>
           
-          <li><a href="#method-i-method_missing">#method_missing</a></li>
-          
         </ul>
       </div>
       
@@ -363,7 +361,7 @@ future.</em></p>
             
             <div class="method-source-code" id="download-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 283</span>
+<span class="ruby-comment"># File lib/scutil.rb, line 273</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">download</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">new_options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get_default_options</span>
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">new_options</span>
@@ -478,20 +476,10 @@ puts &quot;True is false!&quot; if retval != 0</pre>
       <span class="ruby-keyword">end</span>
       
       <span class="ruby-comment"># If a custom password prompt regex has been defined, use it.</span>
-      <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_regex</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> 
-          (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>))
-        <span class="ruby-identifier">passwd_regex</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_regex</span>]
-      <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;:scutil_sudo_passwd_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
-      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">passwd_regex</span> = <span class="ruby-identifier">set_sudo_password_prompt</span>(<span class="ruby-identifier">options</span>)
       
       <span class="ruby-comment"># If a custom bad password prompt regex has been defined, use it.</span>
-      <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_failed_regex</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> 
-          (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_failed_regex</span>].<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Regexp</span>))
-        <span class="ruby-identifier">passwd_failed_regex</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd_failed_regex</span>]
-      <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;:scutil_sudo_passwd_failed_regex must be a kind of Regexp&quot;</span>, <span class="ruby-identifier">hostname</span>)
-      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">passwd_failed_regex</span> = <span class="ruby-identifier">set_sudo_password_failed</span>(<span class="ruby-identifier">options</span>)
       
       <span class="ruby-comment"># Setup channel callbacks</span>
       <span class="ruby-identifier">odata</span> = <span class="ruby-string">&quot;&quot;</span>
@@ -518,23 +506,23 @@ puts &quot;True is false!&quot; if retval != 0</pre>
           <span class="ruby-comment">#  :waiting =&gt; Password sent, wating for reply.</span>
           <span class="ruby-comment">#  :done    =&gt; Authenication complete or not required.</span>
           <span class="ruby-keyword">case</span> (<span class="ruby-identifier">sudo_passwd_state</span>)
+          <span class="ruby-keyword">when</span> <span class="ruby-value">:done</span>
+            <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
           <span class="ruby-keyword">when</span> <span class="ruby-value">:new</span>
-            <span class="ruby-keyword">if</span> (<span class="ruby-identifier">data</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">passwd_regex</span>)
-              <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd</span>].<span class="ruby-identifier">nil?</span>)
-                <span class="ruby-comment"># No password defined</span>
+            <span class="ruby-keyword">if</span> (<span class="ruby-identifier">data</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">passwd_regex</span>) <span class="ruby-comment"># We have been prompted for a sudo password</span>
+              <span class="ruby-keyword">if</span> (<span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd</span>].<span class="ruby-identifier">nil?</span>) <span class="ruby-comment"># No password defined, bail</span>
                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Password required for sudo.  
 Define in :scutil_sudo_passwd.&quot;</span>, <span class="ruby-identifier">hostname</span>)
                 <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">close</span>
               <span class="ruby-keyword">end</span>
               <span class="ruby-identifier">ch</span>.<span class="ruby-identifier">send_data</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_sudo_passwd</span>] <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n&quot;</span>
               <span class="ruby-identifier">sudo_passwd_state</span> = <span class="ruby-value">:waiting</span>
-            <span class="ruby-keyword">else</span>
+            <span class="ruby-keyword">else</span> <span class="ruby-comment"># No sudo password needed, grab the data and move on.</span>
               <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
               <span class="ruby-identifier">sudo_passwd_state</span> = <span class="ruby-value">:done</span>
             <span class="ruby-keyword">end</span>
           <span class="ruby-keyword">when</span> <span class="ruby-value">:waiting</span>
-            <span class="ruby-keyword">if</span> (<span class="ruby-identifier">data</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">passwd_failed_regex</span>)
-              <span class="ruby-comment"># Bad sudo password</span>
+            <span class="ruby-keyword">if</span> (<span class="ruby-identifier">data</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">passwd_failed_regex</span>) <span class="ruby-comment"># Bad sudo password</span>
               <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Password failed for sudo.  
 Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correct failure response.&quot;</span>, 
                                       <span class="ruby-identifier">hostname</span>)
@@ -544,7 +532,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
               <span class="ruby-comment"># NoOp for &quot;\n&quot;</span>
             <span class="ruby-keyword">end</span>
           <span class="ruby-keyword">else</span>
-            <span class="ruby-identifier">odata</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>
+            <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;[#{conn.host}:#{channel.local_id}] Invalid connection state.&quot;</span>, <span class="ruby-identifier">hostname</span>)
           <span class="ruby-keyword">end</span>
           
           <span class="ruby-comment"># Only buffer some of the output before writing to disk (10M by default).</span>
@@ -620,7 +608,7 @@ establish a connection and add it to the pool.</p>
             
             <div class="method-source-code" id="find_connection-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 294</span>
+<span class="ruby-comment"># File lib/scutil.rb, line 284</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">find_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">begin</span>
@@ -638,6 +626,8 @@ establish a connection and add it to the pool.</p>
   <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationFailed</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Authenication failed for user: #{username}&quot;</span>, <span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">rescue</span> <span class="ruby-constant">SocketError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">err</span>.<span class="ruby-identifier">message</span>, <span class="ruby-identifier">hostname</span>)
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ETIMEDOUT</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">err</span>.<span class="ruby-identifier">message</span>, <span class="ruby-identifier">hostname</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">conn</span>
@@ -680,7 +670,7 @@ future.</em></p>
             
             <div class="method-source-code" id="upload-source">
 <pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 266</span>
+<span class="ruby-comment"># File lib/scutil.rb, line 256</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">upload</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">new_options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get_default_options</span>
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">new_options</span>
@@ -698,46 +688,6 @@ future.</em></p>
 
       
       </div><!-- public-class-method-details -->
-    
-      <div id="public-instance-method-details" class="method-section section">
-        <h3 class="section-header">Public Instance Methods</h3>
-
-      
-        <div id="method_missing-method" class="method-detail ">
-          <a name="method-i-method_missing"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">method_missing</span><span
-              class="method-args">(method, *args, &block)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="method_missing-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil.rb, line 330</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">method</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> ((<span class="ruby-identifier">method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:download</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:upload</span>))
-  <span class="ruby-keyword">super</span>
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- method_missing-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- method_missing-method -->
-
-      
-      </div><!-- public-instance-method-details -->
     
     </div><!-- 5Buntitled-5D -->
   

@@ -283,7 +283,7 @@ exists.  If not it creates a new one.  Requests a PTY if needed.</p>
   <span class="ruby-identifier">conn</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-comment"># Local map has precedence.</span>
   <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)
-
+  
   <span class="ruby-identifier">ssh_options</span> = <span class="ruby-identifier">scrub_options</span> <span class="ruby-ivar">@options</span>
   <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@options</span>
   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">pty_needed</span>)
