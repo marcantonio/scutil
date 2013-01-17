@@ -44,7 +44,7 @@ You can use scutil in a few different ways, for more usage examples see Scutil.
   require 'scutil'
 
   # Class method executed immediately:  
-  Scutil.exec_command('servername1', 'username', nil,
+  Scutil.exec_command('servername1', 'username', 'command', nil,
                     { 
                       :keys => '~mas/.ssh/id_rsa',  
                       :scutil_verbose => true 
@@ -52,8 +52,7 @@ You can use scutil in a few different ways, for more usage examples see Scutil.
                     
 
   # Object to be used and reused:
-  exec = Scutil::Exec.new('servername2', 'mas',
-                        { :password => 'myPassw0rd' })
+  exec = Scutil::Exec.new('servername2', 'mas')
   exec.exec_command("ls -l /")
 
   return_value = exec.exec_command("grep -q ...")
@@ -73,7 +72,8 @@ You can use scutil in a few different ways, for more usage examples see Scutil.
   require 'stringio'
 
   command_output = StringIO.new
-  Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output)
+  Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output, nil,
+                        { :password => 'myPassw0rd' })
   puts command_output.string
 
 == Installation:
