@@ -140,15 +140,14 @@ href="Scutil.html">Scutil</a>.</p>
 <pre>require 'scutil'
 
 # Class method executed immediately:  
-Scutil.exec_command('servername1', 'username', nil,
+Scutil.exec_command('servername1', 'username', 'command', nil,
                   { 
                     :keys =&gt; '~mas/.ssh/id_rsa',  
                     :scutil_verbose =&gt; true 
                   })
 
 # Object to be used and reused:
-exec = Scutil::Exec.new('servername2', 'mas',
-                      { :password =&gt; 'myPassw0rd' })
+exec = Scutil::Exec.new('servername2', 'mas')
 exec.exec_command(&quot;ls -l /&quot;)
 
 return_value = exec.exec_command(&quot;grep -q ...&quot;)
@@ -168,7 +167,8 @@ end
 require 'stringio'
 
 command_output = StringIO.new
-Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output)
+Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output, nil,
+                      { :password =&gt; 'myPassw0rd' })
 puts command_output.string</pre>
 
 <h2>Installation:</h2>
