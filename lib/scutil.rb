@@ -98,12 +98,13 @@ module Scutil
     #
     # Scutil.exec_command takes the following options:
     #
-    # * :scutil_verbose                  => Extra output.
-    # * :scutil_force_pty                => Force a PTY request (or not) for every channel.
-    # * :scutil_pty_regex                => Specific a custom regex here for use when scutil decides whether or not to request a PTY.
-    # * :scutil_sudo_passwd_regex        => If sudo requires a password you can specify the prompt to look for, e.g., _Password:_ .
-    # * :scutil_sudo_passwd_failed_regex => Regular expression for a sudo password failure.
-    # * :scutil_sudo_passwd              => The sudo password.
+    # * :scutil_verbose                   => Extra output.
+    # * :scutil_force_pty                 => Force a PTY request (or not) for every channel.
+    # * :scutil_pty_regex                 => Specific a custom regex here for use when scutil decides whether or not to request a PTY.
+    # * :scutil_sudo_passwd_regex         => If sudo requires a password you can specify the prompt to look for, e.g., _Password:_ .
+    # * :scutil_sudo_passwd_failed_regex  => Regular expression for a sudo password failure.
+    # * :scutil_sudo_passwd               => The sudo password.
+    # * :scutil_suppress_stderr_exception => Prevent exception if we get data on stderr
     #
     # In addition, any other options passed Scutil.exec_command will be passed
     # on to Net::SSH, _except_ those prefixed with _scutil__.
@@ -233,7 +234,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
       fh.close unless fh == $stdout
       
       # If extended_data was recieved there was a problem...
-      raise Scutil::Error.new("Error: #{edata}", hostname, exit_status) unless (edata.empty?)
+      raise Scutil::Error.new("Error: #{edata}", hostname, exit_status) unless (edata.empty?) || options[:scutil_suppress_stderr_exception]
       
       # The return value of the remote command.
       return exit_status
