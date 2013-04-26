@@ -38,8 +38,8 @@ functions will be defined if you have Net::SCP installed.
 
 See Scutil::Exec for more details.
 
-Scutil works great with {Rails}[http://rubyonrails.org/] to perform tasks via SSH.  
-Particularly when used with {Delayed::Job}[https://github.com/collectiveidea/delayed_job], 
+Scutil works great with {Rails}[http://rubyonrails.org/] to perform tasks via 
+SSH.  Particularly when used with {Delayed::Job}[https://github.com/collectiveidea/delayed_job], 
 {Resque}[https://github.com/resque/resque] et al.
 
 ==Synopsis:
