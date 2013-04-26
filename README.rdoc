@@ -34,8 +34,13 @@ Scutil.exec_command, as an instantiable class with Scutil::Exec, or as a mixin
 with the module Scutil.
 
 You can now you scutil to manage you Net::SCP connections as well.  Two wrapper
-functions will be defined if you have Net::SCP installed.  Still in early steps,
-see Scutil::Exec.
+functions will be defined if you have Net::SCP installed.
+
+See Scutil::Exec for more details.
+
+Scutil works great with {Rails}[http://rubyonrails.org/] to perform tasks via SSH.  
+Particularly when used with {Delayed::Job}[https://github.com/collectiveidea/delayed_job], 
+{Resque}[https://github.com/resque/resque] et al.
 
 ==Synopsis:
 
@@ -84,7 +89,7 @@ You can use scutil in a few different ways, for more usage examples see Scutil.
 
 The MIT License (MIT)
 
-Copyright (c) 2012 by Marc Soda
+Copyright (c) 2013 by Marc Soda
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

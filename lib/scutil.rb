@@ -2,7 +2,7 @@
 =begin
 The MIT License (MIT)
 
-Copyright (C) 2012 by Marc Soda
+Copyright (C) 2013 by Marc Soda
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -29,7 +29,7 @@ require 'scutil/connection_cache'
 require 'scutil/system_connection'
 
 module Scutil
-  SCUTIL_VERSION = '0.4.6'
+  SCUTIL_VERSION = '0.4.7'
   
   # By default, buffer 10M of data before writing.
   DEFAULT_OUTPUT_BUFFER_SIZE = 0xA00000
@@ -104,7 +104,7 @@ module Scutil
     # * :scutil_sudo_passwd_regex         => If sudo requires a password you can specify the prompt to look for, e.g., _Password:_ .
     # * :scutil_sudo_passwd_failed_regex  => Regular expression for a sudo password failure.
     # * :scutil_sudo_passwd               => The sudo password.
-    # * :scutil_suppress_stderr_exception => Prevent exception if we get data on stderr
+    # * :scutil_suppress_stderr_exception => Prevent exception if we get data on stderr.
     #
     # In addition, any other options passed Scutil.exec_command will be passed
     # on to Net::SSH, _except_ those prefixed with _scutil__.

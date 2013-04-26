@@ -1,6 +1,13 @@
 
 ==Changelog
 
+===0.4.7 | 2013-04-26
+
+* Better handling of binary streams in Ruby 1.9+.
+* Add option to not throw exceptions when there's data on STDERR.
+  Thanks @mclazarus!
+* Some never ending doc clean-up.
+
 ===0.4.6 | 2012-08-23
 
 * Handle connection timeouts with a Scutil::Error.
