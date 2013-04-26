@@ -1,498 +1,454 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+
+<html>
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-  <title>Class: Scutil::ConnectionCache</title>
+<title>class Scutil::ConnectionCache - SSH Command UTILity</title>
 
-  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
-  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
 
-</head>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
 <body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
 
-  <div id="metadata">
-    <div id="home-metadata">
-      <div id="home-section" class="section">
-        <h3 class="section-header">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#classes">Classes</a>
-          <a href="../index.html#methods">Methods</a>
-        </h3>
-      </div>
-    </div>
 
-    <div id="file-metadata">
-      <div id="file-list-section" class="section">
-        <h3 class="section-header">In Files</h3>
-        <div class="section-body">
-          <ul>
-          
-            <li><a href="../lib/scutil/connection_cache_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/scutil/connection_cache.rb">lib/scutil/connection_cache.rb</a></li>
-          
-          </ul>
-        </div>
-      </div>
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
 
-      
-    </div>
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
 
-    <div id="class-metadata">
-      
-      <!-- Parent Class -->
-      <div id="parent-class-section" class="section">
-        <h3 class="section-header">Parent</h3>
-        
-        <p class="link">Object</p>
-        
-      </div>
-      
 
-      
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/scutil/connection_cache.rb
+  </ul>
+</nav>
 
-      
-
-      
-      <!-- Method Quickref -->
-      <div id="method-list-section" class="section">
-        <h3 class="section-header">Methods</h3>
-        <ul class="link-list">
-          
-          <li><a href="#method-c-new">::new</a></li>
-          
-          <li><a href="#method-i-3C-3C">#<<</a></li>
-          
-          <li><a href="#method-i-each">#each</a></li>
-          
-          <li><a href="#method-i-exists-3F">#exists?</a></li>
-          
-          <li><a href="#method-i-fetch">#fetch</a></li>
-          
-          <li><a href="#method-i-remove">#remove</a></li>
-          
-          <li><a href="#method-i-remove_all">#remove_all</a></li>
-          
-          <li><a href="#method-i-to_s">#to_s</a></li>
-          
-        </ul>
-      </div>
-      
-
-      
-      <!-- Included Modules -->
-      <div id="includes-section" class="section">
-        <h3 class="section-header">Included Modules</h3>
-        <ul class="link-list">
-        
-        
-          <li><span class="include">Enumerable</span></li>
-        
-        
-        </ul>
-      </div>
-      
-    </div>
-
-    <div id="project-metadata">
-      
-      
-      <div id="fileindex-section" class="section project-section">
-        <h3 class="section-header">Files</h3>
-        <ul>
-        
-          <li class="file"><a href="../CHANGELOG_rdoc.html">CHANGELOG.rdoc</a></li>
-        
-          <li class="file"><a href="../README_rdoc.html">README.rdoc</a></li>
-        
-          <li class="file"><a href="../THANKS_rdoc.html">THANKS.rdoc</a></li>
-        
-        </ul>
-      </div>
-      
-
-      <div id="classindex-section" class="section project-section">
-        <h3 class="section-header">Class/Module Index
-          <span class="search-toggle"><img src="../images/find.png"
-            height="16" width="16" alt="[+]"
-            title="show/hide quicksearch" /></span></h3>
-        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
-        <fieldset>
-          <legend>Quicksearch</legend>
-          <input type="text" name="quicksearch" value=""
-            class="quicksearch-field" />
-        </fieldset>
-        </form>
-
-        <ul class="link-list">
-        
-          <li><a href="../Scutil.html">Scutil</a></li>
-        
-          <li><a href="../Scutil/ConnectionCache.html">Scutil::ConnectionCache</a></li>
-        
-          <li><a href="../Scutil/Error.html">Scutil::Error</a></li>
-        
-          <li><a href="../Scutil/Exec.html">Scutil::Exec</a></li>
-        
-          <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a></li>
-        
-          <li><a href="../TestScutil.html">TestScutil</a></li>
-        
-          <li><a href="../TestScutilAlt.html">TestScutilAlt</a></li>
-        
-        </ul>
-        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
-      </div>
-
-      
-    </div>
+    
   </div>
 
-  <div id="documentation">
-    <h1 class="class">Scutil::ConnectionCache</h1>
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
 
-    <div id="description" class="description">
-      
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><span class="include">Enumerable</span>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-3C-3C">#&lt;&lt;</a>
+    
+    <li><a href="#method-i-each">#each</a>
+    
+    <li><a href="#method-i-exists-3F">#exists?</a>
+    
+    <li><a href="#method-i-fetch">#fetch</a>
+    
+    <li><a href="#method-i-remove">#remove</a>
+    
+    <li><a href="#method-i-remove_all">#remove_all</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../CHANGELOG_rdoc.html">CHANGELOG</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../THANKS_rdoc.html">THANKS</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Scutil.html">Scutil</a>
+  
+    <li><a href="../Scutil/ConnectionCache.html">Scutil::ConnectionCache</a>
+  
+    <li><a href="../Scutil/Error.html">Scutil::Error</a>
+  
+    <li><a href="../Scutil/Exec.html">Scutil::Exec</a>
+  
+    <li><a href="../Scutil/SystemConnection.html">Scutil::SystemConnection</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Scutil::ConnectionCache</h1>
+
+  <div id="description" class="description">
+    
 <p>Utiliy class to hold all the connections created, possibly for reuse later.</p>
 
-    </div><!-- description -->
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
 
     
+
     
+
     
-    <div id="5Buntitled-5D" class="documentation-section">
-      
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
 
       
+      <div id="attribute-i-cache" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">cache</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
 
-      
-
-      
-      <!-- Attributes -->
-      <div id="attribute-method-details" class="method-section section">
-        <h3 class="section-header">Attributes</h3>
-
+        <div class="method-description">
         
-        <div id="cache-attribute-method" class="method-detail">
-          <a name="cache"></a>
-          
-          <div class="method-heading attribute-method-heading">
-            <span class="method-name">cache</span><span
-              class="attribute-access-type">[R]</span>
-          </div>
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
 
-          <div class="method-description">
-          
-          
-          
-          </div>
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
         </div>
         
-      </div><!-- attribute-method-details -->
-      
 
-      <!-- Methods -->
-      
-      <div id="public-class-method-details" class="method-section section">
-        <h3 class="section-header">Public Class Methods</h3>
-
-      
-        <div id="new-method" class="method-detail ">
-          <a name="method-c-new"></a>
-
+        <div class="method-description">
           
-          <div class="method-heading">
-            <span class="method-name">new</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
+          
           
 
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="new-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 9</span>
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>
   <span class="ruby-ivar">@cache</span> = []
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- new-source -->
-            
-          </div>
-
+          </div><!-- new-source -->
           
+        </div>
 
-          
-        </div><!-- new-method -->
+        
 
-      
-      </div><!-- public-class-method-details -->
+        
+      </div><!-- new-method -->
+
     
-      <div id="public-instance-method-details" class="method-section section">
-        <h3 class="section-header">Public Instance Methods</h3>
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
 
-      
-        <div id="3C-3C-method" class="method-detail ">
-          <a name="method-i-3C-3C"></a>
+    
+      <div id="method-i-3C-3C" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">&lt;&lt;</span><span
+            class="method-args">(conn)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
 
           
-          <div class="method-heading">
-            <span class="method-name">&lt;&lt;</span><span
-              class="method-args">(conn)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="3C-3C-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 42</span>
+          <div class="method-source-code" id="3C-3C-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;&lt;</span>(<span class="ruby-identifier">conn</span>)
   <span class="ruby-ivar">@cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">conn</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- 3C-3C-source -->
-            
-          </div>
+          </div><!-- 3C-3C-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- 3C-3C-method -->
+
+    
+      <div id="method-i-each" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">each</span><span
+            class="method-args">() { |c| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Need each to mixin Enumerable</p>
           
 
           
-        </div><!-- 3C-3C-method -->
-
-      
-        <div id="each-method" class="method-detail ">
-          <a name="method-i-each"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">each</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            <p>Need each to mixin Enumerable</p>
-            
-
-            
-            <div class="method-source-code" id="each-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 14</span>
+          <div class="method-source-code" id="each-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-ivar">@cache</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">c</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- each-source -->
-            
-          </div>
+          </div><!-- each-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- each-method -->
+
+    
+      <div id="method-i-exists-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">exists?</span><span
+            class="method-args">(hostname)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
 
           
-        </div><!-- each-method -->
-
-      
-        <div id="exists-3F-method" class="method-detail ">
-          <a name="method-i-exists-3F"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">exists?</span><span
-              class="method-args">(hostname)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="exists-3F-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 26</span>
+          <div class="method-source-code" id="exists-3F-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">hostname</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hostname</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- exists-3F-source -->
-            
-          </div>
+          </div><!-- exists-3F-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- exists-3F-method -->
+
+    
+      <div id="method-i-fetch" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fetch</span><span
+            class="method-args">(hostname)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
 
           
-        </div><!-- exists-3F-method -->
-
-      
-        <div id="fetch-method" class="method-detail ">
-          <a name="method-i-fetch"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">fetch</span><span
-              class="method-args">(hostname)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="fetch-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 20</span>
+          <div class="method-source-code" id="fetch-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">return</span> <span class="ruby-identifier">c</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">hostname</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hostname</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- fetch-source -->
-            
-          </div>
+          </div><!-- fetch-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- fetch-method -->
+
+    
+      <div id="method-i-remove" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove</span><span
+            class="method-args">(hostname)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Remove all instances of <em>hostname</em>.</p>
           
 
           
-        </div><!-- fetch-method -->
-
-      
-        <div id="remove-method" class="method-detail ">
-          <a name="method-i-remove"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">remove</span><span
-              class="method-args">(hostname)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            <p>Remove all instances of <em>hostname</em>.</p>
-            
-
-            
-            <div class="method-source-code" id="remove-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 38</span>
+          <div class="method-source-code" id="remove-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove</span>(<span class="ruby-identifier">hostname</span>)
   <span class="ruby-ivar">@cache</span>.<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">hostname</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hostname</span> }
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- remove-source -->
-            
-          </div>
+          </div><!-- remove-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- remove-method -->
+
+    
+      <div id="method-i-remove_all" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_all</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
 
           
-        </div><!-- remove-method -->
-
-      
-        <div id="remove_all-method" class="method-detail ">
-          <a name="method-i-remove_all"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">remove_all</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="remove_all-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 33</span>
+          <div class="method-source-code" id="remove_all-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_all</span>
   <span class="ruby-ivar">@cache</span> = []
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- remove_all-source -->
-            
-          </div>
+          </div><!-- remove_all-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- remove_all-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
 
           
-        </div><!-- remove_all-method -->
-
-      
-        <div id="to_s-method" class="method-detail ">
-          <a name="method-i-to_s"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">to_s</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="to_s-source">
-<pre>
-<span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 46</span>
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/scutil/connection_cache.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-ivar">@cache</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- to_s-source -->
-            
-          </div>
-
+          </div><!-- to_s-source -->
           
+        </div>
 
-          
-        </div><!-- to_s-method -->
+        
 
-      
-      </div><!-- public-instance-method-details -->
+        
+      </div><!-- to_s-method -->
+
     
-    </div><!-- 5Buntitled-5D -->
+    </section><!-- public-instance-method-details -->
   
+  </section><!-- 5Buntitled-5D -->
 
-  </div><!-- documentation -->
+</div><!-- documentation -->
 
-  <div id="validator-badges">
-    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
-    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
-      Rdoc Generator</a> 2</small>.</p>
-  </div>
 
-</body>
-</html>
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
 
