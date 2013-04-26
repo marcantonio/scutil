@@ -132,7 +132,7 @@ module Scutil
       elsif (output.respond_to? :write)  # XXX: This may not be a safe assumuption...
         fh = output
       elsif (output.class == String)
-        fh = File.open(output, 'w') unless output.empty?
+        fh = File.open(output, 'wb') unless output.empty?
       else
         raise Scutil::Error.new("Invalid output object type: #{output.class}.", hostname)
       end
