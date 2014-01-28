@@ -77,7 +77,7 @@ You can use scutil in a few different ways, for more usage examples see Scutil.
   require 'stringio'
 
   command_output = StringIO.new
-  Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output, nil,
+  Scutil.exec_command('servername1', 'sudo cat /root/secrets.txt', command_output,
                         { :password => 'myPassw0rd' })
   puts command_output.string
 
