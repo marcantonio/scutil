@@ -71,6 +71,8 @@
   
     <li><a href="./Scutil/Exec.html">Scutil::Exec</a>
   
+    <li><a href="./Scutil/Net.html">Scutil::Net</a>
+  
     <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a>
   
     <li><a href="./TestScutil.html">TestScutil</a>
@@ -84,12 +86,12 @@
 </nav>
 
 <div id="documentation" class="description">
-  
-<h1 id="label-scutil">scutil</h1>
 
-<h2 id="label-Description%3A">Description:</h2>
+<h1 id="label-scutil">scutil<span><a href="#label-scutil">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
-<p><a href="Scutil.html">Scutil</a> <em>(pronounced "scuttle")</em> is a small
+<h2 id="label-Description%3A">Description:<span><a href="#label-Description%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p><a href="Scutil.html">Scutil</a> <em>(pronounced “scuttle”)</em> is a small
 Ruby library that makes using <a
 href="http://net-ssh.github.com">Net::SSH</a> to execute commands on remote
 systems even more convenient.</p>
@@ -110,8 +112,8 @@ connections where ever possible.</p>
 connections.  It automatically requests PTYs where needed and makes them
 “binary safe” (this functionality is configurable and can be disabled). 
 PTYs are needed for some curses-based programs and, most importantly in
-scutil’s context, for sudo.  A full discussion on PTYs is beyond the scope
-of this documentation.</p>
+scutil&#39;s context, for sudo.  A full discussion on PTYs is beyond the
+scope of this documentation.</p>
 
 <p>The “<em>automatic</em>” part of PTY requests comes from a regex in <a
 href="Scutil.html#method-c-exec_command">Scutil.exec_command</a>. 
@@ -136,22 +138,22 @@ Particularly when used with <a
 href="https://github.com/collectiveidea/delayed_job">Delayed::Job</a>,  <a
 href="https://github.com/resque/resque">Resque</a> et al.</p>
 
-<h2 id="label-Synopsis%3A">Synopsis:</h2>
+<h2 id="label-Synopsis%3A">Synopsis:<span><a href="#label-Synopsis%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
 <p>You can use scutil in a few different ways, for more usage examples see <a
 href="Scutil.html">Scutil</a>.</p>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'scutil'</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;scutil&#39;</span>
 
 <span class="ruby-comment"># Class method executed immediately:  </span>
-<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">'servername1'</span>, <span class="ruby-string">'username'</span>, <span class="ruby-string">'command'</span>, <span class="ruby-keyword">nil</span>,
+<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">&#39;servername1&#39;</span>, <span class="ruby-string">&#39;username&#39;</span>, <span class="ruby-string">&#39;command&#39;</span>, <span class="ruby-keyword">nil</span>,
                   { 
-                    :<span class="ruby-identifier">keys</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'~mas/.ssh/id_rsa'</span>,  
+                    :<span class="ruby-identifier">keys</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;~mas/.ssh/id_rsa&#39;</span>,  
                     :<span class="ruby-identifier">scutil_verbose</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> 
                   })
 
 <span class="ruby-comment"># Object to be used and reused:</span>
-<span class="ruby-identifier">exec</span> = <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Exec</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">'servername2'</span>, <span class="ruby-string">'mas'</span>)
+<span class="ruby-identifier">exec</span> = <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Exec</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;servername2&#39;</span>, <span class="ruby-string">&#39;mas&#39;</span>)
 <span class="ruby-identifier">exec</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">&quot;ls -l /&quot;</span>)
 
 <span class="ruby-identifier">return_value</span> = <span class="ruby-identifier">exec</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">&quot;grep -q ...&quot;</span>)
@@ -160,7 +162,7 @@ href="Scutil.html">Scutil</a>.</p>
 <span class="ruby-comment"># /var/tmp/linux.tar.gz on the local machine.  Hostname, error</span>
 <span class="ruby-comment"># message, and return value in the exception:</span>
 <span class="ruby-keyword">begin</span>
-  <span class="ruby-identifier">exec</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">'sudo tar -C /usr/src -czf - linux'</span>, <span class="ruby-string">'/var/tmp/linux.tar.gz'</span>)
+  <span class="ruby-identifier">exec</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">&#39;sudo tar -C /usr/src -czf - linux&#39;</span>, <span class="ruby-string">&#39;/var/tmp/linux.tar.gz&#39;</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Message: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">err</span>.<span class="ruby-identifier">message</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Hostname: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">err</span>.<span class="ruby-identifier">hostname</span>
@@ -168,19 +170,19 @@ href="Scutil.html">Scutil</a>.</p>
 <span class="ruby-keyword">end</span>
 
 <span class="ruby-comment"># Capture command output in a string:</span>
-<span class="ruby-identifier">require</span> <span class="ruby-string">'stringio'</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;stringio&#39;</span>
 
 <span class="ruby-identifier">command_output</span> = <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>
-<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">'servername1'</span>, <span class="ruby-string">'sudo cat /root/secrets.txt'</span>, <span class="ruby-identifier">command_output</span>, <span class="ruby-keyword">nil</span>,
-                      { :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'myPassw0rd'</span> })
+<span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">exec_command</span>(<span class="ruby-string">&#39;servername1&#39;</span>, <span class="ruby-string">&#39;sudo cat /root/secrets.txt&#39;</span>, <span class="ruby-identifier">command_output</span>,
+                      { :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;myPassw0rd&#39;</span> })
 <span class="ruby-identifier">puts</span> <span class="ruby-identifier">command_output</span>.<span class="ruby-identifier">string</span>
 </pre>
 
-<h2 id="label-Installation%3A">Installation:</h2>
+<h2 id="label-Installation%3A">Installation:<span><a href="#label-Installation%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
 <pre>gem install scutil</pre>
 
-<h2 id="label-License%3A">License:</h2>
+<h2 id="label-License%3A">License:<span><a href="#label-License%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
 <p>The MIT License (MIT)</p>
 
@@ -203,13 +205,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.</p>
-
 </div>
 
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

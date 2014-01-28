@@ -43,14 +43,18 @@
 </nav>
 
 
+  
+
   <div id="file-metadata">
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
     <li>lib/scutil.rb
-    <li>lib/scutil/system_connection.rb
     <li>lib/scutil/connection_cache.rb
+    <li>lib/scutil/error.rb
     <li>lib/scutil/exec.rb
+    <li>lib/scutil/system_connection.rb
+    <li>test/test_scutil.rb
   </ul>
 </nav>
 
@@ -61,23 +65,24 @@
     
     
     
+    
     <!-- Method Quickref -->
 <nav id="method-list-section" class="section">
   <h3 class="section-header">Methods</h3>
 
   <ul class="link-list">
     
-    <li><a href="#method-c-check_pty_needed-3F">::check_pty_needed?</a>
+    <li ><a href="#method-c-check_pty_needed-3F">::check_pty_needed?</a>
     
-    <li><a href="#method-c-clear-21">::clear!</a>
+    <li ><a href="#method-c-clear-21">::clear!</a>
     
-    <li><a href="#method-c-download">::download</a>
+    <li ><a href="#method-c-download">::download</a>
     
-    <li><a href="#method-c-exec_command">::exec_command</a>
+    <li ><a href="#method-c-exec_command">::exec_command</a>
     
-    <li><a href="#method-c-find_connection">::find_connection</a>
+    <li ><a href="#method-c-find_connection">::find_connection</a>
     
-    <li><a href="#method-c-upload">::upload</a>
+    <li ><a href="#method-c-upload">::upload</a>
     
   </ul>
 </nav>
@@ -111,6 +116,8 @@
     <li><a href="./Scutil/Error.html">Scutil::Error</a>
   
     <li><a href="./Scutil/Exec.html">Scutil::Exec</a>
+  
+    <li><a href="./Scutil/Net.html">Scutil::Net</a>
   
     <li><a href="./Scutil/SystemConnection.html">Scutil::SystemConnection</a>
   
@@ -222,7 +229,9 @@ command output to <em>output</em>.</p>
         <div class="method-heading">
           <span class="method-name">check_pty_needed?</span><span
             class="method-args">(cmd, options, hostname)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -230,6 +239,7 @@ command output to <em>output</em>.</p>
           
           <p>Should we request a PTY?  Uses custom regex if defined in
 <code>:scutil_pty_regex</code>.</p>
+          
           
 
           
@@ -260,13 +270,16 @@ command output to <em>output</em>.</p>
         <div class="method-heading">
           <span class="method-name">clear!</span><span
             class="method-args">(hostname)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Drops all instances of <code>hostname</code> from @connection_cache.</p>
+          
           
 
           
@@ -292,7 +305,9 @@ command output to <em>output</em>.</p>
         <div class="method-heading">
           <span class="method-name">download</span><span
             class="method-args">(hostname, username, remote, local=nil, new_options={}, &progress)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -300,8 +315,8 @@ command output to <em>output</em>.</p>
           
           <p>Convenience method for downloading files.  Only available if you have
 Net::SCP.  This function simply calls Net::SCP#download! but reuses the SSH
-connection if it’s available.  All options and semantics are identical to
-<a href="Scutil.html#method-c-exec_command">::exec_command</a> and
+connection if it&#39;s available.  All options and semantics are identical
+to <a href="Scutil.html#method-c-exec_command">::exec_command</a> and
 Net::SCP.  If <em>local</em> is nil the downloaded file will be stored in a
 string in memory returned by <code>download</code>.</p>
 
@@ -310,15 +325,16 @@ string in memory returned by <code>download</code>.</p>
 <strong>non-blocking</strong> download function.  This is by design and
 will most likely be changed in the near future.</em></p>
           
+          
 
           
           <div class="method-source-code" id="download-source">
             <pre><span class="ruby-comment"># File lib/scutil.rb, line 274</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">download</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">new_options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">download</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">new_options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">progress</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get_default_options</span>
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">new_options</span>
   <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">find_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">options</span>)
-  <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">download!</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">progress</span>)
+  <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">download!</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">progress</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- download-source -->
           
@@ -335,7 +351,9 @@ will most likely be changed in the near future.</em></p>
         <div class="method-heading">
           <span class="method-name">exec_command</span><span
             class="method-args">(hostname, username, cmd, output=nil, new_options={})</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -346,17 +364,17 @@ execute a command, specified in <em>cmd</em>, on a remote system.  The
 return value and any ouput of the command are captured.</p>
 
 <p>If <em>output</em> is a string it will be treated as a filename to be
-opened (mode ‘w’) and all command output will be written to this file.  If
-<em>output</em> is an IO object it will be treated as an open file handle.
-Finally, if <em>output</em> is omitted, or an empty string, all command
-output will be directed to <em>$stdout</em>.</p>
+opened (mode &#39;w&#39;) and all command output will be written to this
+file.  If <em>output</em> is an IO object it will be treated as an open
+file handle. Finally, if <em>output</em> is omitted, or an empty string,
+all command output will be directed to <em>$stdout</em>.</p>
 
-<p><strong><em>NB:</strong> This isn't actually true.  The only check made is
-to see if output responds to <code>:write</code>.  The idea being that not
-only will a file handle have a <code>write</code> method, but also
+<p><strong><em>NB:</strong> This isn&#39;t actually true.  The only check made
+is to see if output responds to <code>:write</code>.  The idea being that
+not only will a file handle have a <code>write</code> method, but also
 something like <code>StringIO</code>.  Using <code>StringIO</code> here
-makes it easy to capture the command's output in a string. Suggestions on a
-better way to do this are definitely welcome.</em></p>
+makes it easy to capture the command&#39;s output in a string. Suggestions
+on a better way to do this are definitely welcome.</em></p>
 
 <p><a href="Scutil.html">Scutil</a> will automatically request a PTY if
 <em>sudo</em> is at the start of <em>cmd</em>.  This is driven by a regex
@@ -393,12 +411,13 @@ on to Net::SSH, <em>except</em> those prefixed with <em>scutil_</em>.</p>
 
 <p>All calls to <a
 href="Scutil.html#method-c-exec_command">::exec_command</a>, regardless of
-the way it’s used, will return the remote command’s return value:</p>
+the way it&#39;s used, will return the remote command&#39;s return value:</p>
 
-<pre>retval = Scutil.exec_command('hostname', 'username', '/bin/true')
+<pre>retval = Scutil.exec_command(&#39;hostname&#39;, &#39;username&#39;, &#39;/bin/true&#39;)
 puts &quot;True is false!&quot; if retval != 0</pre>
 
 <p>See the <em>test</em> directory for more usage examples.</p>
+          
           
 
           
@@ -420,7 +439,7 @@ puts &quot;True is false!&quot; if retval != 0</pre>
       <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:write</span>)  <span class="ruby-comment"># XXX: This may not be a safe assumuption...</span>
         <span class="ruby-identifier">fh</span> = <span class="ruby-identifier">output</span>
       <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">output</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">String</span>)
-        <span class="ruby-identifier">fh</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output</span>, <span class="ruby-string">'wb'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">fh</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output</span>, <span class="ruby-string">&#39;wb&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Scutil</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Invalid output object type: #{output.class}.&quot;</span>, <span class="ruby-identifier">hostname</span>)
       <span class="ruby-keyword">end</span>
@@ -518,7 +537,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
       <span class="ruby-comment"># Write whatever is left</span>
       <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">odata</span>
       
-      <span class="ruby-comment"># Close the file or you'll chase red herrings for two hours...</span>
+      <span class="ruby-comment"># Close the file or you&#39;ll chase red herrings for two hours...</span>
       <span class="ruby-identifier">fh</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">fh</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">$stdout</span>
       
       <span class="ruby-comment"># If extended_data was recieved there was a problem...</span>
@@ -542,7 +561,9 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
         <div class="method-heading">
           <span class="method-name">find_connection</span><span
             class="method-args">(hostname, username, pty_needed, options)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -551,6 +572,7 @@ Define in :scutil_sudo_passwd or check :scutil_sudo_failed_passwd for the correc
           <p>Check for an existing connection in the cache based on <em>hostname</em>. 
 If the <em>hostname</em> exists find a suitable connection.  Otherwise
 establish a connection and add it to the pool.</p>
+          
           
 
           
@@ -565,7 +587,7 @@ establish a connection and add it to the pool.</p>
       <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
     <span class="ruby-keyword">else</span>
       <span class="ruby-identifier">sys_conn</span> = <span class="ruby-constant">SystemConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">options</span>)
-      <span class="ruby-comment"># Call get_connection first.  Don't add to cache unless established.</span>
+      <span class="ruby-comment"># Call get_connection first.  Don&#39;t add to cache unless established.</span>
       <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">sys_conn</span>.<span class="ruby-identifier">get_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">pty_needed</span>, <span class="ruby-identifier">options</span>)
       <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;[#{hostname}] Adding new connection to cache\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scutil_verbose</span>]
       <span class="ruby-constant">Scutil</span>.<span class="ruby-identifier">connection_cache</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sys_conn</span>
@@ -594,7 +616,9 @@ establish a connection and add it to the pool.</p>
         <div class="method-heading">
           <span class="method-name">upload</span><span
             class="method-args">(hostname, username, local, remote, new_options={}, &progress)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -602,8 +626,8 @@ establish a connection and add it to the pool.</p>
           
           <p>Convenience method for uploading files.  Only available if you have
 Net::SCP.  This function simply calls Net::SCP#upload! but reuses the SSH
-connection if it’s available.  All options and semantics are identical to
-<a href="Scutil.html#method-c-exec_command">::exec_command</a> and
+connection if it&#39;s available.  All options and semantics are identical
+to <a href="Scutil.html#method-c-exec_command">::exec_command</a> and
 Net::SCP.</p>
 
 <p><strong><em>NB:</strong> This function currently calls the
@@ -611,15 +635,16 @@ Net::SCP.</p>
 <strong>non-blocking</strong> upload function.  This is by design and will
 most likely be changed in the near future.</em></p>
           
+          
 
           
           <div class="method-source-code" id="upload-source">
             <pre><span class="ruby-comment"># File lib/scutil.rb, line 257</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">upload</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">new_options</span>={}, &amp;<span class="ruby-identifier">progress</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">upload</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">new_options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">progress</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get_default_options</span>
   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">new_options</span>
   <span class="ruby-identifier">conn</span> = <span class="ruby-identifier">find_connection</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">username</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">options</span>)
-  <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">upload!</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">progress</span>)
+  <span class="ruby-identifier">conn</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">upload!</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">progress</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- upload-source -->
           
@@ -640,7 +665,7 @@ most likely be changed in the near future.</em></p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 
